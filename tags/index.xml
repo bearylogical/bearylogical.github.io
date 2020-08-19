@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on Syamil Maulod</title>
+    <link>/tags/</link>
+    <description>Recent content in Tags on Syamil Maulod</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; Syamil {year}</copyright>
+    <lastBuildDate>Thu, 05 Mar 2020 20:54:21 +0800</lastBuildDate>
+    
+	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>data visualization</title>
+      <link>/tags/data-visualization/</link>
+      <pubDate>Thu, 05 Mar 2020 20:54:21 +0800</pubDate>
+      
+      <guid>/tags/data-visualization/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>fun</title>
+      <link>/tags/fun/</link>
+      <pubDate>Thu, 05 Mar 2020 20:54:21 +0800</pubDate>
+      
+      <guid>/tags/fun/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>graph visualisation</title>
+      <link>/tags/graph-visualisation/</link>
+      <pubDate>Thu, 05 Mar 2020 20:54:21 +0800</pubDate>
+      
+      <guid>/tags/graph-visualisation/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>citizen ds</title>
+      <link>/tags/citizen-ds/</link>
+      <pubDate>Tue, 03 Mar 2020 15:57:29 +0800</pubDate>
+      
+      <guid>/tags/citizen-ds/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>public</title>
+      <link>/tags/public/</link>
+      <pubDate>Tue, 03 Mar 2020 15:57:29 +0800</pubDate>
+      
+      <guid>/tags/public/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>scraping</title>
+      <link>/tags/scraping/</link>
+      <pubDate>Tue, 03 Mar 2020 15:57:29 +0800</pubDate>
+      
+      <guid>/tags/scraping/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>fastparliament</title>
+      <link>/tags/fastparliament/</link>
+      <pubDate>Wed, 31 Jul 2019 18:12:43 +0800</pubDate>
+      
+      <guid>/tags/fastparliament/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>NLP</title>
+      <link>/tags/nlp/</link>
+      <pubDate>Mon, 24 Jun 2019 22:15:56 +0800</pubDate>
+      
+      <guid>/tags/nlp/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>geospatial</title>
+      <link>/tags/geospatial/</link>
+      <pubDate>Sun, 09 Jun 2019 19:05:52 +0800</pubDate>
+      
+      <guid>/tags/geospatial/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>GIS</title>
+      <link>/tags/gis/</link>
+      <pubDate>Sun, 09 Jun 2019 19:05:52 +0800</pubDate>
+      
+      <guid>/tags/gis/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>vis</title>
+      <link>/tags/vis/</link>
+      <pubDate>Sun, 09 Jun 2019 19:05:52 +0800</pubDate>
+      
+      <guid>/tags/vis/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

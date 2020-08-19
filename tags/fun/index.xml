@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>fun on Syamil Maulod</title>
+    <link>/tags/fun/</link>
+    <description>Recent content in fun on Syamil Maulod</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; Syamil {year}</copyright>
+    <lastBuildDate>Thu, 05 Mar 2020 20:54:21 +0800</lastBuildDate>
+    
+	<atom:link href="/tags/fun/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Sgdi Explore</title>
+      <link>/project/sgdi-explore/</link>
+      <pubDate>Thu, 05 Mar 2020 20:54:21 +0800</pubDate>
+      
+      <guid>/project/sgdi-explore/</guid>
+      <description>This is a series of posts to document my exploration into the Singapore Government Directory.</description>
+    </item>
+    
+  </channel>
+</rss>

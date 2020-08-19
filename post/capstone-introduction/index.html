@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="Source Themes Academic 4.1.0">
+  <meta name="generator" content="Hugo 0.68.3" />
+
+  
+
+  
+  
+  
+  
+  
+    
+    
+    
+  
+  
+
+  <meta name="author" content="Syamil Maulod">
+
+  
+  
+  
+    
+  
+  <meta name="description" content="An Introduction to FastParliament">
+
+  
+  <link rel="alternate" hreflang="en-us" href="/post/capstone-introduction/">
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+  
+  <meta name="theme-color" content="#2962ff">
+  
+
+  
+  
+  
+  
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css" integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.0/css/all.css" integrity="sha384-aOkxzJ5uQz7WBObEZcHvV5JvRW3TUc2rNPA7pe3AwnsUohiw1Vj2Rgx2KSOkF5+h" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" integrity="sha256-ygkqlh3CYSUri3LhQxzdcm0n1EQvH2Y+U5S2idbLtxs=" crossorigin="anonymous">
+
+    
+    
+    
+      
+    
+    
+      
+      
+        
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" crossorigin="anonymous" title="hl-light">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark" disabled>
+        
+      
+    
+
+    
+
+    
+
+  
+
+  
+  
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Montserrat:400,700|Roboto:400,400italic,700|Roboto+Mono">
+  
+
+  <link rel="stylesheet" href="/styles.css">
+  
+
+  
+  
+    <script>
+      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      ga('create', 'UA-60445417-1', 'auto');
+      
+      ga('require', 'eventTracker');
+      ga('require', 'outboundLinkTracker');
+      ga('require', 'urlChangeTracker');
+      ga('send', 'pageview');
+    </script>
+    <script async src="//www.google-analytics.com/analytics.js"></script>
+    
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/autotrack/2.4.1/autotrack.js" integrity="sha512-HUmooslVKj4m6OBu0OgzjXXr+QuFYy/k7eLI5jdeEy/F4RSgMn6XRWRGkFi5IFaFgy7uFTkegp3Z0XnJf3Jq+g==" crossorigin="anonymous"></script>
+    
+  
+  
+
+  
+  <link rel="alternate" href="/index.xml" type="application/rss+xml" title="Syamil Maulod">
+  <link rel="feed" href="/index.xml" type="application/rss+xml" title="Syamil Maulod">
+  
+
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/icon-192.png">
+
+  <link rel="canonical" href="/post/capstone-introduction/">
+
+  
+  
+  
+  
+    
+  
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="og:site_name" content="Syamil Maulod">
+  <meta property="og:url" content="/post/capstone-introduction/">
+  <meta property="og:title" content="Capstone #1 Introduction | Syamil Maulod">
+  <meta property="og:description" content="An Introduction to FastParliament"><meta property="og:image" content="/post/capstone-introduction/featured.png">
+  <meta property="og:locale" content="en-us">
+  
+  <meta property="article:published_time" content="2019-06-24T22:35:45&#43;08:00">
+  
+  <meta property="article:modified_time" content="2019-06-24T22:35:45&#43;08:00">
+  
+
+  
+
+  
+
+  <title>Capstone #1 Introduction | Syamil Maulod</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#TableOfContents" data-offset="71" >
+  <aside class="search-results" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        <input name="q" id="search-query" placeholder="Search..." autocapitalize="off"
+        autocomplete="off" autocorrect="off" role="textbox" spellcheck="false" type="search">
+        
+      </div>
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+<nav class="navbar navbar-light fixed-top navbar-expand-lg py-0" id="navbar-main">
+  <div class="container">
+
+    
+      <a class="navbar-brand" href="/">Syamil Maulod</a>
+      
+      <button type="button" class="navbar-toggler" data-toggle="collapse"
+              data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+        <span><i class="fas fa-bars"></i></span>
+      </button>
+      
+
+    
+    <div class="collapse navbar-collapse" id="navbar">
+
+      
+      
+      <ul class="navbar-nav mr-auto">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link" href="/#about">
+            
+            <span>Home</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link" href="/#posts">
+            
+            <span>Posts</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link" href="/#projects">
+            
+            <span>Projects</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link" href="/tutorial/">
+            
+            <span>Tutorials</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link" href="/#contact">
+            
+            <span>Contact</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+      
+      </ul>
+      <ul class="navbar-nav ml-auto">
+      
+
+        
+
+        
+        <li class="nav-item">
+          <a class="nav-link js-search" href="#"><i class="fas fa-search" aria-hidden="true"></i></a>
+        </li>
+        
+
+        
+
+        
+        <li class="nav-item">
+          <a class="nav-link js-dark-toggle" href="#"><i class="fas fa-moon" aria-hidden="true"></i></a>
+        </li>
+        
+
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article" itemscope itemtype="http://schema.org/Article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="article-header d-xl-none">
+  <div class="featured-image" style="background-image: url('/post/capstone-introduction/featured_hu68f40e060721daa8fe39eed2f47619bb_481624_800x0_resize_lanczos_2.png');"></div>
+  
+</div>
+
+
+<div class="container-fluid split-header d-none d-xl-block">
+  <div class="row">
+    <div class="col-6">
+      <div class="split-header-content">
+        <h1 itemprop="name">Capstone #1 Introduction</h1>
+
+        
+        <p class="page-subtitle">Post #1 on FastParliament</p>
+        
+
+        
+
+
+
+<meta content="2019-06-24 22:35:45 &#43;0800 &#43;0800" itemprop="datePublished">
+<meta content="2019-06-24 22:35:45 &#43;0800 &#43;0800" itemprop="dateModified">
+
+<div class="article-metadata">
+
+  
+  
+
+  
+  <span class="article-date">
+    
+    
+      
+    
+    <time>Jun 24, 2019</time>
+  </span>
+  
+
+  
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    6 min read
+  </span>
+  
+
+  
+  
+
+  
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fas fa-folder"></i>
+    
+    <a href="/categories/data-science/">data-science</a>
+    
+  </span>
+  
+  
+
+  
+
+</div>
+
+
+        
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+<div class="btn-links mb-3">
+  
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+  <a class="btn btn-outline-primary my-1 mr-1" href="/project/capstone/">
+    Project
+  </a>
+  
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+        
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=Capstone%20%231%20Introduction&amp;url=%2fpost%2fcapstone-introduction%2f"
+         target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=%2fpost%2fcapstone-introduction%2f"
+         target="_blank" rel="noopener">
+        <i class="fab fa-facebook-f"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=%2fpost%2fcapstone-introduction%2f&amp;title=Capstone%20%231%20Introduction"
+         target="_blank" rel="noopener">
+        <i class="fab fa-linkedin-in"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=%2fpost%2fcapstone-introduction%2f&amp;title=Capstone%20%231%20Introduction"
+         target="_blank" rel="noopener">
+        <i class="fab fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=Capstone%20%231%20Introduction&amp;body=%2fpost%2fcapstone-introduction%2f">
+        <i class="fas fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="split-header-image">
+        <img src="/post/capstone-introduction/featured_hu68f40e060721daa8fe39eed2f47619bb_481624_680x500_fill_q90_lanczos_smart1_2.png" itemprop="image" alt="">
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="article-container d-xl-none">
+  <h1 itemprop="name">Capstone #1 Introduction</h1>
+
+  
+  <p class="page-subtitle">Post #1 on FastParliament</p>
+  
+
+  
+
+
+
+<meta content="2019-06-24 22:35:45 &#43;0800 &#43;0800" itemprop="datePublished">
+<meta content="2019-06-24 22:35:45 &#43;0800 &#43;0800" itemprop="dateModified">
+
+<div class="article-metadata">
+
+  
+  
+
+  
+  <span class="article-date">
+    
+    
+      
+    
+    <time>Jun 24, 2019</time>
+  </span>
+  
+
+  
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    6 min read
+  </span>
+  
+
+  
+  
+
+  
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fas fa-folder"></i>
+    
+    <a href="/categories/data-science/">data-science</a>
+    
+  </span>
+  
+  
+
+  
+    
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=Capstone%20%231%20Introduction&amp;url=%2fpost%2fcapstone-introduction%2f"
+         target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=%2fpost%2fcapstone-introduction%2f"
+         target="_blank" rel="noopener">
+        <i class="fab fa-facebook-f"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=%2fpost%2fcapstone-introduction%2f&amp;title=Capstone%20%231%20Introduction"
+         target="_blank" rel="noopener">
+        <i class="fab fa-linkedin-in"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=%2fpost%2fcapstone-introduction%2f&amp;title=Capstone%20%231%20Introduction"
+         target="_blank" rel="noopener">
+        <i class="fab fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=Capstone%20%231%20Introduction&amp;body=%2fpost%2fcapstone-introduction%2f">
+        <i class="fas fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+<div class="btn-links mb-3">
+  
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+  <a class="btn btn-outline-primary my-1 mr-1" href="/project/capstone/">
+    Project
+  </a>
+  
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+</div>
+
+
+
+  <div class="article-container">
+
+    <div class="article-style" itemprop="articleBody">
+      
+
+<blockquote>
+<p>This is the first of a multi part series that details the processes behind <a href="https://fparl.bearylogical.net" target="_blank">FastParliament</a>.</p>
+</blockquote>
+
+<p><h2>Table of Contents</h2>
+<nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#motivation">Motivation</a></li>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#data-gathering">Data Gathering</a></li>
+<li><a href="#data-storage">Data Storage</a></li>
+<li><a href="#preliminary-data-cleaning">Preliminary Data Cleaning</a></li>
+</ul></li>
+</ul>
+</nav></p>
+
+<h2 id="motivation">Motivation</h2>
+
+<p>As part of General Assembly&rsquo;s Data Science Immersive 3 month course that I was enrolled in, each student was tasked to produce a capstone project. In a nutshell, the capstone is meant to showcase the various aspects of the data science process that was taught throughout the 3 month course.</p>
+
+<p>During the inital ideation proccess, I mainly focused on projects that:</p>
+
+<ol>
+<li>Was relatable to the public</li>
+<li>Had an interactive element built in</li>
+</ol>
+
+<p>From these two criteria, I came up with two initial ideas.</p>
+
+<p>The first idea was a computer vision related project. The broader concept was that I wanted to design a system to identify individuals based on their gait. While I didn&rsquo;t end up going through with this project, I have written a <a href="http://" target="_blank">short write-up</a> that documented my time with this project as well as some of key learning.</p>
+
+<p>The second idea, which was the one that I went ahead with - was to implement and deploy a summarizer for parliamentary speeches. More importantly, it stemmed from my interest to inject some &lsquo;fresh&rsquo; conversations into the parliamentary debates. Accordingly, I wanted to generate new insights on the unstructured parliamentary corpus.</p>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>This post forms the first of a multi-part series that aims to provide you, the reader, with a broader understanding of the various processes and approaches that went into my capstone, FastParliament.</p>
+
+<p>Ideally, I wanted to make the experience of viewing parliamentary debates more interesting , as well as uncover insights into the documents with Natural Language Processing (NLP) methods. Namely, I found three possible areas of improvement when compared to the existing solution:</p>
+
+<ol>
+<li>Reducing verbosity of existing debates.</li>
+<li>Understand how certain topics evolve over time.</li>
+<li>Find a better way to recommend related documents beyond keyword searches.</li>
+</ol>
+
+<p>Also, I acknowledge that this is not the first time something like this has been done. <a href="https://wiki.smu.edu.sg/1516t1isss608g1/ISSS608_2015_16T1_Group2_Report" target="_blank">Hansard Browser</a> by a team of SMU <a href="https://mothership.sg/2016/03/heres-how-you-judge-how-hardworking-your-mp-was-in-singapores-12th-parliament/" target="_blank">post-grads</a> in 2015 has a similar flavor.</p>
+
+<p>In my implementation, I wanted to integrate a summarizer, recommender system as well as topic modeling using more recent technologies such as Text Rank, Doc2Vec and LDA - which I will elaborate in the subsequent posts.</p>
+
+<p>In this first post, I will touch on:</p>
+
+<ol>
+<li>Data Gathering</li>
+<li>Data Storage Architecture &amp; DB normalisation</li>
+<li>Preliminary Data Cleaning</li>
+</ol>
+
+<h2 id="data-gathering">Data Gathering</h2>
+
+<p>As part of the objectives of generating insights into the existing parliamentary debates, data had to be collected from the <a href="https://sprs.parl.gov.sg/search/home/" target="_blank">hansard</a>. Interestingly (or not), the Singapore Hansard does not have an easily callable API to get data. While one can request for documents either by sitting or member of parliament, it made data gathering cumbersome if done manually.</p>
+
+<p>I then had to use a combination of selenium and requests, to get the data.</p>
+
+<div class="alert alert-note">
+  <div>
+    
+While webscraping can be a relatively harmless activity, do be careful to set reasonable request rates to ensure you don't bring down websites unintentionally!
+
+  </div>
+</div>
+
+
+
+
+<figure>
+
+<img src="scraper.gif" />
+
+
+</figure>
+
+<p>Interestingly, during the scraping process itself I discovered that there were distinct changes in the way the documents were being served to the end user. There were inconsistencies in the document URL and the HTML formatting of the actual document that was being displayed. While it was not very obvious to the end-user, it made scraping tough as various exception handling methods had to be implemented to ensure that the scraping could continue uninterrupted.</p>
+
+<h2 id="data-storage">Data Storage</h2>
+
+<p>Next, I had to figure out a way to store the documents that was being collected by the hansard scraper. While a simple approach was to append a pandas dataframe continuously for each document that was successfully scraped, it may not be a scalable approach for a large document corpus like the hansard. Futhermore, organising the dataframe by metadata may be challenging down the road.</p>
+
+<p>With these considerations, I then looked at postgreSQL as a solution to my requirements. Thereafter, I devised a schema (below) that seeks to best capture the essence of how I wanted my documents to be managed.</p>
+
+<p>As a generality, since I wanted to capture relationships within each document, as well as tie such relationships in to the actual member of parliament - there had to encompass multiple tables with one to many and many to many relationshps to do so.</p>
+
+
+
+
+<figure>
+
+<img src="schema.png" />
+
+
+</figure>
+
+<p>As you can see above, I applied various database normalisation approaches to ensure that the data didn&rsquo;t look like a giant excel table 🤣.</p>
+
+<p>Once the database was created, I used <a href="https://www.sqlalchemy.org/" target="_blank">SQLAlchemy</a> as a wrapper to allow the scraper to interface with the database - ensuring that the document insertions also captured the various relationships I highlighted above. Object Relational Mapper (ORMs) such as SQLAlchemy abstract out the grittier aspects of database interactions.</p>
+
+<h2 id="preliminary-data-cleaning">Preliminary Data Cleaning</h2>
+
+<p>To narrow the scope of the project, I chose to focus on a ten-year period of 2009 to 2019. Once that was done, I wanted to get a sense of how the meta-data of the Hansard was distributed.</p>
+
+
+
+
+<figure>
+
+<img src="value_counts_hansard.png" />
+
+
+</figure>
+
+<p>As you probably guessed, the data coming out doesn&rsquo;t really look very nice. We see plenty of duplicates and certain formatting quirks. I then applied various cleaning techniques as you an see below.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Convert to all upper case</span>
+df<span style="color:#f92672">.</span>session_type <span style="color:#f92672">=</span> df<span style="color:#f92672">.</span>session_type<span style="color:#f92672">.</span>map(<span style="color:#66d9ef">lambda</span> x : x<span style="color:#f92672">.</span>upper())
+<span style="color:#75715e"># Shorten any clarification XXXX to CLARIFICATION</span>
+df<span style="color:#f92672">.</span>session_type <span style="color:#f92672">=</span> df<span style="color:#f92672">.</span>session_type<span style="color:#f92672">.</span>map(<span style="color:#66d9ef">lambda</span> x : <span style="color:#e6db74">&#39;CLARIFICATION&#39;</span> <span style="color:#66d9ef">if</span> re<span style="color:#f92672">.</span>search(<span style="color:#e6db74">&#39;CLARIFICATION&#39;</span>,x) <span style="color:#66d9ef">else</span> x)
+<span style="color:#75715e"># Convert ATBP to &#39;ASSENTS TO BILLS PASSED&#39;</span>
+df<span style="color:#f92672">.</span>session_type <span style="color:#f92672">=</span> df<span style="color:#f92672">.</span>session_type<span style="color:#f92672">.</span>map(<span style="color:#66d9ef">lambda</span> x : <span style="color:#e6db74">&#39;ASSENTS TO BILLS PASSED&#39;</span> <span style="color:#66d9ef">if</span> re<span style="color:#f92672">.</span>search(<span style="color:#e6db74">&#39;ATBP&#39;</span>,x) <span style="color:#66d9ef">else</span> x)
+<span style="color:#75715e"># remove \t\r\n</span>
+df<span style="color:#f92672">.</span>session_type <span style="color:#f92672">=</span> df<span style="color:#f92672">.</span>session_type<span style="color:#f92672">.</span>map(<span style="color:#66d9ef">lambda</span> x : re<span style="color:#f92672">.</span>sub(<span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\t</span><span style="color:#e6db74">|</span><span style="color:#ae81ff">\r\n</span><span style="color:#e6db74">&#39;</span>,<span style="color:#e6db74">&#39;&#39;</span>,x))
+<span style="color:#75715e"># Convert all variations of written answers to WRITTEN ANSWERS</span>
+df<span style="color:#f92672">.</span>session_type <span style="color:#f92672">=</span> df<span style="color:#f92672">.</span>session_type<span style="color:#f92672">.</span>map(<span style="color:#66d9ef">lambda</span> x : <span style="color:#e6db74">&#39;WRITTEN ANSWERS&#39;</span> <span style="color:#66d9ef">if</span> re<span style="color:#f92672">.</span>search(<span style="color:#e6db74">&#39;WRITTEN ANSWER&#39;</span>,x) <span style="color:#66d9ef">else</span> x)
+<span style="color:#75715e"># Convert all variations of oral answers to ORAL ANSWERS</span>
+df<span style="color:#f92672">.</span>session_type <span style="color:#f92672">=</span> df<span style="color:#f92672">.</span>session_type<span style="color:#f92672">.</span>map(<span style="color:#66d9ef">lambda</span> x : <span style="color:#e6db74">&#39;ORAL ANSWERS&#39;</span> <span style="color:#66d9ef">if</span> re<span style="color:#f92672">.</span>search(<span style="color:#e6db74">&#39;ORAL ANSWER&#39;</span>,x) <span style="color:#66d9ef">else</span> x)
+<span style="color:#75715e"># Clean &#39;PRESIDENT&#39;S ADDRESS&#34;</span>
+df<span style="color:#f92672">.</span>session_type <span style="color:#f92672">=</span> df<span style="color:#f92672">.</span>session_type<span style="color:#f92672">.</span>map(<span style="color:#66d9ef">lambda</span> x : <span style="color:#e6db74">&#34;PRESIDENT&#39;S ADDRESS&#34;</span> <span style="color:#66d9ef">if</span> re<span style="color:#f92672">.</span>search(<span style="color:#e6db74">&#34;PRESIDENT&#39;S ADDRESS&#34;</span>,x) <span style="color:#66d9ef">else</span> x)
+<span style="color:#75715e"># Clean MINISTERIAL STATEMENT</span>
+df<span style="color:#f92672">.</span>session_type <span style="color:#f92672">=</span> df<span style="color:#f92672">.</span>session_type<span style="color:#f92672">.</span>map(<span style="color:#66d9ef">lambda</span> x : <span style="color:#e6db74">&#34;MINISTERIAL STATEMENTS&#34;</span> <span style="color:#66d9ef">if</span> re<span style="color:#f92672">.</span>search(<span style="color:#e6db74">&#34;MINISTERIAL STATEMENT&#34;</span>,x) <span style="color:#66d9ef">else</span> x)
+<span style="color:#75715e"># Clean BILLS INTRODUCED</span>
+df<span style="color:#f92672">.</span>session_type <span style="color:#f92672">=</span> df<span style="color:#f92672">.</span>session_type<span style="color:#f92672">.</span>map(<span style="color:#66d9ef">lambda</span> x : <span style="color:#e6db74">&#34;(BILL INTRODUCED&#34;</span> <span style="color:#66d9ef">if</span> re<span style="color:#f92672">.</span>search(<span style="color:#e6db74">&#34;(BILL|BILL&#39;S) INTRODUCED&#34;</span>,x) <span style="color:#66d9ef">else</span> x)
+<span style="color:#75715e"># Clean MOTION</span>
+df<span style="color:#f92672">.</span>session_type <span style="color:#f92672">=</span> df<span style="color:#f92672">.</span>session_type<span style="color:#f92672">.</span>map(<span style="color:#66d9ef">lambda</span> x : <span style="color:#e6db74">&#34;MOTIONS&#34;</span> <span style="color:#66d9ef">if</span> re<span style="color:#f92672">.</span>search(<span style="color:#e6db74">&#34;MOTION&#34;</span>,x) <span style="color:#66d9ef">else</span> x)</code></pre></div>
+<p>What comes out, is much better than before:</p>
+
+
+
+
+<figure>
+
+<img src="value_counts_new.png" />
+
+
+</figure>
+
+<p>As that was put out of the way, I then focused on the crux of the project - the actual speech contents. What I did not expect, though was that there were multiple ways that the speeches were not being served to the end-user the same way. It appeared that, as time went by, the content administrators changed some of their html markup.</p>
+
+
+
+
+<figure>
+
+<img src="api-headache.png" />
+
+
+</figure>
+
+<p>That was annoying, but not difficult to address. I then created a parser to convert the html text to the following:</p>
+
+<ol>
+<li>HTML markup to plain text</li>
+<li>Divide the text into chunks (each speaker is a chunk)</li>
+</ol>
+
+<p>The end product was below:</p>
+
+
+
+
+<figure>
+
+<img src="cleaned.png" />
+
+
+</figure>
+
+<p>It used a combination of the <code>fuzzywuzzy</code> library for string matching as well as a chockful of regex functions to be able to match each chunks to the speaker as well as match it to the appropriate political party or role.</p>
+
+<p>With the aspects of data gathering, management and cleaning out of the way, I could then proceed to the next step - text summarization, topic modeling and content based recommender.</p>
+
+    </div>
+
+    
+
+
+<div class="article-tags">
+  
+  <a class="badge badge-light" href="/tags/fastparliament/">fastparliament</a>
+  
+</div>
+
+
+
+
+    
+      
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+<div class="media author-card" itemscope itemtype="http://schema.org/Person">
+  
+  
+  <img class="portrait mr-3" src="/author/admin/avatar_hu778e0e218a9b97c09023dd6c0774c6d0_256939_250x250_fill_q90_lanczos_center.jpg" itemprop="image" alt="Avatar">
+  
+
+  <div class="media-body">
+    <h5 class="card-title" itemprop="name"><a href="/authors/admin">Syamil Maulod</a></h5>
+    <h6 class="card-subtitle">Data Analytics / Machine Learning</h6>
+    <p class="card-text" itemprop="description">From singapore, with love. Aspiring Data Scientist and has a penchant for cat videos</p>
+    <ul class="network-icon" aria-hidden="true">
+      
+      
+      
+      
+        
+      
+      
+      
+      
+      
+      <li>
+        <a itemprop="sameAs" href="mailto:syamil.maulod&#43;ps@gmail.com" >
+          <i class="fas fa-envelope"></i>
+        </a>
+      </li>
+      
+      
+      
+      
+        
+      
+      
+      
+      
+      
+        
+      
+      <li>
+        <a itemprop="sameAs" href="https://github.com/bearylogical" target="_blank" rel="noopener">
+          <i class="fab fa-github"></i>
+        </a>
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+
+      
+      
+    
+
+    
+
+    
+
+
+  </div>
+</article>
+
+<div class="container">
+  <footer class="site-footer">
+  
+
+  <p class="powered-by">
+    © Syamil 2020 &middot; 
+
+    Powered by the
+    <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+    <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+    
+    <span class="float-right" aria-hidden="true">
+      <a href="#" id="back_to_top">
+        <span class="button_icon">
+          <i class="fas fa-chevron-up fa-2x"></i>
+        </span>
+      </a>
+    </span>
+    
+  </p>
+</footer>
+
+</div>
+
+
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+    
+
+    
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha512-+NqPlbbtM1QqiK8ZAo4Yrj2c4lNQoGv8P79DPtKzj++l5jnN39rHA/xsqn8zE9l0uSoxaCdrOgFs6yjyfbBxSg==" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js" integrity="sha256-lqvxZrPLtfffUl2G/e7szqSvPBILGbwmsGE1MKlOi0Q=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js" integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" integrity="sha256-X5PoE3KU5l+JcX+w09p/wHl9AzK333C4hJ2I9S5mD4M=" crossorigin="anonymous"></script>
+
+      
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+        
+      
+
+      
+      
+    
+
+    
+    
+
+    
+    
+    
+
+    
+    
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+    <script>
+      const search_index_filename = "/index.json";
+      const i18n = {
+        'placeholder': "Search...",
+        'results': "results found",
+        'no_results': "No results found"
+      };
+      const content_type = {
+        'post': "Posts",
+        'project': "Projects",
+        'publication' : "Publications",
+        'talk' : "Talks"
+        };
+    </script>
+    
+
+    
+    
+
+    
+    
+    <script id="search-hit-fuse-template" type="text/x-template">
+      <div class="search-hit" id="summary-{{key}}">
+      <div class="search-hit-content">
+        <div class="search-hit-name">
+          <a href="{{relpermalink}}">{{title}}</a>
+          <div class="article-metadata search-hit-type">{{type}}</div>
+          <p class="search-hit-description">{{snippet}}</p>
+        </div>
+      </div>
+      </div>
+    </script>
+    
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.1/fuse.min.js" integrity="sha256-VzgmKYmhsGNNN4Ph1kMW+BjoYJM2jV5i4IlFoeZA9XI=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+    
+
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    
+    
+    
+    <script src="/js/academic.min.1846cc5c27f3006b56814095ec02281f.js"></script>
+
+  </body>
+</html>
+
