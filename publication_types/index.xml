@@ -2,13 +2,13 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Publication_types on Syamil Maulod</title>
-    <link>/publication_types/</link>
+    <link>bearylogical.github.io/publication_types/</link>
     <description>Recent content in Publication_types on Syamil Maulod</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; Syamil {year}</copyright>
     
-	<atom:link href="/publication_types/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="bearylogical.github.io/publication_types/index.xml" rel="self" type="application/rss+xml" />
     
     
   </channel>

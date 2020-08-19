@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Overview on Syamil Maulod</title>
-    <link>/tutorial/</link>
+    <link>bearylogical.github.io/tutorial/</link>
     <description>Recent content in Overview on Syamil Maulod</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; Syamil {year}</copyright>
     <lastBuildDate>Sun, 09 Sep 2018 00:00:00 +0200</lastBuildDate>
     
-	<atom:link href="/tutorial/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="bearylogical.github.io/tutorial/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Python Custom Viz Repo</title>
-      <link>/tutorial/py-viz/</link>
+      <link>bearylogical.github.io/tutorial/py-viz/</link>
       <pubDate>Mon, 03 Feb 2020 00:00:00 +0100</pubDate>
       
-      <guid>/tutorial/py-viz/</guid>
+      <guid>bearylogical.github.io/tutorial/py-viz/</guid>
       <description>What is this? This is a repository of helpful snippets to generate illustrations in python.
 Repo Index  Annotated Heat Maps Polar Plots Redux  Annotated Heatmaps Create annotated heatmaps that have scaled, and unscaled values on each line.
  Heatmap generated using Seaborn   Sample code here
@@ -26,10 +26,10 @@ if scale: df_copy=df.copy() ss = MinMaxScaler() scaled_features = ss.fit_transfo
     
     <item>
       <title>Using GovTech WebAPIs </title>
-      <link>/tutorial/api-intro/</link>
+      <link>bearylogical.github.io/tutorial/api-intro/</link>
       <pubDate>Mon, 05 Aug 2019 00:00:00 +0200</pubDate>
       
-      <guid>/tutorial/api-intro/</guid>
+      <guid>bearylogical.github.io/tutorial/api-intro/</guid>
       <description>Carpark Availability Analysis Problem Statement Every Friday in Singapore, close to 260,000 Male Muslims 1converge on the 75 mosques to perform their weekly obligatory Friday Prayers much like how Christians have their weekend services.
 The prayers are usually performed during 1-2pm, and in some areas, this can result in congestion as Motorists vie for limited parking spots. This notebook will look at available carpark data of a particular location - Stirling Road - which is situated near the Mujahidin Mosque 2to understand the congestion timings for preliminary understanding of the congestion.</description>
     </item>

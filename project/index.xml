@@ -2,40 +2,40 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Projects on Syamil Maulod</title>
-    <link>/project/</link>
+    <link>bearylogical.github.io/project/</link>
     <description>Recent content in Projects on Syamil Maulod</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; Syamil {year}</copyright>
     <lastBuildDate>Thu, 05 Mar 2020 20:54:21 +0800</lastBuildDate>
     
-	<atom:link href="/project/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="bearylogical.github.io/project/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Sgdi Explore</title>
-      <link>/project/sgdi-explore/</link>
+      <link>bearylogical.github.io/project/sgdi-explore/</link>
       <pubDate>Thu, 05 Mar 2020 20:54:21 +0800</pubDate>
       
-      <guid>/project/sgdi-explore/</guid>
+      <guid>bearylogical.github.io/project/sgdi-explore/</guid>
       <description>This is a series of posts to document my exploration into the Singapore Government Directory.</description>
     </item>
     
     <item>
       <title>FastParliament</title>
-      <link>/project/capstone/</link>
+      <link>bearylogical.github.io/project/capstone/</link>
       <pubDate>Thu, 25 Jul 2019 20:36:05 +0800</pubDate>
       
-      <guid>/project/capstone/</guid>
+      <guid>bearylogical.github.io/project/capstone/</guid>
       <description>A quicker way to understand parliamentary debates</description>
     </item>
     
     <item>
       <title>Movement Tracking</title>
-      <link>/project/tracker/</link>
+      <link>bearylogical.github.io/project/tracker/</link>
       <pubDate>Sun, 09 Jun 2019 19:05:52 +0800</pubDate>
       
-      <guid>/project/tracker/</guid>
+      <guid>bearylogical.github.io/project/tracker/</guid>
       <description>This is a series of posts for an end-to-end approach in capturing movement data and working on geo-spatial visualisations</description>
     </item>
     
