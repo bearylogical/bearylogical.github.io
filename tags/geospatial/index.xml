@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>geospatial on Syamil Maulod</title>
-    <link>bearylogical.github.io/tags/geospatial/</link>
+    <link>/tags/geospatial/</link>
     <description>Recent content in geospatial on Syamil Maulod</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; Syamil {year}</copyright>
     <lastBuildDate>Sun, 09 Jun 2019 19:05:52 +0800</lastBuildDate>
     
-	<atom:link href="bearylogical.github.io/tags/geospatial/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/tags/geospatial/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Movement Tracking</title>
-      <link>bearylogical.github.io/project/tracker/</link>
+      <link>/project/tracker/</link>
       <pubDate>Sun, 09 Jun 2019 19:05:52 +0800</pubDate>
       
-      <guid>bearylogical.github.io/project/tracker/</guid>
+      <guid>/project/tracker/</guid>
       <description>This is a series of posts for an end-to-end approach in capturing movement data and working on geo-spatial visualisations</description>
     </item>
     

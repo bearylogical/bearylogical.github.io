@@ -2,67 +2,67 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on Syamil Maulod</title>
-    <link>bearylogical.github.io/post/</link>
+    <link>/post/</link>
     <description>Recent content in Posts on Syamil Maulod</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; Syamil {year}</copyright>
     <lastBuildDate>Tue, 03 Mar 2020 15:57:29 +0800</lastBuildDate>
     
-	<atom:link href="bearylogical.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Exploring the SGDI #1</title>
-      <link>bearylogical.github.io/post/sgdi_intro/</link>
+      <link>/post/sgdi_intro/</link>
       <pubDate>Tue, 03 Mar 2020 15:57:29 +0800</pubDate>
       
-      <guid>bearylogical.github.io/post/sgdi_intro/</guid>
+      <guid>/post/sgdi_intro/</guid>
       <description>Looking at the structure of the Singapore Government</description>
     </item>
     
     <item>
       <title>Capstone #4 Topic Modeling</title>
-      <link>bearylogical.github.io/post/capstone-topic-modeling/</link>
+      <link>/post/capstone-topic-modeling/</link>
       <pubDate>Wed, 31 Jul 2019 18:12:43 +0800</pubDate>
       
-      <guid>bearylogical.github.io/post/capstone-topic-modeling/</guid>
+      <guid>/post/capstone-topic-modeling/</guid>
       <description>Generate Insights and Organise Content</description>
     </item>
     
     <item>
       <title>Capstone #3 Content Discovery System</title>
-      <link>bearylogical.github.io/post/capstone-recommender/</link>
+      <link>/post/capstone-recommender/</link>
       <pubDate>Wed, 31 Jul 2019 15:57:29 +0800</pubDate>
       
-      <guid>bearylogical.github.io/post/capstone-recommender/</guid>
+      <guid>/post/capstone-recommender/</guid>
       <description>Doc2Vec in the Wild</description>
     </item>
     
     <item>
       <title>Capstone #2 Summarizer</title>
-      <link>bearylogical.github.io/post/capstone-summarizer/</link>
+      <link>/post/capstone-summarizer/</link>
       <pubDate>Mon, 29 Jul 2019 15:59:29 +0800</pubDate>
       
-      <guid>bearylogical.github.io/post/capstone-summarizer/</guid>
+      <guid>/post/capstone-summarizer/</guid>
       <description>Summarizer methods and techniques</description>
     </item>
     
     <item>
       <title>Capstone #1 Introduction</title>
-      <link>bearylogical.github.io/post/capstone-introduction/</link>
+      <link>/post/capstone-introduction/</link>
       <pubDate>Mon, 24 Jun 2019 22:35:45 +0800</pubDate>
       
-      <guid>bearylogical.github.io/post/capstone-introduction/</guid>
+      <guid>/post/capstone-introduction/</guid>
       <description>An Introduction to FastParliament</description>
     </item>
     
     <item>
       <title>Predict the subreddit!</title>
-      <link>bearylogical.github.io/post/ml-subreddit/</link>
+      <link>/post/ml-subreddit/</link>
       <pubDate>Mon, 24 Jun 2019 22:15:56 +0800</pubDate>
       
-      <guid>bearylogical.github.io/post/ml-subreddit/</guid>
+      <guid>/post/ml-subreddit/</guid>
       <description>Supervised learning + NLP to create a binary classifier</description>
     </item>
     

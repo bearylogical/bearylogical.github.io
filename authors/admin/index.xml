@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>admin on Syamil Maulod</title>
-    <link>bearylogical.github.io/authors/admin/</link>
+    <link>/authors/admin/</link>
     <description>Recent content in admin on Syamil Maulod</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; Syamil {year}</copyright>
     
-	<atom:link href="bearylogical.github.io/authors/admin/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/authors/admin/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title></title>
-      <link>bearylogical.github.io/author/admin/</link>
+      <link>/author/admin/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>bearylogical.github.io/author/admin/</guid>
+      <guid>/author/admin/</guid>
       <description>From 🇸🇬, interests include theatre, dystopian science fiction and the occasional hike. Watch this space for the occasional sharing on my learning!</description>
     </item>
     

@@ -2,112 +2,112 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Syamil Maulod</title>
-    <link>bearylogical.github.io/tags/</link>
+    <link>/tags/</link>
     <description>Recent content in Tags on Syamil Maulod</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; Syamil {year}</copyright>
     <lastBuildDate>Thu, 05 Mar 2020 20:54:21 +0800</lastBuildDate>
     
-	<atom:link href="bearylogical.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>data visualization</title>
-      <link>bearylogical.github.io/tags/data-visualization/</link>
+      <link>/tags/data-visualization/</link>
       <pubDate>Thu, 05 Mar 2020 20:54:21 +0800</pubDate>
       
-      <guid>bearylogical.github.io/tags/data-visualization/</guid>
+      <guid>/tags/data-visualization/</guid>
       <description></description>
     </item>
     
     <item>
       <title>fun</title>
-      <link>bearylogical.github.io/tags/fun/</link>
+      <link>/tags/fun/</link>
       <pubDate>Thu, 05 Mar 2020 20:54:21 +0800</pubDate>
       
-      <guid>bearylogical.github.io/tags/fun/</guid>
+      <guid>/tags/fun/</guid>
       <description></description>
     </item>
     
     <item>
       <title>graph visualisation</title>
-      <link>bearylogical.github.io/tags/graph-visualisation/</link>
+      <link>/tags/graph-visualisation/</link>
       <pubDate>Thu, 05 Mar 2020 20:54:21 +0800</pubDate>
       
-      <guid>bearylogical.github.io/tags/graph-visualisation/</guid>
+      <guid>/tags/graph-visualisation/</guid>
       <description></description>
     </item>
     
     <item>
       <title>citizen ds</title>
-      <link>bearylogical.github.io/tags/citizen-ds/</link>
+      <link>/tags/citizen-ds/</link>
       <pubDate>Tue, 03 Mar 2020 15:57:29 +0800</pubDate>
       
-      <guid>bearylogical.github.io/tags/citizen-ds/</guid>
+      <guid>/tags/citizen-ds/</guid>
       <description></description>
     </item>
     
     <item>
       <title>public</title>
-      <link>bearylogical.github.io/tags/public/</link>
+      <link>/tags/public/</link>
       <pubDate>Tue, 03 Mar 2020 15:57:29 +0800</pubDate>
       
-      <guid>bearylogical.github.io/tags/public/</guid>
+      <guid>/tags/public/</guid>
       <description></description>
     </item>
     
     <item>
       <title>scraping</title>
-      <link>bearylogical.github.io/tags/scraping/</link>
+      <link>/tags/scraping/</link>
       <pubDate>Tue, 03 Mar 2020 15:57:29 +0800</pubDate>
       
-      <guid>bearylogical.github.io/tags/scraping/</guid>
+      <guid>/tags/scraping/</guid>
       <description></description>
     </item>
     
     <item>
       <title>fastparliament</title>
-      <link>bearylogical.github.io/tags/fastparliament/</link>
+      <link>/tags/fastparliament/</link>
       <pubDate>Wed, 31 Jul 2019 18:12:43 +0800</pubDate>
       
-      <guid>bearylogical.github.io/tags/fastparliament/</guid>
+      <guid>/tags/fastparliament/</guid>
       <description></description>
     </item>
     
     <item>
       <title>NLP</title>
-      <link>bearylogical.github.io/tags/nlp/</link>
+      <link>/tags/nlp/</link>
       <pubDate>Mon, 24 Jun 2019 22:15:56 +0800</pubDate>
       
-      <guid>bearylogical.github.io/tags/nlp/</guid>
+      <guid>/tags/nlp/</guid>
       <description></description>
     </item>
     
     <item>
       <title>geospatial</title>
-      <link>bearylogical.github.io/tags/geospatial/</link>
+      <link>/tags/geospatial/</link>
       <pubDate>Sun, 09 Jun 2019 19:05:52 +0800</pubDate>
       
-      <guid>bearylogical.github.io/tags/geospatial/</guid>
+      <guid>/tags/geospatial/</guid>
       <description></description>
     </item>
     
     <item>
       <title>GIS</title>
-      <link>bearylogical.github.io/tags/gis/</link>
+      <link>/tags/gis/</link>
       <pubDate>Sun, 09 Jun 2019 19:05:52 +0800</pubDate>
       
-      <guid>bearylogical.github.io/tags/gis/</guid>
+      <guid>/tags/gis/</guid>
       <description></description>
     </item>
     
     <item>
       <title>vis</title>
-      <link>bearylogical.github.io/tags/vis/</link>
+      <link>/tags/vis/</link>
       <pubDate>Sun, 09 Jun 2019 19:05:52 +0800</pubDate>
       
-      <guid>bearylogical.github.io/tags/vis/</guid>
+      <guid>/tags/vis/</guid>
       <description></description>
     </item>
     
