@@ -1,0 +1,1970 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="Source Themes Academic 4.7.0">
+
+  
+
+  
+  
+  
+  
+  
+    
+    
+    
+  
+  
+
+  <meta name="author" content="Syamil Maulod">
+
+  
+  
+  
+    
+  
+  <meta name="description" content="Summarizer methods and techniques">
+
+  
+  <link rel="alternate" hreflang="en-us" href="/post/capstone-summarizer/">
+
+  
+
+
+  
+  
+  
+  <meta name="theme-color" content="#2962ff">
+  
+
+  
+  
+
+  
+  
+  
+  
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css" integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-1/css/all.min.css" integrity="sha256-4w9DunooKSr3MFXHXWyFER38WmPdm361bQS/2KUWZbU=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+    
+    
+    
+      
+    
+    
+      
+      
+        
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/github.min.css" crossorigin="anonymous" title="hl-light">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark" disabled>
+        
+      
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.5.1/leaflet.css" integrity="sha256-SHMGCYmST46SoyGgo4YR/9AlK1vf3ff84Aq9yK4hdqM=" crossorigin="anonymous">
+    
+
+    
+
+    
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.1.2/lazysizes.min.js" integrity="sha256-Md1qLToewPeKjfAHU1zyPwOutccPAm5tahnaw7Osw0A=" crossorigin="anonymous" async></script>
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+        
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7CRoboto:400,400italic,700%7CRoboto+Mono&display=swap">
+  
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="/css/academic.css">
+
+  
+
+
+
+
+  
+
+
+  
+
+  <link rel="manifest" href="/index.webmanifest">
+  <link rel="icon" type="image/png" href="/images/icon_hu914c65fc3408b2ad669c7753418c6144_392_32x32_fill_lanczos_center_2.png">
+  <link rel="apple-touch-icon" type="image/png" href="/images/icon_hu914c65fc3408b2ad669c7753418c6144_392_192x192_fill_lanczos_center_2.png">
+
+  <link rel="canonical" href="/post/capstone-summarizer/">
+
+  
+  
+  
+  
+  
+    
+  
+  
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="og:site_name" content="Syamil Maulod">
+  <meta property="og:url" content="/post/capstone-summarizer/">
+  <meta property="og:title" content="Capstone #2 Summarizer | Syamil Maulod">
+  <meta property="og:description" content="Summarizer methods and techniques"><meta property="og:image" content="/post/capstone-summarizer/featured.png">
+  <meta property="twitter:image" content="/post/capstone-summarizer/featured.png"><meta property="og:locale" content="en-us">
+  
+    
+      <meta property="article:published_time" content="2019-07-29T15:59:29&#43;08:00">
+    
+    <meta property="article:modified_time" content="2019-07-29T15:59:29&#43;08:00">
+  
+
+  
+
+
+    
+
+
+
+
+
+
+  
+
+
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "/post/capstone-summarizer/"
+  },
+  "headline": "Capstone #2 Summarizer",
+  
+  "image": [
+    "/post/capstone-summarizer/featured.png"
+  ],
+  
+  "datePublished": "2019-07-29T15:59:29+08:00",
+  "dateModified": "2019-07-29T15:59:29+08:00",
+  
+  "author": {
+    "@type": "Person",
+    "name": "Syamil Maulod"
+  },
+  
+  "publisher": {
+    "@type": "Organization",
+    "name": "Syamil Maulod",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "img//"
+    }
+  },
+  "description": "Summarizer methods and techniques"
+}
+</script>
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+
+  <title>Capstone #2 Summarizer | Syamil Maulod</title>
+
+</head>
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" >
+
+  <aside class="search-results" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        <input name="q" id="search-query" placeholder="Search..." autocapitalize="off"
+        autocomplete="off" autocorrect="off" spellcheck="false" type="search">
+        
+      </div>
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+  
+
+
+
+
+
+
+
+<nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="d-none d-lg-inline-flex">
+      <a class="navbar-brand" href="/">Syamil Maulod</a>
+    </div>
+    
+
+    
+    <button type="button" class="navbar-toggler" data-toggle="collapse"
+            data-target="#navbar-content" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+    <span><i class="fas fa-bars"></i></span>
+    </button>
+    
+
+    
+    <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
+      <a class="navbar-brand" href="/">Syamil Maulod</a>
+    </div>
+    
+
+    
+    
+    <div class="navbar-collapse main-menu-item collapse justify-content-start" id="navbar-content">
+
+      
+      <ul class="navbar-nav d-md-inline-flex">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#about"><span>Home</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#posts"><span>Posts</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#projects"><span>Projects</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/tutorial/"><span>Tutorials</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#contact"><span>Contact</span></a>
+        </li>
+
+        
+        
+
+      
+
+        
+      </ul>
+    </div>
+
+    <ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2">
+      
+      <li class="nav-item">
+        <a class="nav-link js-search" href="#"><i class="fas fa-search" aria-hidden="true"></i></a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="nav-link js-dark-toggle" href="#"><i class="fas fa-moon" aria-hidden="true"></i></a>
+      </li>
+      
+
+      
+
+    </ul>
+
+  </div>
+</nav>
+
+
+  <article class="article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+<div class="article-container pt-3">
+  <h1>Capstone #2 Summarizer</h1>
+
+  
+  <p class="page-subtitle">Post #2 on FastParliament</p>
+  
+
+  
+
+
+<div class="article-metadata">
+
+  
+  
+
+  
+  <span class="article-date">
+    
+    
+      
+    
+    Jul 29, 2019
+  </span>
+  
+
+  
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    14 min read
+  </span>
+  
+
+  
+  
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fas fa-folder mr-1"></i><a href="/categories/data-science/">data-science</a></span>
+  
+
+</div>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="btn-links mb-3">
+  
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+  
+  <a class="btn btn-outline-primary my-1 mr-1" href="/project/capstone/">
+    Project
+  </a>
+  
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+</div>
+
+
+<div class="article-header article-container featured-image-wrapper mt-4 mb-4" style="max-width: 590px; max-height: 590px;">
+  <div style="position: relative">
+    <img src="/post/capstone-summarizer/featured.png" alt="" class="featured-image">
+    
+  </div>
+</div>
+
+
+
+  <div class="article-container">
+
+    <div class="article-style">
+      
+
+<blockquote>
+<p>This is the second of a multi part series that details the processes behind <a href="https://fparl.bearylogical.net">FastParliament</a>. You may view the previous post <a href="/post/capstone-introduction/">here</a>:</p>
+</blockquote>
+
+<p><h2>Table of Contents</h2>
+<nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#introduction-to-summarization">Introduction to Summarization</a></li>
+<li><a href="#deconstructing-extractive-summarization">Deconstructing Extractive Summarization</a></li>
+<li><a href="#walkthrough-of-extractive-summarization-process">Walkthrough of Extractive Summarization Process</a></li>
+<li><a href="#import-libraries">Import Libraries</a></li>
+<li><a href="#extractive-summarization-using-textrank">Extractive Summarization using TextRank</a>
+<ul>
+<li><a href="#step-0-import-in-sample-text">Step 0 : Import in Sample Text</a></li>
+</ul></li>
+<li><a href="#step-1-extract-sentences-from-sample">Step 1 : Extract Sentences from sample</a></li>
+<li><a href="#step-2-vectorizing-our-text">Step 2 : Vectorizing our Text</a></li>
+<li><a href="#step-3-build-similarity-matrix">Step 3 : Build Similarity Matrix</a></li>
+<li><a href="#step-4-create-similarity-graph">Step 4 : Create Similarity Graph</a></li>
+<li><a href="#step-5-sorting-the-scores">Step 5 : Sorting the Scores</a></li>
+<li><a href="#step-6-joining-our-extracted-summary-and-putting-it-together">Step 6 : Joining our Extracted Summary and Putting it together</a></li>
+<li><a href="#enter-gensim">Enter Gensim</a></li>
+<li><a href="#conclusion">Conclusion</a></li>
+</ul></li>
+</ul>
+</nav></p>
+
+<p>For this post, I will be focusing on the summarizer component of <a href="https://fparl.bearylogical.net/#summary">FastParliament</a>.</p>
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+<figure>
+
+
+  <a data-fancybox="" href="/post/capstone-summarizer/summarizer_hub8df6580f032a69dcf05ed6607939a08_615320_2000x2000_fit_lanczos_2.png" data-caption="Text Summarizer in Fast Parliament">
+
+
+  <img data-src="/post/capstone-summarizer/summarizer_hub8df6580f032a69dcf05ed6607939a08_615320_2000x2000_fit_lanczos_2.png" class="lazyload" alt="" width="2546" height="1356">
+</a>
+
+
+  
+  
+  <figcaption>
+    Text Summarizer in Fast Parliament
+  </figcaption>
+
+
+</figure>
+
+
+<p>Our Parliamentarians tend to speak a fair bit.</p>
+
+<p>From preliminary exploratory analysis on the Hansard, it is probably safe to assume that there would be more, not less content to come in the future. With larger complexities as well as emerging challenges to the governance of the country, there will surely be plenty of things to talk about in the parliament.</p>
+
+<p>Furthermore, it is commonly agreed that people have limited attention spans. Matters of civil society are competing on the same playing field as the latest Korean drama or the antics of a certain orange-haired President.</p>
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+<figure>
+
+
+  <a data-fancybox="" href="/post/capstone-summarizer/fparl-speech_hu04a2893a2de0ce6edf1eb2b621c99e0b_83269_2000x2000_fit_lanczos_2.png" >
+
+
+  <img data-src="/post/capstone-summarizer/fparl-speech_hu04a2893a2de0ce6edf1eb2b621c99e0b_83269_2000x2000_fit_lanczos_2.png" class="lazyload" alt="" width="1318" height="964">
+</a>
+
+
+
+</figure>
+
+
+<p>With those considerations, being able to reduce contents of a text or summarize such that the reader gets the gist of the debate would clearly be advantageous.</p>
+
+<h2 id="introduction-to-summarization">Introduction to Summarization</h2>
+
+<p>As a generality, summarization consists of two core areas:</p>
+
+<ol>
+<li><p><strong>Abstractive Summary</strong></p>
+
+<p>In abstractive summary, the summarized text often contain paraphrased representations of the original text.</p>
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+<figure>
+
+
+  <a data-fancybox="" href="/post/capstone-summarizer/abstractive_hu4021c375527a1d29dcc9a39a402616d3_114795_2000x2000_fit_lanczos_2.png" data-caption="Abstractive text">
+
+
+  <img data-src="/post/capstone-summarizer/abstractive_hu4021c375527a1d29dcc9a39a402616d3_114795_2000x2000_fit_lanczos_2.png" class="lazyload" alt="" width="1124" height="456">
+</a>
+
+
+  
+  
+  <figcaption>
+    Abstractive text
+  </figcaption>
+
+
+</figure>
+</li>
+
+<li><p><strong>Extractive Summary</strong></p>
+
+<p>Conversely, extractive summary preserves the content of the text by selecting phrases/sentences that best convey the information - focus on brevity.</p>
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+<figure>
+
+
+  <a data-fancybox="" href="/post/capstone-summarizer/extractive_hueb03a5dab54226bbfd7deb22915a5636_104319_2000x2000_fit_lanczos_2.png" data-caption="Abstractive text">
+
+
+  <img data-src="/post/capstone-summarizer/extractive_hueb03a5dab54226bbfd7deb22915a5636_104319_2000x2000_fit_lanczos_2.png" class="lazyload" alt="" width="1116" height="446">
+</a>
+
+
+  
+  
+  <figcaption>
+    Abstractive text
+  </figcaption>
+
+
+</figure>
+</li>
+</ol>
+
+<p>Thus you may have observed that while those two methods are remarkably similar in supposed meaning, they have distinct flavors of summarization.</p>
+
+<p>Abstractive summarization - one in which &ldquo;new&rdquo; phrases are being created as a result of semantic parsing of the content, is closely linked to deep learning approaches. Current state of the art abstractive models use a combination of Recurrent Neural Networks (RNNs), Attention Mechanisms, Encoder-Decoder techniques to understand a text AND generate reduced length sentences (summaries) from the long-form text. The generative nature of abstractive summaries generally require large computational resources as well as large datasets to be able to train the generator.</p>
+
+<p>Extractive summarization, on the other hand, is far easier to deploy. The reason being that it is &ldquo;<a href="http://www.abigailsee.com/2017/04/16/taming-rnns-for-better-summarization.html?source=post_page---------------------------_">far easier to select text than it is to generate from scratch</a>&rdquo;. Furthermore, to even create &ldquo;understandable&rdquo; summaries from the hansard debates, it may require computational resource and time beyond what would be alloted for the project.</p>
+
+<p>As such, extractive summarization techniques were selected as a core component for FastParliament&rsquo;s Summarizer.</p>
+
+<h2 id="deconstructing-extractive-summarization">Deconstructing Extractive Summarization</h2>
+
+<p>In a nutshell below flow outlines the general workflow of extractive summarization.</p>
+
+<p><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="529px" viewBox="-0.5 -0.5 529 141" content="&lt;mxfile modified=&quot;2019-07-31T00:48:46.830Z&quot; host=&quot;www.draw.io&quot; agent=&quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:68.0) Gecko/20100101 Firefox/68.0&quot; etag=&quot;a4GJHTKjJHTzM-OFi3Pk&quot; version=&quot;11.0.7&quot; type=&quot;device&quot;&gt;&lt;diagram id=&quot;paqVPKDwxPZ-d9Vrmngb&quot; name=&quot;Page-1&quot;&gt;3VhRk5owEP41Pl4ngig+tmhtZ9rOTX1o7zHCAukFloagcr++iQSB0nPsjCfnvTDsl12y+XY/EhjZXrJfCZrFXzEAPrJIsB/Zi5Fl2e5UXTVQVoBD3AqIBAsqaNwAa/YEBiQGLVgAecdRInLJsi7oY5qCLzsYFQJ3XbcQeXfWjEbQA9Y+5X30BwtkXKGuQxr8E7AormceEzOS0NrZAHlMA9y1IHs5sj2BKKu7ZO8B19zVvFRxH58ZPSYmIJXnBBRPUeHi6m7z4P0OHzH9Xr4f302qp2wpL8yCTbKyrBmAQBFiTBQyxghTypcN+kFgkQagpyHKany+IGYKHCvwF0hZmurSQqKCYplwM1rNqSd6dm0GyrEQPpxYkMlfUhGBPOFnHyugOhcwASlKFSeAU8m23Tyo6aHo6NfQrG4M0//ButVj/XOaFVJBC/SLRC/67yo0HGvCdjGTsM7ogYqdEl6Xz5Bx7iFHcYi1Q9cH31d4LgU+Qmtk4zoThxwrsAUhYX+6Bn3OTEDd52UtYGPvGtmMa5+4JZkpeSGWp2+tt+0ze9sZsrftHuvrjLNubxOWKposslYWpL56v1+03cPQ+ne7B9PN1JleqN1fXb/XW+Z1+xv2TP5s3T/oR71zjLXYmycfjLI2UrXeY5A2WlHabMIOVh13QS05Z2ppNqSWnJ6W7kGEKBIF3gvIBCrt5CyNblA/E/Lq9DPu0XhF/ZDb0s/sTP24Q+pn1tPPClIQVILefFjCOBVM6nzWPgq9DakPBKGuS+rHrf3pLcjLHVxegxy/blRe7pnymg8pL7cnLw8TvdqWoG5OOL1z3eDCmfdP1MD1vw6LfNPsNodolaPU761YZQW5dsjr99pFKzGfLchs9uKVuF4hlNn8iDmMtf5m2cs/&lt;/diagram&gt;&lt;/mxfile&gt;" onclick="(function(svg){var src=window.event.target||window.event.srcElement;while (src!=null&amp;&amp;src.nodeName.toLowerCase()!='a'){src=src.parentNode;}if(src==null){if(svg.wnd!=null&amp;&amp;!svg.wnd.closed){svg.wnd.focus();}else{var r=function(evt){if(evt.data=='ready'&amp;&amp;evt.source==svg.wnd){svg.wnd.postMessage(decodeURIComponent(svg.getAttribute('content')),'*');window.removeEventListener('message',r);}};window.addEventListener('message',r);svg.wnd=window.open('https://www.draw.io/?client=1&amp;lightbox=1&amp;edit=_blank');}}})(this);" style="cursor:pointer;max-width:100%;max-height:141px;"><defs/><g><path d="M 120 30 L 193.63 30" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><path d="M 198.88 30 L 191.88 33.5 L 193.63 30 L 191.88 26.5 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><rect x="0" y="0" width="120" height="60" rx="9" ry="9" fill="#f8cecc" stroke="#b85450" pointer-events="none"/><g transform="translate(17.5,23.5)"><switch><foreignObject style="overflow:visible;" pointer-events="all" width="85" height="12" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; font-size: 12px; font-family: &quot;Helvetica&quot;; color: rgb(0, 0, 0); line-height: 1.2; vertical-align: top; width: 86px; white-space: nowrap; overflow-wrap: normal; text-align: center;"><div xmlns="http://www.w3.org/1999/xhtml" style="display:inline-block;text-align:inherit;text-decoration:inherit;white-space:normal;">Input Document</div></div></foreignObject><text x="43" y="12" fill="#000000" text-anchor="middle" font-size="12px" font-family="Helvetica">Input Document</text></switch></g><path d="M 320 30 L 373.63 30" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><path d="M 378.88 30 L 371.88 33.5 L 373.63 30 L 371.88 26.5 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><rect x="200" y="0" width="120" height="60" rx="9" ry="9" fill="#fff2cc" stroke="#d6b656" pointer-events="none"/><g transform="translate(201.5,16.5)"><switch><foreignObject style="overflow:visible;" pointer-events="all" width="116" height="27" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; font-size: 12px; font-family: &quot;Helvetica&quot;; color: rgb(0, 0, 0); line-height: 1.2; vertical-align: top; width: 116px; white-space: nowrap; overflow-wrap: normal; text-align: center;"><div xmlns="http://www.w3.org/1999/xhtml" style="display:inline-block;text-align:inherit;text-decoration:inherit;white-space:normal;">Split Document into Sentences</div></div></foreignObject><text x="58" y="20" fill="#000000" text-anchor="middle" font-size="12px" font-family="Helvetica">Split Document into Sentences</text></switch></g><path d="M 500 30 L 520 30 L 520 110 L 506.37 110" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><path d="M 501.12 110 L 508.12 106.5 L 506.37 110 L 508.12 113.5 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><rect x="380" y="0" width="120" height="60" rx="9" ry="9" fill="#fff2cc" stroke="#d6b656" pointer-events="none"/><g transform="translate(381.5,16.5)"><switch><foreignObject style="overflow:visible;" pointer-events="all" width="116" height="27" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; font-size: 12px; font-family: &quot;Helvetica&quot;; color: rgb(0, 0, 0); line-height: 1.2; vertical-align: top; width: 116px; white-space: nowrap; overflow-wrap: normal; text-align: center;"><div xmlns="http://www.w3.org/1999/xhtml" style="display:inline-block;text-align:inherit;text-decoration:inherit;white-space:normal;">Perform Preprocessing</div></div></foreignObject><text x="58" y="20" fill="#000000" text-anchor="middle" font-size="12px" font-family="Helvetica">Perform Preprocessing</text></switch></g><path d="M 380 110 L 326.37 110" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><path d="M 321.12 110 L 328.12 106.5 L 326.37 110 L 328.12 113.5 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><rect x="380" y="80" width="120" height="60" rx="9" ry="9" fill="#fff2cc" stroke="#d6b656" pointer-events="none"/><g transform="translate(381.5,89.5)"><switch><foreignObject style="overflow:visible;" pointer-events="all" width="116" height="41" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; font-size: 12px; font-family: &quot;Helvetica&quot;; color: rgb(0, 0, 0); line-height: 1.2; vertical-align: top; width: 116px; white-space: nowrap; overflow-wrap: normal; text-align: center;"><div xmlns="http://www.w3.org/1999/xhtml" style="display:inline-block;text-align:inherit;text-decoration:inherit;white-space:normal;">Generate Similarity Scores for Each Sentence</div></div></foreignObject><text x="58" y="27" fill="#000000" text-anchor="middle" font-size="12px" font-family="Helvetica">Generate Similarity Scores for Each Sentence</text></switch></g><path d="M 200 110 L 126.37 110" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><path d="M 121.12 110 L 128.12 106.5 L 126.37 110 L 128.12 113.5 Z" fill="#000000" stroke="#000000" stroke-miterlimit="10" pointer-events="none"/><rect x="200" y="80" width="120" height="60" rx="9" ry="9" fill="#fff2cc" stroke="#d6b656" pointer-events="none"/><g transform="translate(214.5,103.5)"><switch><foreignObject style="overflow:visible;" pointer-events="all" width="90" height="12" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; font-size: 12px; font-family: &quot;Helvetica&quot;; color: rgb(0, 0, 0); line-height: 1.2; vertical-align: top; width: 91px; white-space: nowrap; overflow-wrap: normal; text-align: center;"><div xmlns="http://www.w3.org/1999/xhtml" style="display:inline-block;text-align:inherit;text-decoration:inherit;white-space:normal;">Compare Scores</div></div></foreignObject><text x="45" y="12" fill="#000000" text-anchor="middle" font-size="12px" font-family="Helvetica">Compare Scores</text></switch></g><rect x="0" y="80" width="120" height="60" rx="9" ry="9" fill="#97d077" stroke="#d6b656" pointer-events="none"/><g transform="translate(1.5,96.5)"><switch><foreignObject style="overflow:visible;" pointer-events="all" width="116" height="27" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; font-size: 12px; font-family: &quot;Helvetica&quot;; color: rgb(0, 0, 0); line-height: 1.2; vertical-align: top; width: 116px; white-space: nowrap; overflow-wrap: normal; text-align: center;"><div xmlns="http://www.w3.org/1999/xhtml" style="display:inline-block;text-align:inherit;text-decoration:inherit;white-space:normal;">Select N sentences with highest scores </div></div></foreignObject><text x="58" y="20" fill="#000000" text-anchor="middle" font-size="12px" font-family="Helvetica">Select N sentences with highest scores </text></switch></g></g></svg></p>
+
+<h2 id="walkthrough-of-extractive-summarization-process">Walkthrough of Extractive Summarization Process</h2>
+
+<p>I will go through a simple conceptualization of one implementation of extractive summarization using the <a href="https://www.aclweb.org/anthology/W04-3252">TextRank</a> approach first conceptualised by Rada Mihalcea and Paul Tarau in 2004.</p>
+
+<h2 id="import-libraries">Import Libraries</h2>
+
+<pre><code class="language-python">import re
+
+import datetime
+import numpy as np
+import pandas as pd
+from datetime import date 
+
+###
+import pymongo
+
+### NLP
+
+import gensim
+import spacy
+
+### Custom Utils
+from text_utils.metrics import get_chunks_info, get_metric
+
+ 
+</code></pre>
+
+<h2 id="extractive-summarization-using-textrank">Extractive Summarization using TextRank</h2>
+
+<p>Source : <a href="https://www.aclweb.org/anthology/W04-3252">https://www.aclweb.org/anthology/W04-3252</a></p>
+
+<pre><code class="language-python">from nltk.corpus import stopwords
+import matplotlib.pyplot as plt
+import seaborn as sns
+import pprint
+
+import networkx as nx
+</code></pre>
+
+<h3 id="step-0-import-in-sample-text">Step 0 : Import in Sample Text</h3>
+
+<pre><code class="language-python">sample_text = mongo_df.iloc[1300].cleaned_join
+display(sample_text)
+</code></pre>
+
+<pre><code>'Mr Lim Biow Chuan asked the Minister for National Development (a) whether a traffic impact assessment had been carried out prior to having the construction staging ground located at Marina East; and (b) when will this temporary staging ground be relocated.&lt;br/&gt;Mr Lawrence Wong: The temporary occupation licence (TOL) for the construction staging ground at Marina East was first issued to LTA in 2014, before activities in the area generated significant traffic impact. In 2016, arising from new TOL applications in the East Coast/Marina Bay area, a joint Traffic Impact Assessment (TIA) was carried out for the TOLs in the East Coast/Marina Bay area, as they share the same access road. The Marina East staging ground is segregated from the existing residential area by East Coast Parkway and East Coast Park. Nevertheless, LTA has adopted measures to minimise dis-amenities to road users in the vicinity. For example, queue bays are provided in the staging ground, and throughput has been enhanced so that heavy vehicles do not overflow into public roads. LTA is also working closely with the developers and contractors in the area to develop localised traffic control plans to improve safety and minimise inconvenience to other road users. These include managing the schedules and routes of heavy vehicles to avoid peak hour traffic and residential areas, where possible. There are also signs to alert motorists to slow down and watch out for heavy vehicles.From a land-use perspective, the Marina East staging ground currently supports LTA’s rail and road infrastructure projects. When these projects are completed, we will review whether to continue the use of this staging ground, in connection with the timing of future development plans for the area. '
+</code></pre>
+
+<h2 id="step-1-extract-sentences-from-sample">Step 1 : Extract Sentences from sample</h2>
+
+<p>In this step, we will be splitting the text into sentences by using python&rsquo;s <code>.split()</code> method. Additionally, we will be doing some pre-processing as part of the process which includes removing stop words as well as stemming.</p>
+
+<p>The function <code>process_text</code> takes in a string of text (or in this case, the document) and then outputs a list of post-processed strings where each item on the list is a processed string.</p>
+
+<p>Furthermore, we will ignore the text at index 0 as this is typically the question statement and we are only interested in responses.</p>
+
+<pre><code class="language-python">stop_words = set(stopwords.words(&quot;english&quot;))
+
+def process_text(text,stopwords = None):
+    text = text.replace('&lt;br/&gt;',' ')
+    split_text = text.split('.')
+    sentences = [sentence for sentence in split_text if len(sentence) &gt; 1]
+    
+    process_sentences = []
+    
+    ## remove stopwords
+    for sentence in sentences:
+        words = sentence.split()
+        processed_words = [word.lower() for word in words if word not in stopwords]
+        process_sentences.append(&quot; &quot;.join(processed_words))
+    
+    return process_sentences[1:]
+
+processed_text = process_text(sample_text,stop_words)
+display(processed_text)
+</code></pre>
+
+<pre><code>['mr lawrence wong: the temporary occupation licence (tol) construction staging ground marina east first issued lta 2014, activities area generated significant traffic impact',
+ 'in 2016, arising new tol applications east coast/marina bay area, joint traffic impact assessment (tia) carried tols east coast/marina bay area, share access road',
+ 'the marina east staging ground segregated existing residential area east coast parkway east coast park',
+ 'nevertheless, lta adopted measures minimise dis-amenities road users vicinity',
+ 'for example, queue bays provided staging ground, throughput enhanced heavy vehicles overflow public roads',
+ 'lta also working closely developers contractors area develop localised traffic control plans improve safety minimise inconvenience road users',
+ 'these include managing schedules routes heavy vehicles avoid peak hour traffic residential areas, possible',
+ 'there also signs alert motorists slow watch heavy vehicles',
+ 'from land-use perspective, marina east staging ground currently supports lta’s rail road infrastructure projects',
+ 'when projects completed, review whether continue use staging ground, connection timing future development plans area']
+</code></pre>
+
+<h2 id="step-2-vectorizing-our-text">Step 2 : Vectorizing our Text</h2>
+
+<p>In this step, the sentences are then converted to Term-Frequency Inverse Document Frequency (TF-IDF). TF-IDF is used in this case over the Bag of Words (BoW) approach to penalise frequently occuring words within the same text. In plain speak, it&rsquo;s similar to assigning weights over the occurances of a certain word. If the word occurs more frequently, then the value is lower. Likewise, rarely accuring words are then given higher values.</p>
+
+<pre><code class="language-python">from sklearn.feature_extraction.text import TfidfVectorizer
+
+vectorizer = TfidfVectorizer()
+sent_vectors = vectorizer.fit_transform(processed_text)
+</code></pre>
+
+<p>To better understand what is happening below the hood, a dataframe containing the vectors mapped to their associated word is shown below.</p>
+
+<pre><code class="language-python">pd.DataFrame(sent_vectors.todense().tolist(),columns=vectorizer.get_feature_names())
+</code></pre>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>2014</th>
+      <th>2016</th>
+      <th>access</th>
+      <th>activities</th>
+      <th>adopted</th>
+      <th>alert</th>
+      <th>also</th>
+      <th>amenities</th>
+      <th>applications</th>
+      <th>area</th>
+      <th>...</th>
+      <th>traffic</th>
+      <th>use</th>
+      <th>users</th>
+      <th>vehicles</th>
+      <th>vicinity</th>
+      <th>watch</th>
+      <th>when</th>
+      <th>whether</th>
+      <th>wong</th>
+      <th>working</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.235868</td>
+      <td>0.00000</td>
+      <td>0.00000</td>
+      <td>0.235868</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.00000</td>
+      <td>0.140063</td>
+      <td>...</td>
+      <td>0.155963</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.235868</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.000000</td>
+      <td>0.19567</td>
+      <td>0.19567</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.19567</td>
+      <td>0.232386</td>
+      <td>...</td>
+      <td>0.129383</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.000000</td>
+      <td>0.00000</td>
+      <td>0.00000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.00000</td>
+      <td>0.160048</td>
+      <td>...</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.000000</td>
+      <td>0.00000</td>
+      <td>0.00000</td>
+      <td>0.000000</td>
+      <td>0.346693</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.346693</td>
+      <td>0.00000</td>
+      <td>0.000000</td>
+      <td>...</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.294720</td>
+      <td>0.000000</td>
+      <td>0.346693</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.000000</td>
+      <td>0.00000</td>
+      <td>0.00000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.00000</td>
+      <td>0.000000</td>
+      <td>...</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.216402</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>0.000000</td>
+      <td>0.00000</td>
+      <td>0.00000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.222823</td>
+      <td>0.000000</td>
+      <td>0.00000</td>
+      <td>0.155651</td>
+      <td>...</td>
+      <td>0.173319</td>
+      <td>0.000000</td>
+      <td>0.222823</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.262117</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>0.000000</td>
+      <td>0.00000</td>
+      <td>0.00000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.00000</td>
+      <td>0.000000</td>
+      <td>...</td>
+      <td>0.188798</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.212354</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>0.000000</td>
+      <td>0.00000</td>
+      <td>0.00000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.357395</td>
+      <td>0.303819</td>
+      <td>0.000000</td>
+      <td>0.00000</td>
+      <td>0.000000</td>
+      <td>...</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.265806</td>
+      <td>0.000000</td>
+      <td>0.357395</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>0.000000</td>
+      <td>0.00000</td>
+      <td>0.00000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.00000</td>
+      <td>0.000000</td>
+      <td>...</td>
+      <td>0.000000</td>
+      <td>0.257492</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>0.000000</td>
+      <td>0.00000</td>
+      <td>0.00000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.00000</td>
+      <td>0.169831</td>
+      <td>...</td>
+      <td>0.000000</td>
+      <td>0.243123</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.285997</td>
+      <td>0.285997</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+  </tbody>
+</table>
+<p>10 rows × 109 columns</p>
+</div>
+
+<h2 id="step-3-build-similarity-matrix">Step 3 : Build Similarity Matrix</h2>
+
+<p>In this step, a similarity matrix is created by applying a dot product with the sentence vector and its transpose.</p>
+
+<pre><code class="language-python">sim_matrix = np.round(np.dot(sent_vectors, sent_vectors.T).A,3)
+</code></pre>
+
+<p>Again, we display this matrix as part of a correlation table.</p>
+
+<pre><code class="language-python">corr = pd.DataFrame(columns=range(len(processed_text)),index=range(len(processed_text)),data=sim_matrix)
+display(corr)
+</code></pre>
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1.000</td>
+      <td>0.200</td>
+      <td>0.224</td>
+      <td>0.036</td>
+      <td>0.048</td>
+      <td>0.076</td>
+      <td>0.029</td>
+      <td>0.000</td>
+      <td>0.144</td>
+      <td>0.071</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.200</td>
+      <td>1.000</td>
+      <td>0.374</td>
+      <td>0.030</td>
+      <td>0.000</td>
+      <td>0.081</td>
+      <td>0.024</td>
+      <td>0.000</td>
+      <td>0.130</td>
+      <td>0.039</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.224</td>
+      <td>0.374</td>
+      <td>1.000</td>
+      <td>0.000</td>
+      <td>0.055</td>
+      <td>0.025</td>
+      <td>0.056</td>
+      <td>0.000</td>
+      <td>0.200</td>
+      <td>0.082</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.036</td>
+      <td>0.030</td>
+      <td>0.000</td>
+      <td>1.000</td>
+      <td>0.000</td>
+      <td>0.211</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>0.092</td>
+      <td>0.000</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.048</td>
+      <td>0.000</td>
+      <td>0.055</td>
+      <td>0.000</td>
+      <td>1.000</td>
+      <td>0.000</td>
+      <td>0.092</td>
+      <td>0.115</td>
+      <td>0.062</td>
+      <td>0.059</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>0.076</td>
+      <td>0.081</td>
+      <td>0.025</td>
+      <td>0.211</td>
+      <td>0.000</td>
+      <td>1.000</td>
+      <td>0.033</td>
+      <td>0.068</td>
+      <td>0.069</td>
+      <td>0.081</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>0.029</td>
+      <td>0.024</td>
+      <td>0.056</td>
+      <td>0.000</td>
+      <td>0.092</td>
+      <td>0.033</td>
+      <td>1.000</td>
+      <td>0.113</td>
+      <td>0.000</td>
+      <td>0.000</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>0.115</td>
+      <td>0.068</td>
+      <td>0.113</td>
+      <td>1.000</td>
+      <td>0.000</td>
+      <td>0.000</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>0.144</td>
+      <td>0.130</td>
+      <td>0.200</td>
+      <td>0.092</td>
+      <td>0.062</td>
+      <td>0.069</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>1.000</td>
+      <td>0.186</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>0.071</td>
+      <td>0.039</td>
+      <td>0.082</td>
+      <td>0.000</td>
+      <td>0.059</td>
+      <td>0.081</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>0.186</td>
+      <td>1.000</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<p>And if we wanted to visualise it using seaborn:</p>
+
+<pre><code class="language-python"># Generate a mask for the upper triangle
+mask = np.zeros_like(corr, dtype=np.bool)
+mask[np.triu_indices_from(mask)] = True
+
+# Set up the matplotlib figure
+f, ax = plt.subplots(figsize=(8, 8))
+
+# Generate a custom diverging colormap
+cmap = sns.diverging_palette(220, 10, as_cmap=True)
+
+sns.heatmap(corr, mask=mask, cmap=cmap,annot=True, vmax=0.4, center=0,
+            square=True, linewidths=.5, cbar_kws={&quot;shrink&quot;: .5})
+</code></pre>
+
+<p><img src="output_25_1.png" alt="png" /></p>
+
+<p>We can already see how sentences are similar to each other just by comparing their positions in their table. For example, we see that sentence 1 and 2 are very similar.</p>
+
+<pre><code class="language-python">print(f&quot;Sentence 1 : {processed_text[2]}&quot;)
+print(f&quot;Sentence 2 : {processed_text[3]}&quot;)
+</code></pre>
+
+<pre><code>Sentence 1 : the marina east staging ground segregated existing residential area east coast parkway east coast park
+Sentence 2 : nevertheless, lta adopted measures minimise dis-amenities road users vicinity
+</code></pre>
+
+<h2 id="step-4-create-similarity-graph">Step 4 : Create Similarity Graph</h2>
+
+<p>Using the TextRank concept, a network graph is created such that each vertex is the sentence represented by its index, and the edges are linked to each other by weights computed by the similarity scores.</p>
+
+<blockquote>
+<p>The basic idea implemented by a  graph-based ranking model is that of “voting”or“recommendation”. When one vertex links to another one,it is basically casting a vote for that other vertex. The higher the number of votes that are cast for a vertex,the higher the importance of the vertex. Moreover, the importance of the vertex casting the vote determines how important the vote itself is,and this information is also taken into account by the ranking model. Hence,the score associated with a vertex is determined based on the votes that are cast for it,and the score of the vertices casting these votes. (<a href="https://www.aclweb.org/anthology/W04-3252">Mihalcea &amp; Tarau, 2004</a>)</p>
+</blockquote>
+
+<p>To compute this graph-derived score which is refered to as <code>TextRank</code> - similar to Google&rsquo;s PageRank, we import the popular <code>networkx</code> package. With network x, we can visualise the similarity matrix as a graph. And using this, we can see</p>
+
+<pre><code class="language-python">sentence_similarity_graph = nx.from_numpy_array(sim_matrix)
+</code></pre>
+
+<pre><code class="language-python">pos = nx.circular_layout(sentence_similarity_graph)
+plt.figure(figsize=(8,8))
+plt.figure(1)
+nx.draw_circular(sentence_similarity_graph, with_labels = True, node_color=&quot;Orange&quot;)
+edge_labels = nx.get_edge_attributes(sentence_similarity_graph, 'weight')
+plt.figure(1)
+nx.draw_networkx_edge_labels(sentence_similarity_graph,pos=pos, edge_labels=edge_labels)
+plt.show()
+</code></pre>
+
+<p><img src="output_30_1.png" alt="png" /></p>
+
+<pre><code class="language-python">scores = nx.pagerank(sentence_similarity_graph)
+display(scores)
+</code></pre>
+
+<pre><code>{0: 0.10594604557676923,
+ 1: 0.10711030046429679,
+ 2: 0.11410080866901795,
+ 3: 0.0893971718098718,
+ 4: 0.09467680498110888,
+ 5: 0.1019626373096041,
+ 6: 0.09218045190228014,
+ 7: 0.09190095545516967,
+ 8: 0.10932632179093772,
+ 9: 0.09339850204094387}
+</code></pre>
+
+<h2 id="step-5-sorting-the-scores">Step 5 : Sorting the Scores</h2>
+
+<p>Once we have obtained the scores, we then look at picking the top n sentences that have the highest scores to best represent the text. In this case, we select the top <strong>3</strong> sentences.</p>
+
+<pre><code class="language-python">original_sentences = [sent for sent in sample_text.replace('&lt;br/&gt;',' ').split('. ') if len(sent)&gt;1]
+
+sorted_sentences = sorted(((scores[idx], sentence) for idx,sentence in enumerate(original_sentences[1:])), reverse=True)
+display(sorted_sentences[:3])
+</code></pre>
+
+<pre><code>[(0.11410080866901795,
+  'The Marina East staging ground is segregated from the existing residential area by East Coast Parkway and East Coast Park'),
+ (0.10932632179093772,
+  'When these projects are completed, we will review whether to continue the use of this staging ground, in connection with the timing of future development plans for the area'),
+ (0.10711030046429679,
+  'In 2016, arising from new TOL applications in the East Coast/Marina Bay area, a joint Traffic Impact Assessment (TIA) was carried out for the TOLs in the East Coast/Marina Bay area, as they share the same access road')]
+</code></pre>
+
+<h2 id="step-6-joining-our-extracted-summary-and-putting-it-together">Step 6 : Joining our Extracted Summary and Putting it together</h2>
+
+<p>In this step, we will display our Question and Summarised response together to give us a feel of what the end product is.</p>
+
+<pre><code class="language-python">&quot;. &quot;.join([sent[1] for sent in sorted_sentences[:3]])
+</code></pre>
+
+<pre><code>'The Marina East staging ground is segregated from the existing residential area by East Coast Parkway and East Coast Park. When these projects are completed, we will review whether to continue the use of this staging ground, in connection with the timing of future development plans for the area. In 2016, arising from new TOL applications in the East Coast/Marina Bay area, a joint Traffic Impact Assessment (TIA) was carried out for the TOLs in the East Coast/Marina Bay area, as they share the same access road'
+</code></pre>
+
+<pre><code class="language-python">print(f&quot;Question : {original_sentences[0]}&quot;)
+print(f&quot;\nResponse : {'. '.join([sent[1] for sent in sorted_sentences[0:2]])}.&quot;)
+</code></pre>
+
+<pre><code>Question : Mr Lim Biow Chuan asked the Minister for National Development (a) whether a traffic impact assessment had been carried out prior to having the construction staging ground located at Marina East; and (b) when will this temporary staging ground be relocated
+
+Response : The Marina East staging ground is segregated from the existing residential area by East Coast Parkway and East Coast Park. When these projects are completed, we will review whether to continue the use of this staging ground, in connection with the timing of future development plans for the area.
+</code></pre>
+
+<p>As you may already see, it is somewhat faithful to the original text. At the same time, it is worth noting that this is a rudimentary implementation of TextRank.</p>
+
+<p>Many variations of TextRank exist which look at various similarity functions and text vectorisation techniques to improve the summarization capability. One such implementation is by <a href="https://arxiv.org/pdf/1602.03606.pdf">Barrios et al, 2016</a>.</p>
+
+<p>This implementation incorporated the following changes to the steps:
+1. Choosing Longest Common Substring
+2. BM25 Ranking model (variation of TF-IDF model using probabilistic )</p>
+
+<p>Which you can read more in the paper linked above.</p>
+
+<p>Consequentially, this variation is baked into the popular <code>Gensim</code> package. As a result, we can call out this function very easily as you can see below.</p>
+
+<h2 id="enter-gensim">Enter Gensim</h2>
+
+<p>We can use the summarizer function located in the <code>summarization.summarizer</code> module.</p>
+
+<pre><code class="language-python">print(gensim.summarization.summarizer.summarize(sample_text.replace('&lt;br/&gt;',''), ratio=0.3,
+                                          word_count=None, split=False))
+</code></pre>
+
+<pre><code>Mr Lim Biow Chuan asked the Minister for National Development (a) whether a traffic impact assessment had been carried out prior to having the construction staging ground located at Marina East; and (b) when will this temporary staging ground be relocated.Mr Lawrence Wong: The temporary occupation licence (TOL) for the construction staging ground at Marina East was first issued to LTA in 2014, before activities in the area generated significant traffic impact.
+LTA is also working closely with the developers and contractors in the area to develop localised traffic control plans to improve safety and minimise inconvenience to other road users.
+</code></pre>
+
+<p>It looks pretty good! This algorithm currently drives the summarizer aspect of FastParliament 😁.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>To recap, we have gone through briefly the key areas of summarization. Following that, we went in-depth at a particular approach of extractive text summarization in which we used the TextRank method to determine sentence importance. Lastly, I showed a variant of text rank that FastParliament uses.</p>
+
+<p>For the next part of the writeup, I will be going through the article to article content discovery mechanism that makes use of Doc2Vec. Stay Tuned!</p>
+
+    </div>
+
+    
+
+
+
+
+
+<div class="article-tags">
+  
+  <a class="badge badge-light" href="/tags/fastparliament/">fastparliament</a>
+  
+</div>
+
+
+
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://twitter.com/intent/tweet?url=/post/capstone-summarizer/&amp;text=Capstone%20#2%20Summarizer" target="_blank" rel="noopener" class="share-btn-twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.facebook.com/sharer.php?u=/post/capstone-summarizer/&amp;t=Capstone%20#2%20Summarizer" target="_blank" rel="noopener" class="share-btn-facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="mailto:?subject=Capstone%20#2%20Summarizer&amp;body=/post/capstone-summarizer/" target="_blank" rel="noopener" class="share-btn-email">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.linkedin.com/shareArticle?url=/post/capstone-summarizer/&amp;title=Capstone%20#2%20Summarizer" target="_blank" rel="noopener" class="share-btn-linkedin">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://web.whatsapp.com/send?text=Capstone%20#2%20Summarizer%20/post/capstone-summarizer/" target="_blank" rel="noopener" class="share-btn-whatsapp">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://service.weibo.com/share/share.php?url=/post/capstone-summarizer/&amp;title=Capstone%20#2%20Summarizer" target="_blank" rel="noopener" class="share-btn-weibo">
+          <i class="fab fa-weibo"></i>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+  
+    
+  
+  
+  
+  <div class="media author-card content-widget-hr">
+    
+      
+      <img class="avatar mr-3 avatar-circle" src="/authors/admin/avatar_hu778e0e218a9b97c09023dd6c0774c6d0_256939_270x270_fill_q90_lanczos_center.jpg" alt="Avatar">
+    
+
+    <div class="media-body">
+      <h5 class="card-title"><a href="/">Syamil Maulod</a></h5>
+      <h6 class="card-subtitle">Optical Design Engineer, ASML</h6>
+      <p class="card-text">From Singapore. Curious about stuff.</p>
+      <ul class="network-icon" aria-hidden="true">
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+    <li>
+      <a href="mailto:syamil.maulod&#43;ps@gmail.com" >
+        <i class="fas fa-envelope"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://github.com/bearylogical" target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+    </li>
+  
+</ul>
+
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+  
+  
+  <div class="article-widget content-widget-hr">
+    <h3>Related</h3>
+    <ul>
+      
+      <li><a href="/post/capstone-introduction/">Capstone #1 Introduction</a></li>
+      
+    </ul>
+  </div>
+  
+
+
+
+  </div>
+</article>
+
+      
+
+    
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js" integrity="sha256-lqvxZrPLtfffUl2G/e7szqSvPBILGbwmsGE1MKlOi0Q=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js" integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+
+      
+
+      
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/highlight.min.js" integrity="sha256-1zu+3BnLYV9LdiY85uXMzii3bdrkelyp37e0ZyTAQh0=" crossorigin="anonymous"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/languages/r.min.js"></script>
+        
+      
+
+    
+
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.5.1/leaflet.js" integrity="sha256-EErZamuLefUnbMBQbsEqu1USa+btR2oIlCpBJbyD4/g=" crossorigin="anonymous"></script>
+    
+
+    
+    
+    <script>const code_highlighting = true;</script>
+    
+
+    
+    
+    
+    
+    
+    
+    <script>
+      const search_config = {"indexURI":"/index.json","minLength":1,"threshold":0.3};
+      const i18n = {"no_results":"No results found","placeholder":"Search...","results":"results found"};
+      const content_type = {
+        'post': "Posts",
+        'project': "Projects",
+        'publication' : "Publications",
+        'talk' : "Talks"
+        };
+    </script>
+    
+
+    
+    
+
+    
+    
+    <script id="search-hit-fuse-template" type="text/x-template">
+      <div class="search-hit" id="summary-{{key}}">
+      <div class="search-hit-content">
+        <div class="search-hit-name">
+          <a href="{{relpermalink}}">{{title}}</a>
+          <div class="article-metadata search-hit-type">{{type}}</div>
+          <p class="search-hit-description">{{snippet}}</p>
+        </div>
+      </div>
+      </div>
+    </script>
+    
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.1/fuse.min.js" integrity="sha256-VzgmKYmhsGNNN4Ph1kMW+BjoYJM2jV5i4IlFoeZA9XI=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+    
+
+    
+    
+
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    
+    
+    
+    <script src="/js/academic.min.0630fec5958cb075a5a38f042b3ddde6.js"></script>
+
+    
+
+
+
+
+
+
+  
+  
+  <div class="container">
+    <footer class="site-footer">
+  
+
+  <p class="powered-by">
+    © Syamil 2024 &middot; 
+
+    Powered by the
+    <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+    <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+    
+    <span class="float-right" aria-hidden="true">
+      <a href="#" class="back-to-top">
+        <span class="button_icon">
+          <i class="fas fa-chevron-up fa-2x"></i>
+        </span>
+      </a>
+    </span>
+    
+  </p>
+</footer>
+
+  </div>
+  
+
+  
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

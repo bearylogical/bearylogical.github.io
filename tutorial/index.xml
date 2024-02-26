@@ -1,0 +1,532 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Overview | Syamil Maulod</title>
+    <link>/tutorial/</link>
+      <atom:link href="/tutorial/index.xml" rel="self" type="application/rss+xml" />
+    <description>Overview</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© Syamil 2024</copyright><lastBuildDate>Sun, 09 Sep 2018 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>img/map[gravatar:%!s(bool=false) shape:circle]</url>
+      <title>Overview</title>
+      <link>/tutorial/</link>
+    </image>
+    
+    <item>
+      <title>Python Visualisations Repo</title>
+      <link>/tutorial/py-viz/</link>
+      <pubDate>Mon, 03 Feb 2020 00:00:00 +0000</pubDate>
+      <guid>/tutorial/py-viz/</guid>
+      <description>&lt;h2 id=&#34;what-is-this&#34;&gt;What is this?&lt;/h2&gt;
+&lt;p&gt;This is a repository of helpful snippets to generate illustrations in python.&lt;/p&gt;
+&lt;h2 id=&#34;repo-index&#34;&gt;Repo Index&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;Annotated Heat Maps&lt;/li&gt;
+&lt;li&gt;Polar Plots Redux&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;annotated-heatmaps&#34;&gt;Annotated Heatmaps&lt;/h2&gt;
+&lt;p&gt;Create annotated heatmaps that have scaled, and unscaled values on each line.&lt;/p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;sns_annotated_heatmap.png&#34; data-caption=&#34;Heatmap generated using Seaborn&#34;&gt;
+
+
+  &lt;img src=&#34;sns_annotated_heatmap.png&#34; alt=&#34;&#34;  &gt;
+&lt;/a&gt;
+
+
+  
+  
+  &lt;figcaption&gt;
+    Heatmap generated using Seaborn
+  &lt;/figcaption&gt;
+
+
+&lt;/figure&gt;
+
+&lt;p&gt;Sample code here&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;if scale:
+  df_copy=df.copy()
+  ss = MinMaxScaler()
+  scaled_features = ss.fit_transform(df) # scaling is done to allow comparisons across features
+  df[df.columns] = scaled_features
+  
+  # Supplementary text in the case where scaling is used
+  sup_text = &#39;\nValues are normalized based on the minimum/maximum values across the week for each Facility.&#39;
+
+  # labels in each cell
+  labels = (np.asarray([&amp;quot;Scaled: {0:.2f} \nOriginal: {1:.0f}&amp;quot;.format(original, scaled)
+                for original, scaled in zip((df.to_numpy()).flatten(),
+                                           (df_copy.to_numpy()).flatten())]
+   )).reshape(df.shape).T
+  
+else:
+  sup_text = &#39;&#39;
+        
+font_title = {&#39;family&#39;: &#39;sans-serif&#39;,
+    &#39;weight&#39;: &#39;bold&#39;,
+    &#39;size&#39;: 16,
+    }
+# We use ax parameter to tell seaborn which subplot to use for this plot
+
+fig = plt.figure(figsize=(15,9))
+# generate our heatmap
+ax = sns.heatmap(df.T, cmap=&amp;quot;PuBu&amp;quot;, annot=labels if scale else True, fmt=&#39;&#39; if scale else &#39;.0f&#39;,cbar=False)
+ax.tick_params(axis=&#39;both&#39;, which=&#39;both&#39;, length=0)
+ax.set_xlabel(&#39;Day of Week&#39;)
+ax.set_ylabel(&#39;Facility Name&#39;)
+
+# Main title
+ax.text(x=0, y=1.1, s=f&#39;Visualizing Facilities in {monthDict[month]}&#39;, fontsize=16, weight=&#39;bold&#39;, ha=&#39;left&#39;, va=&#39;bottom&#39;, transform=ax.transAxes)
+
+# Supplementary text just below the main title
+ax.text(x=0, y=1.05, s=&#39;Distribution of Utilization throughout the week (Mondays - Fridays).&#39; + sup_text, fontsize=8, alpha=0.75, ha=&#39;left&#39;, va=&#39;bottom&#39;, transform=ax.transAxes)
+
+plt.show()
+
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;polar-plots-redux&#34;&gt;Polar Plots Redux&lt;/h2&gt;
+&lt;p&gt;Plotting events across a clock-like dimensional axis (Polar)&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Using GovTech WebAPIs </title>
+      <link>/tutorial/api-intro/</link>
+      <pubDate>Mon, 05 Aug 2019 00:00:00 +0000</pubDate>
+      <guid>/tutorial/api-intro/</guid>
+      <description>&lt;h1 id=&#34;carpark-availability-analysis&#34;&gt;Carpark Availability Analysis&lt;/h1&gt;
+&lt;h2 id=&#34;problem-statement&#34;&gt;Problem Statement&lt;/h2&gt;
+&lt;p&gt;Every Friday in Singapore, close to 260,000 Male Muslims &lt;sup&gt;1&lt;/sup&gt; converge on the 75 mosques to perform their weekly obligatory Friday Prayers much like how Christians have their weekend services.&lt;/p&gt;
+&lt;p&gt;The prayers are usually performed during 1-2pm, and in some areas, this can result in congestion as Motorists vie for limited parking spots. This notebook will look at available carpark data of a particular location - Stirling Road - which is situated near the Mujahidin Mosque &lt;sup&gt;2&lt;/sup&gt; to understand the congestion timings for preliminary understanding of the congestion.&lt;/p&gt;
+&lt;h2 id=&#34;outline&#34;&gt;Outline&lt;/h2&gt;
+&lt;p&gt;In this example, we will look at the following:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Creating functions in &lt;code&gt;Python&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Using the &lt;code&gt;Requests&lt;/code&gt; Library to call web APIs&lt;/li&gt;
+&lt;li&gt;Reading/Writing data from/to CSVs using &lt;code&gt;Pandas&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Plotting timeseries data in &lt;code&gt;Pandas&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Visualising timeseries data using &lt;code&gt;Seaborn&lt;/code&gt; and &lt;code&gt;Matplotlib&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;import-libraries&#34;&gt;Import Libraries&lt;/h2&gt;
+&lt;p&gt;First, we import libraries needed for this analysis. Below is a table that explains why the libraries are required for our mini project.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Library&lt;/th&gt;
+&lt;th&gt;Function&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;requests&lt;/td&gt;
+&lt;td&gt;Query Data.gov.sg Realtime Carpark API&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;datetime&lt;/td&gt;
+&lt;td&gt;Create Datetime objects to filter date&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;json&lt;/td&gt;
+&lt;td&gt;convert request data into json object to apply data transformations&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;pandas&lt;/td&gt;
+&lt;td&gt;Create DataFrames to store and transform data&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;numpy&lt;/td&gt;
+&lt;td&gt;required library for Pandas&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;matplotlib&lt;/td&gt;
+&lt;td&gt;For Data Visualisations&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;import requests
+import datetime
+import json
+
+import pandas as pd
+import numpy as np
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;get-parking-data&#34;&gt;Get Parking Data&lt;/h2&gt;
+&lt;p&gt;To get the parking data, we query the carpark availability from the data.gov.sg api as shown below. The api requires a payload where we input in a datetime string to get the data we want.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;ROOT = &#39;https://api.data.gov.sg/v1&#39;
+URI = &#39;/transport/carpark-availability&#39;
+
+now = datetime.datetime.now()
+current_dt = now.isoformat() 
+print(current_dt)
+payload = {&#39;date_time&#39;: current_dt}
+r = requests.get(ROOT + URI, params=payload)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;2019-08-06T00:00:11.741964
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;In the examples below, we will be largely looking at two key parking locations. You may want to obtain parking locations from 
+&lt;a href=&#34;https://data.gov.sg/dataset/hdb-carpark-information&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;here&lt;/a&gt;
+ to get the carparks you want.&lt;/p&gt;
+&lt;p&gt;Q14 : BLK 49 STIRLING RD &lt;br&gt;
+Q15 : BLK 41/48 STIRLING RD &lt;br&gt;
+Q16 : BLK 45 AND 50 STIRLING RD &lt;br&gt;
+Q17 : BLK 52 STIRLING RD&lt;/p&gt;
+&lt;h2 id=&#34;create-function-to-get-data&#34;&gt;Create function to get data&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;template = pd.DataFrame(columns=[&#39;total_lots&#39;,&#39;lot_type&#39;,&#39;lots_available&#39;,&#39;carpark_number&#39;,&#39;update_time&#39;,&#39;request_time&#39;])
+loaded_df = template
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def get_cp_data():
+    
+    ## load file
+    loads = pd.read_csv(&#39;data.csv&#39;)
+    
+    ROOT = &#39;https://api.data.gov.sg/v1&#39;
+    URI = &#39;/transport/carpark-availability&#39;
+
+    now = datetime.datetime.now()
+    current_dt = now.isoformat()
+    
+    payload = {&#39;date_time&#39;: current_dt}
+    r = requests.get(ROOT + URI, params=payload)
+    
+    filter_cp  = [&#39;Q14&#39;, &#39;Q15&#39;, &#39;Q16&#39;, &#39;Q17&#39;]
+    
+    data = json.loads(r.text)[&#39;items&#39;][0][&#39;carpark_data&#39;]
+    
+    filtered_data = [carpark for carpark in data if carpark[&#39;carpark_number&#39;] in filter_cp]
+    
+    template_dict = {
+        &#39;total_lots&#39; : 9999,
+        &#39;lot_type&#39; : &#39;NA&#39;,
+        &#39;lots_available&#39; : 9999,
+        &#39;carpark_number&#39; : &#39;NA&#39;,
+        &#39;update_time&#39; : &#39;NA&#39;,
+        &#39;request_time&#39; : &#39;NA&#39;
+    }
+    
+    for item in filtered_data:
+        for info in item[&#39;carpark_info&#39;]:
+            template_dict[&#39;total_lots&#39;] = info[&#39;total_lots&#39;]
+            template_dict[&#39;lot_type&#39;] = info[&#39;lot_type&#39;]
+            template_dict[&#39;lots_available&#39;] = info[&#39;lots_available&#39;]
+            template_dict[&#39;carpark_number&#39;] = item[&#39;carpark_number&#39;]
+            template_dict[&#39;update_time&#39;] = item[&#39;update_datetime&#39;]
+            template_dict[&#39;request_time&#39;] = current_dt
+            
+            loads = loads.append(template_dict, ignore_index=True)
+    
+    loads.drop_duplicates([&#39;total_lots&#39;,&#39;lot_type&#39;,&#39;lots_available&#39;,&#39;carpark_number&#39;,&#39;update_time&#39;],inplace=True)
+    loads.to_csv(&#39;data.csv&#39;,index=False)
+    
+    return loads
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;a = get_cp_data()
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;get-historical-cp-data&#34;&gt;Get historical CP Data&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def get_historical_cp_data(time):
+    
+    ## load file
+    loads = pd.read_csv(&#39;parking-data.csv&#39;)
+    
+    ROOT = &#39;https://api.data.gov.sg/v1&#39;
+    URI = &#39;/transport/carpark-availability&#39;
+    
+    payload = {&#39;date_time&#39;: time}
+    r = requests.get(ROOT + URI, params=payload)
+    
+    filter_cp  = [&#39;Q14&#39;, &#39;Q15&#39;, &#39;Q16&#39;, &#39;Q17&#39;]
+    
+    data = json.loads(r.text)[&#39;items&#39;][0][&#39;carpark_data&#39;]
+    
+    filtered_data = [carpark for carpark in data if carpark[&#39;carpark_number&#39;] in filter_cp]
+    
+    template_dict = {
+        &#39;total_lots&#39; : 9999,
+        &#39;lot_type&#39; : &#39;NA&#39;,
+        &#39;lots_available&#39; : 9999,
+        &#39;carpark_number&#39; : &#39;NA&#39;,
+        &#39;update_time&#39; : &#39;NA&#39;,
+        &#39;request_time&#39; : &#39;NA&#39;
+    }
+    
+    for item in filtered_data:
+        for info in item[&#39;carpark_info&#39;]:
+            template_dict[&#39;total_lots&#39;] = info[&#39;total_lots&#39;]
+            template_dict[&#39;lot_type&#39;] = info[&#39;lot_type&#39;]
+            template_dict[&#39;lots_available&#39;] = info[&#39;lots_available&#39;]
+            template_dict[&#39;carpark_number&#39;] = item[&#39;carpark_number&#39;]
+            template_dict[&#39;update_time&#39;] = item[&#39;update_datetime&#39;]
+            template_dict[&#39;request_time&#39;] = time
+            
+            loads = loads.append(template_dict, ignore_index=True)
+    
+    loads.drop_duplicates([&#39;total_lots&#39;,&#39;lot_type&#39;,&#39;lots_available&#39;,&#39;carpark_number&#39;,&#39;update_time&#39;],inplace=True)
+    loads.to_csv(&#39;parking-data.csv&#39;,index=False)
+    
+    return loads
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Using the &lt;code&gt;get_historical_cp_data()&lt;/code&gt; function, it takes in a datetime object and saves the data into a csv file &lt;code&gt;parking-data.csv&lt;/code&gt;. We next use a for loop with time_steps of 10 minute intervals using Python&amp;rsquo;s in-built &lt;code&gt;range&lt;/code&gt; function to generate equally spaced intervals from 0 and 600minutes which is fed into the &lt;code&gt;datetime.timedelta&lt;/code&gt; function with &lt;code&gt;minutes&lt;/code&gt; argument.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;now = datetime.datetime.now()
+idx = 0 
+for time_step in range(0,600,10):
+    req_time_f = datetime.datetime.now() - datetime.timedelta(minutes=time_step)
+    req_time = req_time_f.isoformat() 
+    if idx % 20:
+        print(f&amp;quot;{idx} : Getting data for {req_time}&amp;quot;)
+    get_historical_cp_data(req_time)
+    idx += 1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;1 : Getting data for 2019-07-26T19:41:37.599284
+2 : Getting data for 2019-07-26T19:31:38.851572
+3 : Getting data for 2019-07-26T19:21:40.103910
+4 : Getting data for 2019-07-26T19:11:41.326232
+5 : Getting data for 2019-07-26T19:01:42.631916
+6 : Getting data for 2019-07-26T18:51:43.925971
+7 : Getting data for 2019-07-26T18:41:45.144224
+8 : Getting data for 2019-07-26T18:31:46.334172
+9 : Getting data for 2019-07-26T18:21:47.747885
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;reading-in-file&#34;&gt;Reading in File&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;hist_data = pd.read_csv(&#39;parking-data.csv&#39;)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;visualise-data&#34;&gt;Visualise Data&lt;/h2&gt;
+&lt;p&gt;First, we set &lt;code&gt;request_time&lt;/code&gt; as the index of our dataframe. Then, we apply a filter such that we are only interested on the data between 9:15 am to 2.30pm.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;hist_data.set_index(&#39;request_time&#39;,inplace=True)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;hist_data.index = hist_data.index.astype(&#39;datetime64[ns]&#39;)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;filter_time = hist_data.between_time(&#39;11:15&#39;,&#39;15:30&#39;).sort_values(by=&#39;request_time&#39;)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;filter_time.head(2)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;div&gt;
+&lt;style scoped&gt;
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+&lt;pre&gt;&lt;code&gt;.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/style&gt;&lt;/p&gt;
+&lt;table border=&#34;1&#34; class=&#34;dataframe&#34;&gt;
+  &lt;thead&gt;
+    &lt;tr style=&#34;text-align: right;&#34;&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;total_lots&lt;/th&gt;
+      &lt;th&gt;lot_type&lt;/th&gt;
+      &lt;th&gt;lots_available&lt;/th&gt;
+      &lt;th&gt;carpark_number&lt;/th&gt;
+      &lt;th&gt;update_time&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;request_time&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th&gt;2019-07-26 11:22:39.907290&lt;/th&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;H&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;Q16&lt;/td&gt;
+      &lt;td&gt;2019-07-26T08:34:30&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;2019-07-26 11:22:39.907290&lt;/th&gt;
+      &lt;td&gt;40&lt;/td&gt;
+      &lt;td&gt;C&lt;/td&gt;
+      &lt;td&gt;25&lt;/td&gt;
+      &lt;td&gt;Q17&lt;/td&gt;
+      &lt;td&gt;2019-07-26T08:34:35&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;p&gt;We plot out two plots with two axis as we want to see how closely the update time and request time defers. To recap :&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;request_time&lt;/code&gt; is the input time that we request the API provides.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;update_time&lt;/code&gt; is the time that the data in the API is recorded in data.gov.sg&amp;rsquo;s database.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;We convert out &lt;code&gt;update_time&lt;/code&gt; table which is in &lt;code&gt;str&lt;/code&gt; format to the &lt;code&gt;datetime&lt;/code&gt; format&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;filter_time[&#39;update_time&#39;] = filter_time[&#39;update_time&#39;].astype(&#39;datetime64[ns]&#39;)
+filter_time[&#39;request_time&#39;] = filter_time.index
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Display the data:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;filter_time.head()
+&lt;/code&gt;&lt;/pre&gt;
+&lt;div&gt;
+&lt;style scoped&gt;
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+&lt;pre&gt;&lt;code&gt;.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/style&gt;&lt;/p&gt;
+&lt;table border=&#34;1&#34; class=&#34;dataframe&#34;&gt;
+  &lt;thead&gt;
+    &lt;tr style=&#34;text-align: right;&#34;&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;total_lots&lt;/th&gt;
+      &lt;th&gt;lot_type&lt;/th&gt;
+      &lt;th&gt;lots_available&lt;/th&gt;
+      &lt;th&gt;carpark_number&lt;/th&gt;
+      &lt;th&gt;update_time&lt;/th&gt;
+      &lt;th&gt;request_time&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;request_time&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th&gt;2019-07-26 11:22:39.907290&lt;/th&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;H&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;Q16&lt;/td&gt;
+      &lt;td&gt;2019-07-26 08:34:30&lt;/td&gt;
+      &lt;td&gt;2019-07-26 11:22:39.907290&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;2019-07-26 11:22:39.907290&lt;/th&gt;
+      &lt;td&gt;40&lt;/td&gt;
+      &lt;td&gt;C&lt;/td&gt;
+      &lt;td&gt;25&lt;/td&gt;
+      &lt;td&gt;Q17&lt;/td&gt;
+      &lt;td&gt;2019-07-26 08:34:35&lt;/td&gt;
+      &lt;td&gt;2019-07-26 11:22:39.907290&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;2019-07-26 11:22:39.907290&lt;/th&gt;
+      &lt;td&gt;42&lt;/td&gt;
+      &lt;td&gt;Y&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;Q17&lt;/td&gt;
+      &lt;td&gt;2019-07-26 08:34:35&lt;/td&gt;
+      &lt;td&gt;2019-07-26 11:22:39.907290&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;2019-07-26 11:22:39.907290&lt;/th&gt;
+      &lt;td&gt;155&lt;/td&gt;
+      &lt;td&gt;Y&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;Q16&lt;/td&gt;
+      &lt;td&gt;2019-07-26 08:34:30&lt;/td&gt;
+      &lt;td&gt;2019-07-26 11:22:39.907290&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;2019-07-26 11:22:39.907290&lt;/th&gt;
+      &lt;td&gt;40&lt;/td&gt;
+      &lt;td&gt;C&lt;/td&gt;
+      &lt;td&gt;15&lt;/td&gt;
+      &lt;td&gt;Q16&lt;/td&gt;
+      &lt;td&gt;2019-07-26 08:34:30&lt;/td&gt;
+      &lt;td&gt;2019-07-26 11:22:39.907290&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;#Create a subplot with 2 rows and 1 column
+fig, ax = plt.subplots(2,1,figsize=(15, 10))
+
+#Create a mask to select only lot Q16 and type &#39;C&#39; (car)
+mask = (filter_time[&#39;2019-07-26&#39;][&#39;carpark_number&#39;] == &#39;Q16&#39;) &amp;amp; (filter_time[&#39;2019-07-26&#39;][&#39;lot_type&#39;] == &#39;C&#39;)
+
+#Plot the first chart
+ax[0].axvline(x=pd.to_datetime(&#39;2019-07-26 12:00&#39;), color=&#39;r&#39;, linestyle=&#39;--&#39;,clip_on=False)
+sns.lineplot(x=&#39;update_time&#39;,y=&#39;lots_available&#39;,data=filter_time[mask],ax=ax[0],label=&#39;lots_available&#39;)
+sns.lineplot(x=&#39;update_time&#39;,y=&#39;total_lots&#39;,data=filter_time[mask],ax=ax[0],label=&#39;total_lots&#39;)
+
+#Plot the second chart
+ax[1].axvline(x=pd.to_datetime(&#39;2019-07-26 12:00&#39;), color=&#39;r&#39;, linestyle=&#39;--&#39;,clip_on=False)
+sns.lineplot(x=&#39;request_time&#39;,y=&#39;lots_available&#39;,data=filter_time[mask],ax=ax[1],label=&#39;lots_available&#39;)
+sns.lineplot(x=&#39;request_time&#39;,y=&#39;total_lots&#39;,data=filter_time[mask],ax=ax[1],label=&#39;total_lots&#39;)
+&lt;/code&gt;&lt;/pre&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/img/api_chart.png&#34; &gt;
+
+
+  &lt;img src=&#34;/img/api_chart.png&#34; alt=&#34;&#34;  &gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+
+&lt;p&gt;From the visualisations, if we look at how the two charts overlay on each other, there is a time lag between the &lt;code&gt;update_time&lt;/code&gt; and &lt;code&gt;request_time&lt;/code&gt;. This means that we generally have to be mindful that the request time and update time don&amp;rsquo;t give the same results. For example, when I request carpark availability at time 12 noon, i will get the data for approximately 9:30AM (first chart).&lt;/p&gt;
+&lt;p&gt;Also, if we look at update time, we see that at approximately 12:30pm, on the first chart, carpark availability drops until after 2pm where it picks up again- which is typically at the end of service and people head back to work.&lt;/p&gt;
+&lt;h2 id=&#34;summary&#34;&gt;Summary&lt;/h2&gt;
+&lt;p&gt;In this walk through, we went through a brief yet practical demonstration of why and how to extract data from Data.gov.sg APIs. I hope this will be useful for you! Till next time.&lt;/p&gt;
+&lt;h2 id=&#34;references&#34;&gt;References&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;small&gt;
+&lt;a href=&#34;https://www.mendaki.org.sg/qws/slot/u50178/2.%20Publication%20&amp;amp;%20Resources/2.5%20Others/2.5.1%20Info%20Stats/Singapore%20Malay%20Muslim%20Community%20in%20Figures%20Booklet%20%28High%20Res%29.pdf&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Singapore Malay Muslim Community in Figures Booklet 2015, Mendaki Singapore&lt;/a&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;a href=&#34;https://www.muis.gov.sg/mosque/Our-Mosques/Mosque-Directory/Mujahidin&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;MUIS Mosque Directory - Mujahidin Mosque&lt;/a&gt;
+&lt;/small&gt;&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

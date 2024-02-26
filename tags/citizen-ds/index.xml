@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>citizen ds | Syamil Maulod</title>
+    <link>/tags/citizen-ds/</link>
+      <atom:link href="/tags/citizen-ds/index.xml" rel="self" type="application/rss+xml" />
+    <description>citizen ds</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© Syamil 2024</copyright><lastBuildDate>Tue, 03 Mar 2020 15:57:29 +0800</lastBuildDate>
+    <image>
+      <url>img/map[gravatar:%!s(bool=false) shape:circle]</url>
+      <title>citizen ds</title>
+      <link>/tags/citizen-ds/</link>
+    </image>
+    
+    <item>
+      <title>Exploring the SGDI #1</title>
+      <link>/post/sgdi_intro/</link>
+      <pubDate>Tue, 03 Mar 2020 15:57:29 +0800</pubDate>
+      <guid>/post/sgdi_intro/</guid>
+      <description>
+
+&lt;p&gt;&lt;h2&gt;Table of Contents&lt;/h2&gt;
+&lt;nav id=&#34;TableOfContents&#34;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#introduction&#34;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#getting-started&#34;&gt;Getting Started&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#the-dataset&#34;&gt;The Dataset&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#some-insights&#34;&gt;Some Insights&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#sgdi-data&#34;&gt;SGDI Data&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#distribution-of-the-names-in-sgdi-dataset-by-ministry&#34;&gt;Distribution of the names in SGDI Dataset by Ministry&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#distribution-of-the-names-in-sgdi-dataset-by-ministry-statboard&#34;&gt;Distribution of the names in SGDI Dataset by Ministry / Statboard&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#comparison-of-sgdi-vs-official-data-gov-data&#34;&gt;Comparison of SGDI vs Official Data.gov Data&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#distribution-of-the-names-in-sgdi-dataset-by-ministry-statboard-1&#34;&gt;Distribution of the names in SGDI Dataset by Ministry / Statboard&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/nav&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
+
+&lt;p&gt;The &lt;a href=&#34;https://sgdi.gov.sg&#34;&gt;Singapore Government DIrectory&lt;/a&gt; is an online directory that facilitates communication between members of the public and the civil service.&lt;/p&gt;
+
+&lt;p&gt;In short, it is a repository containing a truncated list of names containing appointment positions as well as ministerial departments.&lt;/p&gt;
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/sgdi_intro/sgdi-info_hubf9c3711b7259cff516b1ed067e06dd8_31797_2000x2000_fit_lanczos_2.png&#34; data-caption=&#34;Sample screenshot from sgdi with contact information blocked out.&#34;&gt;
+
+
+  &lt;img data-src=&#34;/post/sgdi_intro/sgdi-info_hubf9c3711b7259cff516b1ed067e06dd8_31797_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;673&#34; height=&#34;391&#34;&gt;
+&lt;/a&gt;
+
+
+  
+  
+  &lt;figcaption&gt;
+    &lt;em&gt;Sample screenshot from sgdi with contact information blocked out.&lt;/em&gt;
+  &lt;/figcaption&gt;
+
+
+&lt;/figure&gt;
+
+
+&lt;p&gt;Given that there are approximately 145,000 officers in the Public Service, it would be interesting to visualise the entirety of the Service and the distribution of employees using the SGDI as a proxy.&lt;/p&gt;
+
+&lt;p&gt;Granted, there are plenty of departments that do not have public facing arms (or are hidden under the official secrets act) as well as employees that do not need to be listed. It&amp;rsquo;s still worthwhile to generate conversations on the supposedly massive bureaucracy of the public service.&lt;/p&gt;
+
+&lt;h2 id=&#34;getting-started&#34;&gt;Getting Started&lt;/h2&gt;
+
+&lt;p&gt;First, we start every project by looking at how we can acquire the data.&lt;/p&gt;
+
+&lt;p&gt;As mentioned above, we probably will have to get the data from the &lt;a href=&#34;https://sgdi.gov.sg&#34;&gt;SGDI&lt;/a&gt; itself through some recursive web crawling. As web crawling on this scale is probably not recommended and may be in violation of the &lt;a href=&#34;https://sso.agc.gov.sg/Act/CMA1993&#34;&gt;Computer Misuse Act&lt;/a&gt;, I&amp;rsquo;ll only touch upon the key outcomes and not elaborate on the &lt;em&gt;how&lt;/em&gt;. BUT, an illustration of SGDI, or rather the structure of the government is as follows:&lt;/p&gt;
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/sgdi_intro/sgdi_structure_hudfcf0bcfb55cbee3207f8f5091d1b8d0_28666_2000x2000_fit_lanczos_2.png&#34; data-caption=&#34;The structure of the SGDI&#34;&gt;
+
+
+  &lt;img data-src=&#34;/post/sgdi_intro/sgdi_structure_hudfcf0bcfb55cbee3207f8f5091d1b8d0_28666_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;711&#34; height=&#34;871&#34;&gt;
+&lt;/a&gt;
+
+
+  
+  
+  &lt;figcaption&gt;
+    &lt;em&gt;The structure of the SGDI&lt;/em&gt;
+  &lt;/figcaption&gt;
+
+
+&lt;/figure&gt;
+
+
+&lt;p&gt;While the SGDI may be governed by restrictive policies, the data we will be using to compare against comes from [data.gov](&amp;lsquo;&lt;a href=&#34;https://data.gov.sg&#39;&#34;&gt;https://data.gov.sg&#39;&lt;/a&gt;). We can do a simply &lt;code&gt;requests&lt;/code&gt; loop using &lt;code&gt;Python&lt;/code&gt; to extract the necessary data.&lt;/p&gt;
+
+&lt;p&gt;For completeness, here is a sample code on how to retrieve data from data.gov:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;import requests
+
+uri = &#39;https://data.gov.sg&#39;
+resource_start = &#39;/api/action/datastore_search&#39;
+payload = {
+    &#39;resource_id&#39; : &#39;cbcc128f-081d-4a03-8970-9bac1be13a5d&#39; #lookup this id from data.gov
+}
+
+r = requests.get(uri + resource_start, params=payload).json()
+records = []
+while len(r[&#39;result&#39;][&#39;records&#39;]) != 0:
+    records.extend(r[&#39;result&#39;][&#39;records&#39;])
+    r = requests.get(uri + r[&#39;result&#39;][&#39;_links&#39;][&#39;next&#39;]).json()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Basically, this loop does the pagination needed to extract the data we need.&lt;/p&gt;
+
+&lt;h2 id=&#34;the-dataset&#34;&gt;The Dataset&lt;/h2&gt;
+
+&lt;p&gt;After crawling SGDI, we have a total of &lt;strong&gt;36391&lt;/strong&gt; names across the various stat boards/ministries. We then do some basic data munging to remove the duplicates and clean up the dataset.&lt;/p&gt;
+
+&lt;h2 id=&#34;some-insights&#34;&gt;Some Insights&lt;/h2&gt;
+
+&lt;p&gt;After doing so, we start to produce some visualizations using &lt;code&gt;matplotlib&lt;/code&gt; to look at how our names are distributed.&lt;/p&gt;
+
+&lt;h3 id=&#34;sgdi-data&#34;&gt;SGDI Data&lt;/h3&gt;
+
+&lt;h4 id=&#34;distribution-of-the-names-in-sgdi-dataset-by-ministry&#34;&gt;Distribution of the names in SGDI Dataset by Ministry&lt;/h4&gt;
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/sgdi_intro/overall_distribution_sgdi_hubbc85be10975281ab1472f83b6bb7eab_97280_2000x2000_fit_lanczos_2.png&#34; &gt;
+
+
+  &lt;img data-src=&#34;/post/sgdi_intro/overall_distribution_sgdi_hubbc85be10975281ab1472f83b6bb7eab_97280_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;1457&#34; height=&#34;872&#34;&gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+
+
+&lt;h4 id=&#34;distribution-of-the-names-in-sgdi-dataset-by-ministry-statboard&#34;&gt;Distribution of the names in SGDI Dataset by Ministry / Statboard&lt;/h4&gt;
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/sgdi_intro/overall_distribution_sgdi_breakdown_hu25514a0ecb97fbb9b2b4a01bc4b8c1be_107429_2000x2000_fit_lanczos_2.png&#34; &gt;
+
+
+  &lt;img data-src=&#34;/post/sgdi_intro/overall_distribution_sgdi_breakdown_hu25514a0ecb97fbb9b2b4a01bc4b8c1be_107429_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;1457&#34; height=&#34;872&#34;&gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+
+
+&lt;h3 id=&#34;comparison-of-sgdi-vs-official-data-gov-data&#34;&gt;Comparison of SGDI vs Official Data.gov Data&lt;/h3&gt;
+
+&lt;p&gt;To see how far/near our SGDI dataset is to actual numbers, we compare it against the data.gov 2016 dataset.&lt;/p&gt;
+
+&lt;h4 id=&#34;distribution-of-the-names-in-sgdi-dataset-by-ministry-statboard-1&#34;&gt;Distribution of the names in SGDI Dataset by Ministry / Statboard&lt;/h4&gt;
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/sgdi_intro/compared_data_gov_distribution_hu00247c27c3c0e2e7f956ff49a84c5273_107481_2000x2000_fit_lanczos_2.png&#34; &gt;
+
+
+  &lt;img data-src=&#34;/post/sgdi_intro/compared_data_gov_distribution_hu00247c27c3c0e2e7f956ff49a84c5273_107481_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;1400&#34; height=&#34;872&#34;&gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+
+
+&lt;p&gt;Now, we can see that there are definitely large gaps between the numbers on the SGDI and the ground truth (Data.gov). However, does this mean that the information is useless?&lt;/p&gt;
+
+&lt;p&gt;Not necessarily. The SGDI dataset will typically capture government employees with either a public facing function or in a position of visibility. It can serve as a credentialling tool for employees to verify their identity to literally anyone that requires it.&lt;/p&gt;
+
+&lt;p&gt;As such, operations-based roles such as front-line medical staff, teachers and military/civil personnel aren&amp;rsquo;t really expected to be on it but will contribute to the official headcount numbers.&lt;/p&gt;
+
+&lt;p&gt;Those in sensitive areas such as the Home Affairs and Defence Ministry are also unlikely to be on it for matters of national security.&lt;/p&gt;
+
+&lt;p&gt;In the next series of posts, I will be looking at representing the entire SGDI structure in a graph-based network diagram, trying to sieve out the complexity of our government. Furthermore, as we have the names of our public servants, I will attempt to use machine learning methods to label both the ethnicity and gender of the individuals to better understand how our departments are staffed.&lt;/p&gt;
+
+&lt;p&gt;Stay tuned!&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,1930 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="Source Themes Academic 4.7.0">
+
+  
+
+  
+  
+  
+  
+  
+    
+    
+    
+  
+  
+
+  <meta name="author" content="Syamil Maulod">
+
+  
+  
+  
+    
+  
+  <meta name="description" content="Supervised learning &#43; NLP to create a binary classifier">
+
+  
+  <link rel="alternate" hreflang="en-us" href="/post/ml-subreddit/">
+
+  
+
+
+  
+  
+  
+  <meta name="theme-color" content="#2962ff">
+  
+
+  
+  
+
+  
+  
+  
+  
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css" integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-1/css/all.min.css" integrity="sha256-4w9DunooKSr3MFXHXWyFER38WmPdm361bQS/2KUWZbU=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+    
+    
+    
+      
+    
+    
+      
+      
+        
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/github.min.css" crossorigin="anonymous" title="hl-light">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark" disabled>
+        
+      
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.5.1/leaflet.css" integrity="sha256-SHMGCYmST46SoyGgo4YR/9AlK1vf3ff84Aq9yK4hdqM=" crossorigin="anonymous">
+    
+
+    
+
+    
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.1.2/lazysizes.min.js" integrity="sha256-Md1qLToewPeKjfAHU1zyPwOutccPAm5tahnaw7Osw0A=" crossorigin="anonymous" async></script>
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+        
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7CRoboto:400,400italic,700%7CRoboto+Mono&display=swap">
+  
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="/css/academic.css">
+
+  
+
+
+
+
+  
+
+
+  
+
+  <link rel="manifest" href="/index.webmanifest">
+  <link rel="icon" type="image/png" href="/images/icon_hu914c65fc3408b2ad669c7753418c6144_392_32x32_fill_lanczos_center_2.png">
+  <link rel="apple-touch-icon" type="image/png" href="/images/icon_hu914c65fc3408b2ad669c7753418c6144_392_192x192_fill_lanczos_center_2.png">
+
+  <link rel="canonical" href="/post/ml-subreddit/">
+
+  
+  
+  
+  
+  
+    
+    
+  
+  
+  <meta property="twitter:card" content="summary">
+  
+  <meta property="og:site_name" content="Syamil Maulod">
+  <meta property="og:url" content="/post/ml-subreddit/">
+  <meta property="og:title" content="Predict the subreddit! | Syamil Maulod">
+  <meta property="og:description" content="Supervised learning &#43; NLP to create a binary classifier"><meta property="og:image" content="img/map[gravatar:%!s(bool=false) shape:circle]">
+  <meta property="twitter:image" content="img/map[gravatar:%!s(bool=false) shape:circle]"><meta property="og:locale" content="en-us">
+  
+    
+      <meta property="article:published_time" content="2019-06-24T22:15:56&#43;08:00">
+    
+    <meta property="article:modified_time" content="2019-06-24T22:15:56&#43;08:00">
+  
+
+  
+
+
+    
+
+
+
+
+
+
+  
+
+
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "/post/ml-subreddit/"
+  },
+  "headline": "Predict the subreddit!",
+  
+  "datePublished": "2019-06-24T22:15:56+08:00",
+  "dateModified": "2019-06-24T22:15:56+08:00",
+  
+  "author": {
+    "@type": "Person",
+    "name": "Syamil Maulod"
+  },
+  
+  "publisher": {
+    "@type": "Organization",
+    "name": "Syamil Maulod",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "img//"
+    }
+  },
+  "description": "Supervised learning + NLP to create a binary classifier"
+}
+</script>
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+
+  <title>Predict the subreddit! | Syamil Maulod</title>
+
+</head>
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" >
+
+  <aside class="search-results" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        <input name="q" id="search-query" placeholder="Search..." autocapitalize="off"
+        autocomplete="off" autocorrect="off" spellcheck="false" type="search">
+        
+      </div>
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+  
+
+
+
+
+
+
+
+<nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="d-none d-lg-inline-flex">
+      <a class="navbar-brand" href="/">Syamil Maulod</a>
+    </div>
+    
+
+    
+    <button type="button" class="navbar-toggler" data-toggle="collapse"
+            data-target="#navbar-content" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+    <span><i class="fas fa-bars"></i></span>
+    </button>
+    
+
+    
+    <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
+      <a class="navbar-brand" href="/">Syamil Maulod</a>
+    </div>
+    
+
+    
+    
+    <div class="navbar-collapse main-menu-item collapse justify-content-start" id="navbar-content">
+
+      
+      <ul class="navbar-nav d-md-inline-flex">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#about"><span>Home</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#posts"><span>Posts</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#projects"><span>Projects</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/tutorial/"><span>Tutorials</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#contact"><span>Contact</span></a>
+        </li>
+
+        
+        
+
+      
+
+        
+      </ul>
+    </div>
+
+    <ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2">
+      
+      <li class="nav-item">
+        <a class="nav-link js-search" href="#"><i class="fas fa-search" aria-hidden="true"></i></a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="nav-link js-dark-toggle" href="#"><i class="fas fa-moon" aria-hidden="true"></i></a>
+      </li>
+      
+
+      
+
+    </ul>
+
+  </div>
+</nav>
+
+
+  <article class="article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+  
+  
+<div class="article-container pt-3">
+  <h1>Predict the subreddit!</h1>
+
+  
+  <p class="page-subtitle">Natural Language Processing on Reddit</p>
+  
+
+  
+    
+
+
+<div class="article-metadata">
+
+  
+  
+
+  
+  <span class="article-date">
+    
+    
+      
+    
+    Jun 24, 2019
+  </span>
+  
+
+  
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    13 min read
+  </span>
+  
+
+  
+  
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fas fa-folder mr-1"></i><a href="/categories/projects/">projects</a>, <a href="/categories/data-science/">data-science</a></span>
+  
+
+</div>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="btn-links mb-3">
+  
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+  
+  <a class="btn btn-outline-primary my-1 mr-1" href="/project/capstone/">
+    Project
+  </a>
+  
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+  
+</div>
+
+
+
+  <div class="article-container">
+
+    <div class="article-style">
+      <p>Being an avid redditor (lurker) myself, I&rsquo;ve always wondered how unique certain subreddits are. For the uninitiated, subreddits are equivalent to sub-topics of a message board. As an example, the r/Singapore subreddit would cover all or most discussions about Singapore and can range from the fascinating to the truly &hellip; strange.</p>
+<p>On the topic of subreddits, i&rsquo;m a sucker for reading into &lsquo;juicy&rsquo; subreddits that have posts spanning interpersonal relationships. It&rsquo;s not uncommon for a random internet stranget to spill their heart out and treat other strangers as their &lsquo;aunt agony&rsquo;. Interestingly, there exists two similar subreddits <code>relationship</code> and <code>confessions</code>.</p>
+<p>Wouldn&rsquo;t it be cool if, on the basis of historical posts, we can develop a method to differentiate between r/relationships or r/confessions subreddit? Well, we can - and it is pretty straightforward!</p>
+<p>Using common approaches in Natural Language Processing (NLP) - an increasingly popular Data Science topic - this post will go through some of the key steps invovled in this process. More importantly, it is to share an easily generalisable methodology that can be used on other subreddits as well.</p>
+<p>A caveat, however, is that this method is constrained to text-based subreddits which only have text in their posts. Posts with images are not going to be used as it is outside of the scope of this post.</p>
+<div class="alert alert-note">
+  <div>
+    This post assumes some familiarity with Natural Language Processing. Do continue below if you are already familiar with the topic!
+  </div>
+</div>
+<h2>Table of Contents</h2>
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#importing-our-libraries">Importing our libraries</a></li>
+    <li><a href="#data-acquisition">Data Acquisition</a></li>
+    <li><a href="#data-cleaning">Data Cleaning</a>
+      <ul>
+        <li><a href="#displaying-our-class-balances-after-dropping-the-rows">Displaying our class balances after dropping the rows:</a></li>
+      </ul>
+    </li>
+    <li><a href="#class-balance">Class Balance</a></li>
+    <li><a href="#target-encoding">Target Encoding</a>
+      <ul>
+        <li><a href="#cleaning-function">Cleaning Function</a></li>
+      </ul>
+    </li>
+    <li><a href="#post-cleaning">Post Cleaning</a></li>
+    <li><a href="#data-exploration">Data Exploration</a></li>
+    <li><a href="#data-modeling">Data Modeling</a>
+      <ul>
+        <li><a href="#train-test-split">Train Test Split</a></li>
+        <li><a href="#model-playground">Model Playground</a></li>
+      </ul>
+    </li>
+    <li><a href="#pipeline-for-logistic-regression-baseline">Pipeline for Logistic Regression Baseline</a>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
+    <li><a href="#model-evaluation--summary">Model Evaluation &amp; Summary</a></li>
+  </ul>
+</nav>
+<h2 id="importing-our-libraries">Importing our libraries</h2>
+<pre><code class="language-python">import numpy as np
+import requests
+import pandas as pd
+import time
+import random
+import regex as re
+
+import matplotlib.pyplot as plt
+    
+from nltk.corpus import stopwords # Import the stop word list
+from nltk.stem import WordNetLemmatizer 
+from nltk import word_tokenize
+
+from sklearn.metrics import classification_report, roc_curve
+from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
+from sklearn.pipeline import Pipeline
+from sklearn.model_selection import train_test_split, GridSearchCV, cross_val_score
+from sklearn.linear_model import LogisticRegression
+from sklearn.naive_bayes import MultinomialNB, BernoulliNB, GaussianNB
+from sklearn.neighbors import  KNeighborsClassifier 
+
+import warnings
+from psaw import PushshiftAPI
+
+# After the imports
+warnings.filterwarnings(action='ignore')
+</code></pre>
+<h2 id="data-acquisition">Data Acquisition</h2>
+<p>Scrap data using the PushShiftAPI to extract more than 1000 posts per subreddit to overcome Reddit&rsquo;s imposed limitation.</p>
+<pre><code class="language-python">%time
+
+api = PushshiftAPI()
+confessions = pd.DataFrame(list(api.search_submissions(subreddit='confessions',
+                                         filter=['author','title','subreddit','selftext'],
+                                         limit=5000)))
+relationships = pd.DataFrame(list(api.search_submissions(subreddit='relationships',
+                                         filter=['author','title','subreddit','selftext'],
+                                         limit=5000)))
+
+# store the scrapped data.
+confessions.to_csv('./data/confessions.csv')
+relationships.to_csv('./data/relationships.csv')
+</code></pre>
+<h2 id="data-cleaning">Data Cleaning</h2>
+<p>We create a <code>filter_columns</code> function that filters out the title, self text and subreddit name (our target)</p>
+<p>We use the <code>.count()</code> function in our DataFrame object to understand the class balance of our dataset. Ideally, we want the number of entries of type confessions and/or relationships to be the same.</p>
+<pre><code class="language-python">def filter_columns(df):
+    columns_to_retain = ['title','selftext','subreddit','author']
+    return df[columns_to_retain]
+
+df_relationships_clean = filter_columns(df_relationships)
+df_conf_clean = filter_columns(df_confessions)
+`
+display(df_relationships_clean['title'].count())
+display(df_conf_clean['title'].count())
+</code></pre>
+<p>Below is a sample of our data:</p>
+<pre><code class="language-python">df_relationships_clean.head()
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>title</th>
+      <th>selftext</th>
+      <th>subreddit</th>
+      <th>author</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Hi I'm here to find my friends without anybody...</td>
+      <td>NaN</td>
+      <td>relationships</td>
+      <td>0100100001010000</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>My (M31) mind might be broken when i thi k abo...</td>
+      <td>[removed]</td>
+      <td>relationships</td>
+      <td>obviousThrowaway274</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>How do I (26m) apologize to my ex (25f) in a d...</td>
+      <td>Long story short, we broke up 4 months ago and...</td>
+      <td>relationships</td>
+      <td>Throwitallaway73734</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Do you believe it's better to solve an argumen...</td>
+      <td>[removed]</td>
+      <td>relationships</td>
+      <td>EvenKealed</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Am i broken?</td>
+      <td>[removed]</td>
+      <td>relationships</td>
+      <td>obviousThrowaway274</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<pre><code class="language-python">df_conf_clean.head()
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>title</th>
+      <th>selftext</th>
+      <th>subreddit</th>
+      <th>author</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Thought a girl was giving me a quarter and the...</td>
+      <td>So, this was back in 2nd grade. It's a normal ...</td>
+      <td>confessions</td>
+      <td>jessthatrandomperson</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>How can I enjoy my last few days?</td>
+      <td>I am going to die very soon. \n\nI am terrifie...</td>
+      <td>confessions</td>
+      <td>throwaway948118</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>I am a narcissistic asshole and I know it and ...</td>
+      <td>I am basically just a manipulative horrible pe...</td>
+      <td>confessions</td>
+      <td>royjorbison</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>I use Reddit as an audience for my puns</td>
+      <td>I can't go ten sentences without thinking of a...</td>
+      <td>confessions</td>
+      <td>anikdylan27</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>I'm sorry for being an asshole last night</td>
+      <td>To the guy I met last night, who's name escape...</td>
+      <td>confessions</td>
+      <td>roodeeMental</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Prior to this, we may wish to remove posts that have &lsquo;Moderator&rsquo; as an author to train our model on more &lsquo;authentic&rsquo; posts.</p>
+<pre><code class="language-python">df_relationships_clean.loc[:,'author'] = df_relationships_clean.author.map(lambda x : x.lower())
+df_conf_clean.loc[:,'author'] = df_conf_clean.author.map(lambda x : x.lower())
+</code></pre>
+<pre><code class="language-python">df_relationships_clean = df_relationships_clean[~df_relationships_clean.author.str.contains('moderator')]
+df_conf_clean = df_conf_clean[~df_conf_clean.author.str.contains('moderator')]
+</code></pre>
+<pre><code class="language-python">df_relationships_clean.isna().sum()
+</code></pre>
+<pre><code>title         0
+selftext     16
+subreddit     0
+author        0
+dtype: int64
+</code></pre>
+<pre><code class="language-python">df_conf_clean.isna().sum()
+</code></pre>
+<pre><code>title          0
+selftext     739
+subreddit      0
+author         0
+dtype: int64
+</code></pre>
+<p>We also observe empty selftext in both subreddits. we shall drop rows with empty selftext.</p>
+<pre><code class="language-python">df_relationships_clean = df_relationships_clean.dropna(axis=0)
+df_conf_clean = df_conf_clean.dropna(axis=0)
+</code></pre>
+<p>Ensure only posts with <code>selftext</code> more than 10 words are selected.</p>
+<pre><code class="language-python">df_relationships_clean ['selftext_len'] = df_relationships_clean .selftext.map(lambda x: len(x.split()))
+df_relationships_clean  = df_relationships_clean [df_relationships_clean .selftext_len &gt; 10]
+df_conf_clean['selftext_len'] = df_conf_clean.selftext.map(lambda x: len(x.split()))
+df_conf_clean = df_conf_clean[df_conf_clean.selftext_len &gt; 10]
+</code></pre>
+<p>Next, we drop our duplicates:</p>
+<pre><code class="language-python">df_relationships_clean.drop_duplicates(inplace=True)
+df_conf_clean.drop_duplicates(inplace=True)
+</code></pre>
+<h3 id="displaying-our-class-balances-after-dropping-the-rows">Displaying our class balances after dropping the rows:</h3>
+<pre><code class="language-python">display(df_relationships_clean.count())
+display(df_conf_clean.count())
+</code></pre>
+<p>For <code>relationships</code>:</p>
+<pre><code>title           2925
+selftext        2925
+subreddit       2925
+author          2925
+selftext_len    2925
+dtype: int64
+</code></pre>
+<p>For <code>confessions</code>:</p>
+<pre><code>title           3893
+selftext        3893
+subreddit       3893
+author          3893
+selftext_len    3893
+dtype: int64
+</code></pre>
+<p>Seeing that a value of 2900 is the limiting number, we randomly select 2900 entries from both sets.</p>
+<pre><code class="language-python">subset_relationships_clean = df_relationships_clean.sample(n=2900,random_state=666)
+subset_conf_clean = df_conf_clean.sample(n=2900,random_state=666)
+</code></pre>
+<h2 id="class-balance">Class Balance</h2>
+<pre><code class="language-python"># combine both subsets into a DF
+df_pre = subset_relationships_clean.append(subset_conf_clean,ignore_index=True)
+df_pre.subreddit.value_counts(normalize=True)
+</code></pre>
+<h2 id="target-encoding">Target Encoding</h2>
+<p>We then perform an encoding of our target : 1 corresponds to posts of type <code>confessions</code> while 0 corresponds to posts of type <code>relationships</code>.</p>
+<pre><code class="language-python"># create target class columns 0 = relationships, 1 = confessions - encoding
+
+df_pre['label'] = df_pre.subreddit.map({'relationships':0,'confessions':1}).astype('int')
+df_pre.head()
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>title</th>
+      <th>selftext</th>
+      <th>subreddit</th>
+      <th>author</th>
+      <th>selftext_len</th>
+      <th>label</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>I (F18) am questioning the intentions of a ran...</td>
+      <td>My lovely (quite attractive) new boyfriend (M1...</td>
+      <td>relationships</td>
+      <td>boterbabbelaartje</td>
+      <td>334</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Jealousy</td>
+      <td>My boyfriend(29m) and I(30f) have been togethe...</td>
+      <td>relationships</td>
+      <td>taramarie87</td>
+      <td>103</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>I [28F] wants sex all the time. I've made this...</td>
+      <td>Lately, I've been wanting more sex. To have se...</td>
+      <td>relationships</td>
+      <td>missionblueberry</td>
+      <td>236</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>I [32m] am having issues with jealousy with my...</td>
+      <td>Hooo boy. Here we go. \n\nMy wife and I have b...</td>
+      <td>relationships</td>
+      <td>dcsrm</td>
+      <td>438</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Is my girlfriend into wedgies?</td>
+      <td>My girlfriend (F 21yrs old) and I (M 32yrs old...</td>
+      <td>relationships</td>
+      <td>davidsardinas36</td>
+      <td>73</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h3 id="cleaning-function">Cleaning Function</h3>
+<p>Ensure formatting of text by:</p>
+<ul>
+<li>Converting all to lower cases</li>
+<li>removing groups of words in parentheses</li>
+<li>remove line breaks</li>
+<li>removing special characters</li>
+</ul>
+<p>We encapsulate this cleaning into the function <code>clean_text</code></p>
+<pre><code class="language-python"># convert the stop words to a set.
+stops = set(stopwords.words('english'))
+
+def clean_text(text):
+    #01 convert titles, selftext into lowercase
+    lower_text = text.lower()
+    #02 remove brackets and parenthesis from the title and selftext.
+    no_br_paret_text = re.sub(r'\(.+?\)|\[.+?\]',' ',str(lower_text))
+    #03 remove special characters
+    removed_special = re.sub(r'[^0-9a-zA-Z ]+',' ',str(no_br_paret_text))
+    #04 remove xamp200b
+    remove_xamp200b = re.sub(r'ampx200b',' ',str(removed_special))
+    #05 remove digits
+    result = re.sub(r'\d+', '', remove_xamp200b).split()
+    #06 split into individual words
+    meaningful_words = [w for w in result if not w in stops]
+    
+    #07 Join the words back into one string separated by space, 
+    # and return the result.
+    return(&quot; &quot;.join(meaningful_words))
+
+df[['title','selftext']] = df_pre[['title','selftext']].applymap(clean_text)
+df.head()
+</code></pre>
+<p>A sample of our pre-cleaned data:</p>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>title</th>
+      <th>selftext</th>
+      <th>subreddit</th>
+      <th>author</th>
+      <th>selftext_len</th>
+      <th>label</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>questioning intentions random new girl asked b...</td>
+      <td>lovely new boyfriend told girl cig outside sch...</td>
+      <td>relationships</td>
+      <td>boterbabbelaartje</td>
+      <td>334</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>jealousy</td>
+      <td>boyfriend together almost years two beautiful ...</td>
+      <td>relationships</td>
+      <td>taramarie87</td>
+      <td>103</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>wants sex time made known whose</td>
+      <td>lately wanting sex sex time bit back story rel...</td>
+      <td>relationships</td>
+      <td>missionblueberry</td>
+      <td>236</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>issues jealousy wife stage acting</td>
+      <td>hooo boy go wife married years coming ups down...</td>
+      <td>relationships</td>
+      <td>dcsrm</td>
+      <td>438</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>girlfriend wedgies</td>
+      <td>girlfriend together months used phone look som...</td>
+      <td>relationships</td>
+      <td>davidsardinas36</td>
+      <td>73</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="post-cleaning">Post Cleaning</h2>
+<pre><code class="language-python">pd.DataFrame(data=zip(df_pre['selftext'],df['selftext']),columns=['pre','post']).head(5)
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>pre</th>
+      <th>post</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>My lovely (quite attractive) new boyfriend (M1...</td>
+      <td>lovely new boyfriend told girl cig outside sch...</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>My boyfriend(29m) and I(30f) have been togethe...</td>
+      <td>boyfriend together almost years two beautiful ...</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Lately, I've been wanting more sex. To have se...</td>
+      <td>lately wanting sex sex time bit back story rel...</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Hooo boy. Here we go. \n\nMy wife and I have b...</td>
+      <td>hooo boy go wife married years coming ups down...</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>My girlfriend (F 21yrs old) and I (M 32yrs old...</td>
+      <td>girlfriend together months used phone look som...</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="data-exploration">Data Exploration</h2>
+<p>Split title and self text into two classifiers where the output of title_classifier and self_text classifier would provide indication of which subreddit the posts belong to.</p>
+<pre><code class="language-python">#split titles, and self text into seperate df
+
+df_title = df[['title','label']]
+df_selftext = df[['selftext','label']]
+</code></pre>
+<pre><code class="language-python">def get_freq_words(sparse_counts, columns):
+    # X_all is a sparse matrix, so sum() returns a 'matrix' datatype ...
+    #   which we then convert into a 1-D ndarray for sorting
+    word_counts = np.asarray(sparse_counts.sum(axis=0)).reshape(-1)
+
+    # argsort() returns smallest first, so we reverse the result
+    largest_count_indices = word_counts.argsort()[::-1]
+
+    # pretty-print the results! Remember to always ask whether they make sense ...
+    freq_words = pd.Series(word_counts[largest_count_indices], 
+                           index=columns[largest_count_indices])
+
+    return freq_words
+</code></pre>
+<pre><code class="language-python"># Let's use the CountVectorizer to count words for us for each class
+
+# create mask
+
+X_1 = df_selftext[df_selftext['label'] == 1]
+X_0 = df_selftext[df_selftext['label'] == 0]
+
+cvt      =  CountVectorizer(ngram_range=(1,1),stop_words='english')
+X_1_all    =  cvt.fit_transform(X_1['selftext'])
+X_0_all    =  cvt.fit_transform(X_0['selftext'])
+columns_1  =  np.array(cvt.get_feature_names())          # ndarray (for indexing below)
+columns_0  =  np.array(cvt.get_feature_names())    
+</code></pre>
+<pre><code class="language-python">freq_words_1 = get_freq_words(X_1_all, columns_1)
+freq_words_0 = get_freq_words(X_0_all, columns_0)
+
+</code></pre>
+<pre><code class="language-python">print('Confessions:')
+display(freq_words_1[:10])
+print(&quot;\n&quot;)
+print('Relationships:')
+display(freq_words_0[:10])
+</code></pre>
+<p>Here are some key words that appear in the Confessions data set - which would mean that the words <code>landlord</code>,<code>jeopardise</code>, etc. would make it more than likely for the post to be of <code>confessions</code> class.</p>
+<pre><code>Confessions:
+
+landlord       3063
+msg            2325
+jeopardise     1979
+teachings      1721
+eyes           1674
+pur            1506
+user           1438
+overworking    1405
+generic        1133
+lacking        1109
+dtype: int64
+</code></pre>
+<p>Same for <code>relationships</code>:</p>
+<pre><code>Relationships:
+
+like            6690
+time            4761
+know            4694
+want            4630
+really          4235
+feel            4000
+relationship    3744
+said            3245
+things          3070
+told            2999
+dtype: int64
+</code></pre>
+<h2 id="data-modeling">Data Modeling</h2>
+<h3 id="train-test-split">Train Test Split</h3>
+<p>Here, we start with our model development. Before that, we perform a train/test split to ensure that we can validate our model performance.</p>
+<pre><code class="language-python">X_text = df_selftext['selftext']
+y_text = df_selftext['label']
+
+X_text_train, X_text_test, y_text_train, y_text_test = train_test_split(X_text,y_text,stratify=y_text) 
+</code></pre>
+<h3 id="model-playground">Model Playground</h3>
+<p>We create the class <code>LemmaTokenizer</code> to do both lemmatize each word of each entry. I.e. given a list of words, we 
+<a href="https://nlp.stanford.edu/IR-book/html/htmledition/stemming-and-lemmatization-1.html" target="_blank" rel="noopener">lemmatize</a>
+ each word.</p>
+<p>Firstly, we try the Naive Bayes model - MultinomialNB as there are multiple nominal features in the form of the various tokens.</p>
+<pre><code class="language-python">classifiers = []
+vectorizers = [('cvec', CountVectorizer(stop_words='english',tokenizer=LemmaTokenizer())),
+              ('tfvec', TfidfVectorizer(stop_words='english',tokenizer=LemmaTokenizer()))]
+
+for vectorizer in vectorizers:
+    bayes_pipe = Pipeline([
+            (vectorizer),
+            ('mnb', MultinomialNB())
+        ])
+    scores = cross_val_score(bayes_pipe, X_text_train, y_text_train,cv=5,verbose=1)
+    b = bayes_pipe.fit(X_text_train, y_text_train)
+    y_pred = b.predict(X_text_test)
+    print(classification_report(y_text_test, y_pred, target_names=['class 0','class 1']))
+    print('Cross val score for mnb classifier using {} vectorizer is {}'.format(vectorizer[0],scores))
+    print('Accuracy score for mnb classifier using {} vectorizer is {}'.format(vectorizer[0],bayes_pipe.score(X_text_test, y_text_test)))
+</code></pre>
+<pre><code>              precision    recall  f1-score   support
+
+     class 0       0.77      0.95      0.85       725
+     class 1       0.93      0.71      0.81       725
+
+    accuracy                           0.83      1450
+   macro avg       0.85      0.83      0.83      1450
+weighted avg       0.85      0.83      0.83      1450
+
+Cross val score for mnb classifier using cvec vectorizer is [0.80114943 0.80689655 0.86321839 0.81724138 0.79770115]
+Accuracy score for mnb classifier using cvec vectorizer is 0.8289655172413793
+
+
+              precision    recall  f1-score   support
+
+     class 0       0.65      0.99      0.78       725
+     class 1       0.98      0.46      0.63       725
+
+    accuracy                           0.73      1450
+   macro avg       0.82      0.73      0.71      1450
+weighted avg       0.82      0.73      0.71      1450
+
+Cross val score for mnb classifier using tfvec vectorizer is [0.71149425 0.70689655 0.74712644 0.73448276 0.7045977 ]
+Accuracy score for mnb classifier using tfvec vectorizer is 0.7282758620689656
+</code></pre>
+<p>Thus the recall scores for multinomial NB with countvectorizer seems to provide higher recall when compared to the tfidf vectorizer.</p>
+<p>In the meantime, we create a function to encapsulate our evaluation process such that it returns only the false positive rate and true positive rate with a <code>sklearn</code> processing pipeline.</p>
+<pre><code class="language-python"># store predicted_proba scores for later evaluation under ROC curve
+def generate_roc(pipeline):
+
+    b = pipeline.fit(X_text_train, y_text_train)
+    print(f&quot;Train Score:{round(b.score(X_text_train, y_text_train),2)} / Test Score {round(b.score(X_text_test, y_text_test),2)}&quot;)
+    fpr, tpr, _ = roc_curve(y_text_test, b.predict_proba(X_text_test)[:,1],pos_label=1)
+    
+    return [fpr,tpr]
+
+</code></pre>
+<p>Rewriting the CountVectorizer Naive Bayes and TF-IDF Naive Bayes into their respective pipelines:</p>
+<pre><code class="language-python">cv_bayes_pipe = Pipeline([
+            (vectorizers[0]),
+            ('mnb', MultinomialNB())
+        ])
+</code></pre>
+<pre><code class="language-python">tfidf_bayes_pipe = Pipeline([
+            (vectorizers[1]),
+            ('mnb', MultinomialNB())
+        ])
+</code></pre>
+<h2 id="pipeline-for-logistic-regression-baseline">Pipeline for Logistic Regression Baseline</h2>
+<pre><code class="language-python">pipe = Pipeline([
+    ('cvec', CountVectorizer(stop_words='english',tokenizer=LemmaTokenizer())),
+    ('lr', LogisticRegression(solver='saga',max_iter=300))
+])
+</code></pre>
+<h4 id="obtain-hyperparameters-for-our-vectorizer-and-logistic-regressor">Obtain hyperparameters for our vectorizer and logistic regressor.</h4>
+<p>We can use a grid search to find the optimal hyperparameters for our pipelines:</p>
+<pre><code class="language-python">pipe_params = {
+    'cvec__max_features': [2500, 3000, 3500],
+    'cvec__ngram_range': [(1,1), (1,2)],
+    'lr__penalty' : ['elasticnet'],
+    'lr__C' : np.arange(0.1,1,0.1),
+    'lr__l1_ratio' : np.arange(0,1.1,0.2)
+}
+
+gs = GridSearchCV(pipe, param_grid=pipe_params, cv=5,verbose=1,n_jobs=-1)
+gs.fit(X_text_train, y_text_train)
+print(gs.best_score_)
+</code></pre>
+<pre><code>0.9154022988505747
+</code></pre>
+<pre><code class="language-python">gs.best_params_
+</code></pre>
+<pre><code>{'cvec__max_features': 2500,
+ 'cvec__ngram_range': (1, 1),
+ 'lr__C': 0.1,
+ 'lr__l1_ratio': 1.0,
+ 'lr__penalty': 'elasticnet'}
+</code></pre>
+<p>The best score for our logistic regression pipeline:</p>
+<pre><code class="language-python">gs.best_estimator_.score(X_text_test,y_text_test)
+</code></pre>
+<pre><code>0.9186206896551724
+</code></pre>
+<p>Using the hyperparameters:</p>
+<pre><code class="language-python"># try model on title
+optimal_pipe = Pipeline([
+            ('cvec', CountVectorizer(tokenizer=LemmaTokenizer(),max_features=2500,ngram_range=(1,1))),
+            ('lr', LogisticRegression(solver='saga',max_iter=300,C=0.1,l1_ratio=1.0,penalty='elasticnet'))
+        ])
+</code></pre>
+<pre><code class="language-python">X_title = df_title['title']
+y_title = df_title['label']
+</code></pre>
+<pre><code class="language-python">optimal_pipe.fit(X_text_train, y_text_train)
+</code></pre>
+<p>We try the model on our <code>title</code> dataset to obtain the accuracy of the model to classify the subreddit from titles alone.</p>
+<pre><code class="language-python">y_logr_pred = optimal_pipe.predict(X_text_test)
+print(classification_report(y_text_test, y_logr_pred, target_names=['class 0','class 1']))
+</code></pre>
+<pre><code>              precision    recall  f1-score   support
+
+     class 0       0.55      1.00      0.71       725
+     class 1       0.99      0.18      0.31       725
+
+    accuracy                           0.59      1450
+   macro avg       0.77      0.59      0.51      1450
+weighted avg       0.77      0.59      0.51      1450
+</code></pre>
+<p>Next, we explore the use tfidfvectorizer instead of countvectorizer to account for document similarity</p>
+<pre><code class="language-python">tfidf_pipe = Pipeline([
+    ('tfvec', TfidfVectorizer(stop_words='english',tokenizer=LemmaTokenizer())),
+    ('lr', LogisticRegression(solver='saga',max_iter=300))
+])
+
+tfidf_params = {
+    'tfvec__max_features': [2500, 3000, 3500],
+    'tfvec__ngram_range': [(1,1), (1,2)],
+    'lr__penalty' : ['elasticnet'],
+    'lr__C' : np.arange(0.1,1,0.1),
+    'lr__l1_ratio' : np.arange(0,1.1,0.2)
+}
+
+gs = GridSearchCV(tfidf_pipe, param_grid=tfidf_params, cv=3,verbose=1,n_jobs=-1)
+gs.fit(X_text_train, y_text_train)
+print(gs.best_score_)
+</code></pre>
+<pre><code>0.9183908045977012
+</code></pre>
+<p>It seems that tfidf vectorizer performs best with the logistic regression model.</p>
+<pre><code class="language-python">tfidf_best_pipe = Pipeline([
+    ('tfvec', TfidfVectorizer(max_features=3500,ngram_range=(1,1),stop_words='english',tokenizer=LemmaTokenizer())),
+    ('lr', LogisticRegression(solver='saga',max_iter=300,C=0.9,l1_ratio=1.0,penalty='elasticnet'))
+])
+</code></pre>
+<pre><code class="language-python"># test model against test text data and rest of titles
+y_text_tfidf_pred = gs.best_estimator_.predict(X_text_test)
+y_title_tfidf_pred = gs.best_estimator_.predict(X_title)
+print(&quot;Text Report (results based on test data) \n&quot; + 
+      classification_report(y_text_test, y_text_tfidf_pred, target_names=['class 0','class 1']))
+print(&quot;Titles (all titles) Report \n&quot; + 
+      classification_report(y_title, y_title_tfidf_pred, target_names=['class 0','class 1']))
+</code></pre>
+<pre><code>Text Report (results based on test data) 
+              precision    recall  f1-score   support
+
+     class 0       0.93      0.91      0.92       725
+     class 1       0.91      0.94      0.92       725
+
+    accuracy                           0.92      1450
+   macro avg       0.92      0.92      0.92      1450
+weighted avg       0.92      0.92      0.92      1450
+
+Titles (all titles) Report 
+              precision    recall  f1-score   support
+
+     class 0       0.92      0.17      0.29      2900
+     class 1       0.54      0.98      0.70      2900
+
+    accuracy                           0.58      5800
+   macro avg       0.73      0.58      0.49      5800
+weighted avg       0.73      0.58      0.49      5800
+</code></pre>
+<p>While the optimised model with tfidf vectorizer performs remarkably well with high precision and recall, when used with the <code>titles</code> dataset, we can see that that it is somewhat overfit, unable to classify the titles correctly.</p>
+<pre><code class="language-python"># look at sample predictions
+
+pd.DataFrame(data=zip(X_text_test,y_text_test,y_text_tfidf_pred),columns=['text','actual','predicted']).head(5)
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>text</th>
+      <th>actual</th>
+      <th>predicted</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>title says watched porn since got nasty furry ...</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>understand bad bad read lemon fanfic main vide...</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>lovely quite attractive boyfriend met girl wee...</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>dated briefly three months never turned someth...</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>background dating almost years good many fight...</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<h2 id="model-evaluation--summary">Model Evaluation &amp; Summary</h2>
+<pre><code class="language-python">cv_log_roc = generate_roc(optimal_pipe)
+tfidf_log_roc = generate_roc(tfidf_best_pipe)
+cv_nb_roc = generate_roc(cv_bayes_pipe)
+tfidf_nb_roc = generate_roc(tfidf_bayes_pipe)
+tfidf_knn_roc = generate_roc(knn_best_pipe)
+</code></pre>
+<pre><code>Train Score:0.59 / Test Score 0.59
+Train Score:0.93 / Test Score 0.92
+Train Score:0.89 / Test Score 0.83
+Train Score:0.81 / Test Score 0.73
+Train Score:1.0 / Test Score 0.81
+</code></pre>
+<pre><code class="language-python"># Evaluation
+
+roc_data ={
+    'cv_nb' : cv_nb_roc,
+    'tfidf_nb_roc' : tfidf_nb_roc,
+    'cv_log_roc' : cv_log_roc,
+    'tfidf_log_roc' : tfidf_log_roc,
+    'tfidf_knn_roc' : tfidf_knn_roc
+}
+</code></pre>
+<pre><code class="language-python">#### Plot figure
+plt.figure(1,figsize=(10,5))
+plt.plot([0, 1], [0, 1], 'k--')
+for key,roc in roc_data.items():
+    plt.plot(roc[0], roc[1], label=key)
+plt.xlabel('Sensitivity')
+plt.ylabel('1 - Specificity')
+plt.title('ROC curve')
+plt.legend(loc='best')
+
+plt.savefig(&quot;./img/roc_curve.png&quot;,dpi=300)
+plt.show()
+</code></pre>
+<p><img src="output_89_0.png" alt="png"></p>
+<p>The <code>crossvectorizer</code> + <code>logistic regression</code> model seems to perform similar to the <code>tfidf</code> vectorizer and <code>logistic regression</code> model. When looking at the accuracy score of all the models, the tfidf+ logistic regression model performs the best with an accuracy of 92% in terms of predicting if the selftext is either an r/confessions or r/relationships post.</p>
+
+    </div>
+
+    
+
+
+
+
+
+<div class="article-tags">
+  
+  <a class="badge badge-light" href="/tags/nlp/">NLP</a>
+  
+</div>
+
+
+
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://twitter.com/intent/tweet?url=/post/ml-subreddit/&amp;text=Predict%20the%20subreddit!" target="_blank" rel="noopener" class="share-btn-twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.facebook.com/sharer.php?u=/post/ml-subreddit/&amp;t=Predict%20the%20subreddit!" target="_blank" rel="noopener" class="share-btn-facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="mailto:?subject=Predict%20the%20subreddit!&amp;body=/post/ml-subreddit/" target="_blank" rel="noopener" class="share-btn-email">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.linkedin.com/shareArticle?url=/post/ml-subreddit/&amp;title=Predict%20the%20subreddit!" target="_blank" rel="noopener" class="share-btn-linkedin">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://web.whatsapp.com/send?text=Predict%20the%20subreddit!%20/post/ml-subreddit/" target="_blank" rel="noopener" class="share-btn-whatsapp">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://service.weibo.com/share/share.php?url=/post/ml-subreddit/&amp;title=Predict%20the%20subreddit!" target="_blank" rel="noopener" class="share-btn-weibo">
+          <i class="fab fa-weibo"></i>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+  
+    
+  
+  
+  
+  <div class="media author-card content-widget-hr">
+    
+      
+      <img class="avatar mr-3 avatar-circle" src="/authors/admin/avatar_hu778e0e218a9b97c09023dd6c0774c6d0_256939_270x270_fill_q90_lanczos_center.jpg" alt="Avatar">
+    
+
+    <div class="media-body">
+      <h5 class="card-title"><a href="/">Syamil Maulod</a></h5>
+      <h6 class="card-subtitle">Optical Design Engineer, ASML</h6>
+      <p class="card-text">From Singapore. Curious about stuff.</p>
+      <ul class="network-icon" aria-hidden="true">
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+    <li>
+      <a href="mailto:syamil.maulod&#43;ps@gmail.com" >
+        <i class="fas fa-envelope"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://github.com/bearylogical" target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+    </li>
+  
+</ul>
+
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+  </div>
+</article>
+
+      
+
+    
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js" integrity="sha256-lqvxZrPLtfffUl2G/e7szqSvPBILGbwmsGE1MKlOi0Q=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js" integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+
+      
+
+      
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/highlight.min.js" integrity="sha256-1zu+3BnLYV9LdiY85uXMzii3bdrkelyp37e0ZyTAQh0=" crossorigin="anonymous"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/languages/r.min.js"></script>
+        
+      
+
+    
+
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.5.1/leaflet.js" integrity="sha256-EErZamuLefUnbMBQbsEqu1USa+btR2oIlCpBJbyD4/g=" crossorigin="anonymous"></script>
+    
+
+    
+    
+    <script>const code_highlighting = true;</script>
+    
+
+    
+    
+    
+    
+    
+    
+    <script>
+      const search_config = {"indexURI":"/index.json","minLength":1,"threshold":0.3};
+      const i18n = {"no_results":"No results found","placeholder":"Search...","results":"results found"};
+      const content_type = {
+        'post': "Posts",
+        'project': "Projects",
+        'publication' : "Publications",
+        'talk' : "Talks"
+        };
+    </script>
+    
+
+    
+    
+
+    
+    
+    <script id="search-hit-fuse-template" type="text/x-template">
+      <div class="search-hit" id="summary-{{key}}">
+      <div class="search-hit-content">
+        <div class="search-hit-name">
+          <a href="{{relpermalink}}">{{title}}</a>
+          <div class="article-metadata search-hit-type">{{type}}</div>
+          <p class="search-hit-description">{{snippet}}</p>
+        </div>
+      </div>
+      </div>
+    </script>
+    
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.1/fuse.min.js" integrity="sha256-VzgmKYmhsGNNN4Ph1kMW+BjoYJM2jV5i4IlFoeZA9XI=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+    
+
+    
+    
+
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    
+    
+    
+    <script src="/js/academic.min.0630fec5958cb075a5a38f042b3ddde6.js"></script>
+
+    
+
+
+
+
+
+
+  
+  
+  <div class="container">
+    <footer class="site-footer">
+  
+
+  <p class="powered-by">
+    © Syamil 2024 &middot; 
+
+    Powered by the
+    <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+    <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+    
+    <span class="float-right" aria-hidden="true">
+      <a href="#" class="back-to-top">
+        <span class="button_icon">
+          <i class="fas fa-chevron-up fa-2x"></i>
+        </span>
+      </a>
+    </span>
+    
+  </p>
+</footer>
+
+  </div>
+  
+
+  
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>automation | Syamil Maulod</title>
+    <link>/categories/automation/</link>
+      <atom:link href="/categories/automation/index.xml" rel="self" type="application/rss+xml" />
+    <description>automation</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© Syamil 2024</copyright><lastBuildDate>Wed, 03 Jan 2024 15:57:29 +0100</lastBuildDate>
+    <image>
+      <url>img/map[gravatar:%!s(bool=false) shape:circle]</url>
+      <title>automation</title>
+      <link>/categories/automation/</link>
+    </image>
+    
+    <item>
+      <title>(Repurposed) Supermarket tags and home assistant!</title>
+      <link>/post/e-ink-display-home-assistant/</link>
+      <pubDate>Wed, 03 Jan 2024 15:57:29 +0100</pubDate>
+      <guid>/post/e-ink-display-home-assistant/</guid>
+      <description>
+
+&lt;p&gt;&lt;h2&gt;Table of Contents&lt;/h2&gt;
+&lt;nav id=&#34;TableOfContents&#34;&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#e-ink-tags-and-home-assistant&#34;&gt;E-Ink Tags and Home Assistant&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#system-diagram&#34;&gt;System diagram&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#bill-of-materials&#34;&gt;Bill of Materials&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#software-components-used&#34;&gt;Software Components Used&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#how-to-get-started&#34;&gt;How to get started&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#example-node-red-flow&#34;&gt;Example Node-Red flow&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#special-thanks&#34;&gt;Special Thanks&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/nav&gt;&lt;/p&gt;
+
+&lt;h1 id=&#34;e-ink-tags-and-home-assistant&#34;&gt;E-Ink Tags and Home Assistant&lt;/h1&gt;
+
+&lt;p&gt;In this post i will show you (briefly) how i use a combination of home assistant, node red and other software to get the following result:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;featured.jpg&#34; alt=&#34;featured.jpg&#34; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;system-diagram&#34;&gt;System diagram&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&#34;ccp.png&#34; alt=&#34;ccp.png&#34; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;bill-of-materials&#34;&gt;Bill of Materials&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;Raspberry Pi 5 Starter Kit - 4GB →  &lt;a href=&#34;https://elektronicavoorjou.nl/product/raspberry-pi-5-starter-kit-4gb/&#34;&gt;here&lt;/a&gt; (€117.45)&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;OpenEPaperLink Mini-AP v3 / zigbee&amp;lt;-&amp;gt;wifi gateway + 5 x 1.54&amp;rdquo; Tags+ 5 x 2.9&amp;rdquo; Tags →  &lt;a href=&#34;https://www.tindie.com/products/electronics-by-nic/openepaperlink-mini-ap-v3-zigbee-wifi-gateway/&#34;&gt;here&lt;/a&gt; (€111.00)&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;software-components-used&#34;&gt;Software Components Used&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Raspbian OS&lt;/li&gt;
+&lt;li&gt;Docker&lt;/li&gt;
+&lt;li&gt;NodeRed&lt;/li&gt;
+&lt;li&gt;Home Assistant&lt;/li&gt;
+&lt;li&gt;Open EPaper Link (preferably with an AP already setup - see BoM)&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;how-to-get-started&#34;&gt;How to get started&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Use an existing server or get something which can run a server such as raspberry PI an install an OS (Unix/Linux based preferred)&lt;/li&gt;
+&lt;li&gt;Set up Docker on your server with a container management software (i use Portainer) for your convenience&lt;/li&gt;
+&lt;li&gt;You can follow the tutorial in sequence here to get (1) Docker, (2) Portainer, (3) Home assistant, (4) Node Red setup
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://sequr.be/blog/2022/08/home-assistant-container-part-1-install-debian-docker-and-portainer/&#34;&gt;https://sequr.be/blog/2022/08/home-assistant-container-part-1-install-debian-docker-and-portainer/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://sequr.be/blog/2022/09/home-assistant-container-part-2-home-assistant-container/&#34;&gt;https://sequr.be/blog/2022/09/home-assistant-container-part-2-home-assistant-container/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://sequr.be/blog/2022/09/home-assistant-container-part-5-node-red&#34;&gt;https://sequr.be/blog/2022/09/home-assistant-container-part-5-node-red&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Obtain an API key for Google Maps
+
+&lt;ul&gt;
+&lt;li&gt;Follow the google documentation &lt;a href=&#34;https://developers.google.com/maps&#34;&gt;https://developers.google.com/maps&lt;/a&gt; → Note that you need to create a developer account with google to get an API key. NB: you might want to scope your key to the Routes API&lt;/li&gt;
+&lt;li&gt;Google offers a 200USD credit on some of their APIs, of which Routes API is one of those.&lt;/li&gt;
+&lt;li&gt;This would mean that you will need to query the API 39,000 times for you to exceed the &amp;ldquo;free&amp;rdquo; tier (or around 1.2k calls a day)&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Obtain an API key for the Nederlandse Spoorwagen / Dutch Railways (NS)
+
+&lt;ul&gt;
+&lt;li&gt;You can do so here: &lt;a href=&#34;https://apiportal.ns.nl/&#34;&gt;https://apiportal.ns.nl/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;you must create an account and generate an API key for the &lt;em&gt;Reisinformatie API&lt;/em&gt; product&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Link Home assistant to your OpenEPaperLink AP using HACS (Home Assistant Community Store)
+
+&lt;ul&gt;
+&lt;li&gt;Follow the instructions here : &lt;a href=&#34;https://github.com/jonasniesner/open_epaper_link_homeassistant&#34;&gt;https://github.com/jonasniesner/open_epaper_link_homeassistant&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Ensure that your node-red and home assistant is able to communicate (see 3.)&lt;/li&gt;
+&lt;li&gt;Have fun and start building your own tag displays!
+
+&lt;ul&gt;
+&lt;li&gt;Use the various blocks to come up with your own way of using the API data and transforming the information into something that appears useful on each tag!
+&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;example-node-red-flow&#34;&gt;Example Node-Red flow&lt;/h2&gt;
+
+&lt;p&gt;I use the flow below to retrieve train information from the NS API and route the information to my tags!
+&lt;img src=&#34;./node_red_transit_flow.png&#34; alt=&#34;node_red_transit_flow.png&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;This is what i get:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;./ccp_tag_travel.jpg&#34; alt=&#34;ccp_tag_travel.jpg&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;NB: The graphics are all custom specified, i do not have any plans of releasing a library to aid in this. The possibilities are endless! Have fun putting your own spin on it!&lt;/p&gt;
+
+&lt;h2 id=&#34;special-thanks&#34;&gt;Special Thanks&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://sequr.be/&#34;&gt;https://sequr.be/&lt;/a&gt; → for getting the software side setup easily!
+&lt;a href=&#34;https://github.com/jjwbruijn/OpenEPaperLink&#34;&gt;https://github.com/jjwbruijn/OpenEPaperLink&lt;/a&gt; → OpenEPaperLink project community &lt;a href=&#34;https://www.tindie.com/stores/electronics-by-nic/&#34;&gt;https://www.tindie.com/stores/electronics-by-nic/&lt;/a&gt; → Nic for having all the components available, tested and ready for use on Day 1
+&lt;a href=&#34;https://github.com/jonasniesner/open_epaper_link_homeassistant&#34;&gt;https://github.com/jonasniesner/open_epaper_link_homeassistant&lt;/a&gt; → Home assistant Epaperlink integration by Jonas Niesner
+&lt;a href=&#34;https://www.home-assistant.io/&#34;&gt;https://www.home-assistant.io/&lt;/a&gt; → open source home assistant!&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Cat Connectivity Platform - A Primer</title>
+      <link>/post/ccp-introduction/</link>
+      <pubDate>Wed, 03 Jan 2024 15:57:29 +0100</pubDate>
+      <guid>/post/ccp-introduction/</guid>
+      <description>
+
+&lt;p&gt;&lt;h2&gt;Table of Contents&lt;/h2&gt;
+&lt;nav id=&#34;TableOfContents&#34;&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#cat-connectivity-platform&#34;&gt;Cat Connectivity Platform&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#info&#34;&gt;Info&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/nav&gt;&lt;/p&gt;
+
+&lt;h1 id=&#34;cat-connectivity-platform&#34;&gt;Cat Connectivity Platform&lt;/h1&gt;
+
+&lt;h2 id=&#34;info&#34;&gt;Info&lt;/h2&gt;
+
+&lt;p&gt;&lt;em&gt;What is it?&lt;/em&gt;
+System to retrieve, transform and send data from various sensor modules to target devices for home automation (smart home) purposes. Its no different from any home automation software in the market, i just want to make it personalized for me?
+&lt;em&gt;why Cat?&lt;/em&gt;
+I like cats.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;What kind of functionalities will it have?&lt;/em&gt;
+- Central aggregation of sensor and/or data from various APIs
+- Control remote sensors via defined triggers
+- Ability to take in commands from multiple input sources (i.e. Web UI, Mobile UI, telegram, etc.)
+- Push data to any target device as specified&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Compatible protocols&lt;/strong&gt;:
+- ZigBee (3.0)
+- WiFi (2.&lt;sup&gt;4&lt;/sup&gt;&amp;frasl;&lt;sub&gt;5&lt;/sub&gt;.0 GHz)
+- Bluetooth
+- ?&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Specified targets&lt;/strong&gt;:
+- Telegram chat
+- Display modules
+- E-ink displays
+- LCD modules
+- mobile app
+- web ui&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

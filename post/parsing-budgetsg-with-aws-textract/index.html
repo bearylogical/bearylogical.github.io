@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="Source Themes Academic 4.7.0">
+
+  
+
+  
+  
+  
+  
+  
+    
+    
+    
+  
+  
+
+  <meta name="author" content="Syamil Maulod">
+
+  
+  
+  
+    
+  
+  <meta name="description" content="Using AWS to programatically ingest and parse tabular data in PDFs">
+
+  
+  <link rel="alternate" hreflang="en-us" href="/post/parsing-budgetsg-with-aws-textract/">
+
+  
+
+
+  
+  
+  
+  <meta name="theme-color" content="#2962ff">
+  
+
+  
+  
+
+  
+  
+  
+  
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css" integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-1/css/all.min.css" integrity="sha256-4w9DunooKSr3MFXHXWyFER38WmPdm361bQS/2KUWZbU=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+    
+    
+    
+      
+    
+    
+      
+      
+        
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/github.min.css" crossorigin="anonymous" title="hl-light">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark" disabled>
+        
+      
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.5.1/leaflet.css" integrity="sha256-SHMGCYmST46SoyGgo4YR/9AlK1vf3ff84Aq9yK4hdqM=" crossorigin="anonymous">
+    
+
+    
+
+    
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.1.2/lazysizes.min.js" integrity="sha256-Md1qLToewPeKjfAHU1zyPwOutccPAm5tahnaw7Osw0A=" crossorigin="anonymous" async></script>
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+        
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7CRoboto:400,400italic,700%7CRoboto+Mono&display=swap">
+  
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="/css/academic.css">
+
+  
+
+
+
+
+  
+
+
+  
+
+  <link rel="manifest" href="/index.webmanifest">
+  <link rel="icon" type="image/png" href="/images/icon_hu914c65fc3408b2ad669c7753418c6144_392_32x32_fill_lanczos_center_2.png">
+  <link rel="apple-touch-icon" type="image/png" href="/images/icon_hu914c65fc3408b2ad669c7753418c6144_392_192x192_fill_lanczos_center_2.png">
+
+  <link rel="canonical" href="/post/parsing-budgetsg-with-aws-textract/">
+
+  
+  
+  
+  
+  
+    
+  
+  
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="og:site_name" content="Syamil Maulod">
+  <meta property="og:url" content="/post/parsing-budgetsg-with-aws-textract/">
+  <meta property="og:title" content="Parsing the Singapore Budget 2024 with AWS Textract | Syamil Maulod">
+  <meta property="og:description" content="Using AWS to programatically ingest and parse tabular data in PDFs"><meta property="og:image" content="/post/parsing-budgetsg-with-aws-textract/featured.png">
+  <meta property="twitter:image" content="/post/parsing-budgetsg-with-aws-textract/featured.png"><meta property="og:locale" content="en-us">
+  
+    
+      <meta property="article:published_time" content="2024-02-25T11:57:29&#43;01:00">
+    
+    <meta property="article:modified_time" content="2024-02-25T13:47:29&#43;01:00">
+  
+
+  
+
+
+    
+
+
+
+
+
+
+  
+
+
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "/post/parsing-budgetsg-with-aws-textract/"
+  },
+  "headline": "Parsing the Singapore Budget 2024 with AWS Textract",
+  
+  "image": [
+    "/post/parsing-budgetsg-with-aws-textract/featured.png"
+  ],
+  
+  "datePublished": "2024-02-25T11:57:29+01:00",
+  "dateModified": "2024-02-25T13:47:29+01:00",
+  
+  "author": {
+    "@type": "Person",
+    "name": "Syamil Maulod"
+  },
+  
+  "publisher": {
+    "@type": "Organization",
+    "name": "Syamil Maulod",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "img//"
+    }
+  },
+  "description": "Using AWS to programatically ingest and parse tabular data in PDFs"
+}
+</script>
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+
+  <title>Parsing the Singapore Budget 2024 with AWS Textract | Syamil Maulod</title>
+
+</head>
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" >
+
+  <aside class="search-results" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        <input name="q" id="search-query" placeholder="Search..." autocapitalize="off"
+        autocomplete="off" autocorrect="off" spellcheck="false" type="search">
+        
+      </div>
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+  
+
+
+
+
+
+
+
+<nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="d-none d-lg-inline-flex">
+      <a class="navbar-brand" href="/">Syamil Maulod</a>
+    </div>
+    
+
+    
+    <button type="button" class="navbar-toggler" data-toggle="collapse"
+            data-target="#navbar-content" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+    <span><i class="fas fa-bars"></i></span>
+    </button>
+    
+
+    
+    <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
+      <a class="navbar-brand" href="/">Syamil Maulod</a>
+    </div>
+    
+
+    
+    
+    <div class="navbar-collapse main-menu-item collapse justify-content-start" id="navbar-content">
+
+      
+      <ul class="navbar-nav d-md-inline-flex">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#about"><span>Home</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#posts"><span>Posts</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#projects"><span>Projects</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/tutorial/"><span>Tutorials</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#contact"><span>Contact</span></a>
+        </li>
+
+        
+        
+
+      
+
+        
+      </ul>
+    </div>
+
+    <ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2">
+      
+      <li class="nav-item">
+        <a class="nav-link js-search" href="#"><i class="fas fa-search" aria-hidden="true"></i></a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="nav-link js-dark-toggle" href="#"><i class="fas fa-moon" aria-hidden="true"></i></a>
+      </li>
+      
+
+      
+
+    </ul>
+
+  </div>
+</nav>
+
+
+  <article class="article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+<div class="article-container pt-3">
+  <h1>Parsing the Singapore Budget 2024 with AWS Textract</h1>
+
+  
+  <p class="page-subtitle">Structured document extraction for Public Data</p>
+  
+
+  
+
+
+<div class="article-metadata">
+
+  
+  
+
+  
+  <span class="article-date">
+    
+    
+      
+          Last updated on
+      
+    
+    Feb 25, 2024
+  </span>
+  
+
+  
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    7 min read
+  </span>
+  
+
+  
+  
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fas fa-folder mr-1"></i><a href="/categories/data-science/">data-science</a></span>
+  
+
+</div>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="btn-links mb-3">
+  
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+  
+    
+  
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+</div>
+
+
+<div class="article-header article-container featured-image-wrapper mt-4 mb-4" style="max-width: 641px; max-height: 459px;">
+  <div style="position: relative">
+    <img src="/post/parsing-budgetsg-with-aws-textract/featured.png" alt="" class="featured-image">
+    <span class="article-header-caption">Using AWS Textract on the Singapore Budget Expenditure Reports</span>
+  </div>
+</div>
+
+
+
+  <div class="article-container">
+
+    <div class="article-style">
+      
+
+<p><h2>Table of Contents</h2>
+<nav id="TableOfContents">
+<ul>
+<li><a href="#data-for-the-masses-structured-document-parsing-with-textract-on-the-singapore-budget-2024">Data for the Masses: Structured document parsing with Textract on the Singapore Budget 2024</a>
+<ul>
+<li><a href="#budget-2024-and-its-reach">Budget 2024 and its reach</a></li>
+<li><a href="#the-problem">The Problem</a></li>
+<li><a href="#looking-at-public-data-what-s-available-on-the-budget">Looking at Public Data - What&rsquo;s Available on the Budget?</a></li>
+<li><a href="#the-approach">The Approach</a></li>
+<li><a href="#the-solution-aws-textract">The Solution : AWS Textract</a></li>
+<li><a href="#result">Result</a></li>
+<li><a href="#conclusion">Conclusion</a>
+<ul>
+<li><a href="#post-script">Post-script</a></li>
+<li><a href="#disclaimer">Disclaimer</a></li>
+</ul></li>
+<li><a href="#references">References</a></li>
+</ul></li>
+</ul>
+</nav></p>
+
+<h1 id="data-for-the-masses-structured-document-parsing-with-textract-on-the-singapore-budget-2024">Data for the Masses: Structured document parsing with Textract on the Singapore Budget 2024</h1>
+
+<h2 id="budget-2024-and-its-reach">Budget 2024 and its reach</h2>
+
+<p>On the 16th of February, Deputy Prime Minister and Minister for Finance Lawrence Wong <a href="https://www.mof.gov.sg/docs/librariesprovider3/budget2024/download/pdf/fy2024_budget_statement.pdf">spoke at length</a> in the Singapore Parliament on the Singapore 2024 Budget. A number of explainers on the budget to detail who gets what and when are readily available<sup> 1, 2</sup>. At the same time, going into <a href="https://www.mof.gov.sg/singaporebudget/revenue-and-expenditure">details</a> of the budget would be also beneficial for the more inquisitive individuals who are simply looking to get an insight of the fine print. For example, getting information on SimplyGo <a href="https://www.straitstimes.com/singapore/transport/5-things-you-need-to-know-about-the-simplygo-saga-so-far">debacle</a> with respect to contextualising the costs of the overall Fare Collection and Ticketing system.</p>
+
+<p><img src="budget-2024-LTA.png" alt="Expenditure  on Fare Collection and Ticketing System" /></p>
+
+<h2 id="the-problem">The Problem</h2>
+
+<p>While that specific line item can be interesting to some, having to trawl through the reports can be time consuming, especially when looking across a longer time scale. For example, large CAPEX projects take 5-10 years to come to fruition, and tracking such line items can prove to be daunting if one were to look at the overall government expenditure.</p>
+
+<p>Due to this perceived limitation, I wanted to understand if there was a way in which one can obtain more detailed information about the budget in a more structured approach.</p>
+
+<h2 id="looking-at-public-data-what-s-available-on-the-budget">Looking at Public Data - What&rsquo;s Available on the Budget?</h2>
+
+<p>In Singapore, (official) structured <sup> </sup> public data can be found in a number of key sites. There are two main established sites for data: the first being <a href="https://beta.data.gov.sg/">data.gov.sg</a> which is maintained by Open Government Products Singapore and secondly <a href="https://www.singstat.gov.sg/">SingStat</a> which is run by the Department of Statistics Singapore.</p>
+
+<p>On the Singapore budget, only top level data is provided - e.g. Overall Expenditure and Revenue. An example of such a dataset is the Government Budget and Fiscal Position, where granularity stops at the Ministerial level and no information of its constitutent expenditure is provided. An example from Data.gov.sg is provided in the screenshot below.</p>
+
+<p><img src="datagov.png" alt="Data.gov.sg Dataset" /></p>
+
+<p>While limiting, as mentioned in the introduction, all is not lost. Line item information is at least published by the Ministry of Finance in PDF-formatted reports similar to a financial report statement. In order to quench my curiosity, another way forward is needed.</p>
+
+<h2 id="the-approach">The Approach</h2>
+
+<p>In the early stages of this thought exercise, 4 ways of extracting information from the expenditure reports were investigated and evaluated based on 4 aspects (not ranked) : 1. Scalability 2. Maintanability 3. Cost 4. Reliability (Trustworthiness)</p>
+
+<table>
+<thead>
+<tr>
+<th>Solution</th>
+<th>What</th>
+<th>Pros</th>
+<th>Cons</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>Manual Extraction</td>
+<td>Crowd source or manually extract  information from the reports</td>
+<td></td>
+<td>Subjective. Time Consuming. Does not scale</td>
+</tr>
+
+<tr>
+<td>Ask ChatGPT</td>
+<td>Feed the PDF into a Large Language Model (LLM)</td>
+<td>Conceptually simple</td>
+<td>Hallucination is possible in the outputs. Can be costly (Cost per token * document length)</td>
+</tr>
+
+<tr>
+<td>Use Public PDF Parsers</td>
+<td>Use open source parsers  (tesseract, tabula, pyPDF)</td>
+<td>Free. Local Development Possible</td>
+<td>Not out of the box, configuration necessary</td>
+</tr>
+
+<tr>
+<td>Use a Paid Service</td>
+<td>Use Document Intelligence Services  from Cloud Providers (AWS, GCP, Azure)</td>
+<td>Production Grade</td>
+<td>Can be costly. Need to develop in cloud</td>
+</tr>
+</tbody>
+</table>
+
+<p>ChatGPT or more specifically GPT-4 was used in the evaluation and unfortunately did not produce adequately satisfactory results. For example, the JSON output was not easily understandable and there was a risk of model hallucination that would make the data unreliable. While prompt engineering might be useful in ensuring the document is able to be parsed well, it was outside the scope of the investigation. There may be a use case for large scale knowledge management when the LLM can be used to directly query a backend database to produce deeper levels of insight but again, it was out of scope.</p>
+
+<p><img src="gpt4.png" alt="Interacting with GPT4" /></p>
+
+<p>For manual extraction and open source PDF parsers, it was briefly investigated but did not produce results that were (1) Scalable and (2) Reliable. To this end, the decision was to use a paid solution to parse the reports. While Google and Azure both have document intelligence expertise that can work with extracting information from PDFs, AWS Textract offered the best out-of-the-box functionality for extracting specifically tabular data in a PDF. This would clearly make it <em>much</em> easier for downstream ingestion and analysis tasks.</p>
+
+<h2 id="the-solution-aws-textract">The Solution : AWS Textract</h2>
+
+<p>From the <a href="https://aws.amazon.com/textract/">AWS Textract website</a></p>
+
+<blockquote>
+<p>Amazon Textract is a machine learning (ML) service that automatically extracts text, handwriting, layout elements, and data from scanned documents. It goes beyond simple optical character recognition (OCR) to identify, understand, and extract specific data from documents.</p>
+</blockquote>
+
+<p>For simple cases, AWS does offer a <a href="https://docs.aws.amazon.com/textract/latest/dg/getting-started.html">user interface</a> to parse documents of less than a few pages (maximum 150 in one batch). However, I needed to process the financial reports across long time horizons and using a web interface would not suit my needs. Thus in my usecase, it was needed to also include other AWS related components such as object storage (S3), a queue service (SQS) and a notification service in order to receive notifications from the Textract service such that I had a scalable document parsing pipeline. To accomplish this, the system architecture as illustrated below was used:</p>
+
+<p><img src="textract_architecture.png" alt="Textract Architecture" /></p>
+
+<p>In this approach, the document parsing is done in the following manner:</p>
+
+<ol>
+<li>The PDF document (i.e. the PDF file containing the expenditure information) is uploaded</li>
+<li>In doing so, this would place an object in the &ldquo;Processing&rdquo; queue</li>
+<li>This triggers a lambda function that will call the Textract service</li>
+<li>The textract service sends a notification to the notification service that contains the status of the service for that particular document</li>
+<li>The object is then placed in a result queue</li>
+<li>This triggers another lambda function to turn the results into a JSON</li>
+<li>The JSON file is then pushed to a seperate output bucket which is then available to the user</li>
+</ol>
+
+<h2 id="result">Result</h2>
+
+<p>Using this approach,an example is given for the Ministry of Communications and Information (MCI) expenditure estimate. We start of with a basic PDF table:</p>
+
+<p><img src="mci.png" alt="MCI Snapshot" /></p>
+
+<p>As you can already see, it has a PDF table that needs some parsing into a structured form. We then use AWS Textract to parse and we obtain a result. We then visualize the output of the textract service using the <code>amazon-textract-textractor</code> <a href="https://github.com/aws-samples/amazon-textract-textractor/tree/master">python library</a>.<sup>4</sup> This overlays the result of the extraction service over the document.</p>
+
+<pre><code class="language-Python">from textractor.entities.document import Document
+
+document = Document.open(&quot;PATH_TO_YOUR_JSON&quot;)
+# This is only possible because we linked each page of a PDF to the page object in the document
+document.tables[0].visualize()
+</code></pre>
+
+<p>And we get:
+<img src="mci_textract.png" alt="MCI Textract" /></p>
+
+<p>The various colors correspond to the Table title, section headers and sub-headers! This is already very useful to start before converting this information into a more understandable dataset :)</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>This is of course just the first big step in turning the information in the PDFs into a well-structured dataset. Next steps include: Defining a result parser to ensure that the section and subsection headers are well accounted for, ingesting the information into a database and so on.</p>
+
+<p>The key takeaway from this is that we have a way to deal with unstructured official data and this goes a long way in ensuring that as a whole, availability to less structured forms of data can be made available in the near future to the general public.</p>
+
+<h3 id="post-script">Post-script</h3>
+
+<ol>
+<li>The total AWS cost for parsing 3 years worth of budget reports is ~30 USD.</li>
+<li>The final database will eventually be made available to the public free of charge, but don&rsquo;t ask when&hellip;.</li>
+</ol>
+
+<h3 id="disclaimer">Disclaimer</h3>
+
+<p>I do not have affliations to AWS or any entities mentioned in this write-up. All attributions are provided at a best-effort basis and the use of any information from this page is at your own risk.</p>
+
+<h2 id="references">References</h2>
+
+<ol>
+<li><a href="https://www.mof.gov.sg/singaporebudget/resources/budget-infographics">https://www.mof.gov.sg/singaporebudget/resources/budget-infographics</a></li>
+<li><a href="https://www.straitstimes.com/singapore/government-revenue-in-fy2023-better-than-expected-small-budget-surplus-of-08b-expected-for-fy2024">https://www.straitstimes.com/singapore/government-revenue-in-fy2023-better-than-expected-small-budget-surplus-of-08b-expected-for-fy2024</a></li>
+<li>Structured data is one that can be readily interpreted and reused in other analytical software, this is differentiated from unstructured data which requires additional intervention to make the data usable for downstream analytics and visualization tasks.</li>
+<li>Note that you <em>do not</em> have to use the architecture to process 1-2 files. You might want to use the <a href="https://docs.aws.amazon.com/textract/latest/dg/getting-started.html">AWS console</a> for that</li>
+</ol>
+
+    </div>
+
+    
+
+
+
+
+
+<div class="article-tags">
+  
+  <a class="badge badge-light" href="/tags/public-data/">public-data</a>
+  
+</div>
+
+
+
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://twitter.com/intent/tweet?url=/post/parsing-budgetsg-with-aws-textract/&amp;text=Parsing%20the%20Singapore%20Budget%202024%20with%20AWS%20Textract" target="_blank" rel="noopener" class="share-btn-twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.facebook.com/sharer.php?u=/post/parsing-budgetsg-with-aws-textract/&amp;t=Parsing%20the%20Singapore%20Budget%202024%20with%20AWS%20Textract" target="_blank" rel="noopener" class="share-btn-facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="mailto:?subject=Parsing%20the%20Singapore%20Budget%202024%20with%20AWS%20Textract&amp;body=/post/parsing-budgetsg-with-aws-textract/" target="_blank" rel="noopener" class="share-btn-email">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.linkedin.com/shareArticle?url=/post/parsing-budgetsg-with-aws-textract/&amp;title=Parsing%20the%20Singapore%20Budget%202024%20with%20AWS%20Textract" target="_blank" rel="noopener" class="share-btn-linkedin">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://web.whatsapp.com/send?text=Parsing%20the%20Singapore%20Budget%202024%20with%20AWS%20Textract%20/post/parsing-budgetsg-with-aws-textract/" target="_blank" rel="noopener" class="share-btn-whatsapp">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://service.weibo.com/share/share.php?url=/post/parsing-budgetsg-with-aws-textract/&amp;title=Parsing%20the%20Singapore%20Budget%202024%20with%20AWS%20Textract" target="_blank" rel="noopener" class="share-btn-weibo">
+          <i class="fab fa-weibo"></i>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+  
+    
+  
+  
+  
+  <div class="media author-card content-widget-hr">
+    
+      
+      <img class="avatar mr-3 avatar-circle" src="/authors/admin/avatar_hu778e0e218a9b97c09023dd6c0774c6d0_256939_270x270_fill_q90_lanczos_center.jpg" alt="Avatar">
+    
+
+    <div class="media-body">
+      <h5 class="card-title"><a href="/">Syamil Maulod</a></h5>
+      <h6 class="card-subtitle">Optical Design Engineer, ASML</h6>
+      <p class="card-text">From Singapore. Curious about stuff.</p>
+      <ul class="network-icon" aria-hidden="true">
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+    <li>
+      <a href="mailto:syamil.maulod&#43;ps@gmail.com" >
+        <i class="fas fa-envelope"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://github.com/bearylogical" target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+    </li>
+  
+</ul>
+
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+  </div>
+</article>
+
+      
+
+    
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js" integrity="sha256-lqvxZrPLtfffUl2G/e7szqSvPBILGbwmsGE1MKlOi0Q=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js" integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+
+      
+
+      
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/highlight.min.js" integrity="sha256-1zu+3BnLYV9LdiY85uXMzii3bdrkelyp37e0ZyTAQh0=" crossorigin="anonymous"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/languages/r.min.js"></script>
+        
+      
+
+    
+
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.5.1/leaflet.js" integrity="sha256-EErZamuLefUnbMBQbsEqu1USa+btR2oIlCpBJbyD4/g=" crossorigin="anonymous"></script>
+    
+
+    
+    
+    <script>const code_highlighting = true;</script>
+    
+
+    
+    
+    
+    
+    
+    
+    <script>
+      const search_config = {"indexURI":"/index.json","minLength":1,"threshold":0.3};
+      const i18n = {"no_results":"No results found","placeholder":"Search...","results":"results found"};
+      const content_type = {
+        'post': "Posts",
+        'project': "Projects",
+        'publication' : "Publications",
+        'talk' : "Talks"
+        };
+    </script>
+    
+
+    
+    
+
+    
+    
+    <script id="search-hit-fuse-template" type="text/x-template">
+      <div class="search-hit" id="summary-{{key}}">
+      <div class="search-hit-content">
+        <div class="search-hit-name">
+          <a href="{{relpermalink}}">{{title}}</a>
+          <div class="article-metadata search-hit-type">{{type}}</div>
+          <p class="search-hit-description">{{snippet}}</p>
+        </div>
+      </div>
+      </div>
+    </script>
+    
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.1/fuse.min.js" integrity="sha256-VzgmKYmhsGNNN4Ph1kMW+BjoYJM2jV5i4IlFoeZA9XI=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+    
+
+    
+    
+
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    
+    
+    
+    <script src="/js/academic.min.0630fec5958cb075a5a38f042b3ddde6.js"></script>
+
+    
+
+
+
+
+
+
+  
+  
+  <div class="container">
+    <footer class="site-footer">
+  
+
+  <p class="powered-by">
+    © Syamil 2024 &middot; 
+
+    Powered by the
+    <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+    <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+    
+    <span class="float-right" aria-hidden="true">
+      <a href="#" class="back-to-top">
+        <span class="button_icon">
+          <i class="fas fa-chevron-up fa-2x"></i>
+        </span>
+      </a>
+    </span>
+    
+  </p>
+</footer>
+
+  </div>
+  
+
+  
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

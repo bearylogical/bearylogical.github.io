@@ -1,0 +1,930 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>NLP | Syamil Maulod</title>
+    <link>/tags/nlp/</link>
+      <atom:link href="/tags/nlp/index.xml" rel="self" type="application/rss+xml" />
+    <description>NLP</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© Syamil 2024</copyright><lastBuildDate>Mon, 24 Jun 2019 22:15:56 +0800</lastBuildDate>
+    <image>
+      <url>img/map[gravatar:%!s(bool=false) shape:circle]</url>
+      <title>NLP</title>
+      <link>/tags/nlp/</link>
+    </image>
+    
+    <item>
+      <title>Predict the subreddit!</title>
+      <link>/post/ml-subreddit/</link>
+      <pubDate>Mon, 24 Jun 2019 22:15:56 +0800</pubDate>
+      <guid>/post/ml-subreddit/</guid>
+      <description>&lt;p&gt;Being an avid redditor (lurker) myself, I&amp;rsquo;ve always wondered how unique certain subreddits are. For the uninitiated, subreddits are equivalent to sub-topics of a message board. As an example, the r/Singapore subreddit would cover all or most discussions about Singapore and can range from the fascinating to the truly &amp;hellip; strange.&lt;/p&gt;
+&lt;p&gt;On the topic of subreddits, i&amp;rsquo;m a sucker for reading into &amp;lsquo;juicy&amp;rsquo; subreddits that have posts spanning interpersonal relationships. It&amp;rsquo;s not uncommon for a random internet stranget to spill their heart out and treat other strangers as their &amp;lsquo;aunt agony&amp;rsquo;. Interestingly, there exists two similar subreddits &lt;code&gt;relationship&lt;/code&gt; and &lt;code&gt;confessions&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Wouldn&amp;rsquo;t it be cool if, on the basis of historical posts, we can develop a method to differentiate between r/relationships or r/confessions subreddit? Well, we can - and it is pretty straightforward!&lt;/p&gt;
+&lt;p&gt;Using common approaches in Natural Language Processing (NLP) - an increasingly popular Data Science topic - this post will go through some of the key steps invovled in this process. More importantly, it is to share an easily generalisable methodology that can be used on other subreddits as well.&lt;/p&gt;
+&lt;p&gt;A caveat, however, is that this method is constrained to text-based subreddits which only have text in their posts. Posts with images are not going to be used as it is outside of the scope of this post.&lt;/p&gt;
+&lt;div class=&#34;alert alert-note&#34;&gt;
+  &lt;div&gt;
+    This post assumes some familiarity with Natural Language Processing. Do continue below if you are already familiar with the topic!
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;h2&gt;Table of Contents&lt;/h2&gt;
+&lt;nav id=&#34;TableOfContents&#34;&gt;
+  &lt;ul&gt;
+    &lt;li&gt;&lt;a href=&#34;#importing-our-libraries&#34;&gt;Importing our libraries&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#data-acquisition&#34;&gt;Data Acquisition&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#data-cleaning&#34;&gt;Data Cleaning&lt;/a&gt;
+      &lt;ul&gt;
+        &lt;li&gt;&lt;a href=&#34;#displaying-our-class-balances-after-dropping-the-rows&#34;&gt;Displaying our class balances after dropping the rows:&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#class-balance&#34;&gt;Class Balance&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#target-encoding&#34;&gt;Target Encoding&lt;/a&gt;
+      &lt;ul&gt;
+        &lt;li&gt;&lt;a href=&#34;#cleaning-function&#34;&gt;Cleaning Function&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#post-cleaning&#34;&gt;Post Cleaning&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#data-exploration&#34;&gt;Data Exploration&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#data-modeling&#34;&gt;Data Modeling&lt;/a&gt;
+      &lt;ul&gt;
+        &lt;li&gt;&lt;a href=&#34;#train-test-split&#34;&gt;Train Test Split&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&#34;#model-playground&#34;&gt;Model Playground&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#pipeline-for-logistic-regression-baseline&#34;&gt;Pipeline for Logistic Regression Baseline&lt;/a&gt;
+      &lt;ul&gt;
+        &lt;li&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li&gt;&lt;a href=&#34;#model-evaluation--summary&#34;&gt;Model Evaluation &amp;amp; Summary&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/nav&gt;
+&lt;h2 id=&#34;importing-our-libraries&#34;&gt;Importing our libraries&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;import numpy as np
+import requests
+import pandas as pd
+import time
+import random
+import regex as re
+
+import matplotlib.pyplot as plt
+    
+from nltk.corpus import stopwords # Import the stop word list
+from nltk.stem import WordNetLemmatizer 
+from nltk import word_tokenize
+
+from sklearn.metrics import classification_report, roc_curve
+from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
+from sklearn.pipeline import Pipeline
+from sklearn.model_selection import train_test_split, GridSearchCV, cross_val_score
+from sklearn.linear_model import LogisticRegression
+from sklearn.naive_bayes import MultinomialNB, BernoulliNB, GaussianNB
+from sklearn.neighbors import  KNeighborsClassifier 
+
+import warnings
+from psaw import PushshiftAPI
+
+# After the imports
+warnings.filterwarnings(action=&#39;ignore&#39;)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;data-acquisition&#34;&gt;Data Acquisition&lt;/h2&gt;
+&lt;p&gt;Scrap data using the PushShiftAPI to extract more than 1000 posts per subreddit to overcome Reddit&amp;rsquo;s imposed limitation.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;%time
+
+api = PushshiftAPI()
+confessions = pd.DataFrame(list(api.search_submissions(subreddit=&#39;confessions&#39;,
+                                         filter=[&#39;author&#39;,&#39;title&#39;,&#39;subreddit&#39;,&#39;selftext&#39;],
+                                         limit=5000)))
+relationships = pd.DataFrame(list(api.search_submissions(subreddit=&#39;relationships&#39;,
+                                         filter=[&#39;author&#39;,&#39;title&#39;,&#39;subreddit&#39;,&#39;selftext&#39;],
+                                         limit=5000)))
+
+# store the scrapped data.
+confessions.to_csv(&#39;./data/confessions.csv&#39;)
+relationships.to_csv(&#39;./data/relationships.csv&#39;)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;data-cleaning&#34;&gt;Data Cleaning&lt;/h2&gt;
+&lt;p&gt;We create a &lt;code&gt;filter_columns&lt;/code&gt; function that filters out the title, self text and subreddit name (our target)&lt;/p&gt;
+&lt;p&gt;We use the &lt;code&gt;.count()&lt;/code&gt; function in our DataFrame object to understand the class balance of our dataset. Ideally, we want the number of entries of type confessions and/or relationships to be the same.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def filter_columns(df):
+    columns_to_retain = [&#39;title&#39;,&#39;selftext&#39;,&#39;subreddit&#39;,&#39;author&#39;]
+    return df[columns_to_retain]
+
+df_relationships_clean = filter_columns(df_relationships)
+df_conf_clean = filter_columns(df_confessions)
+`
+display(df_relationships_clean[&#39;title&#39;].count())
+display(df_conf_clean[&#39;title&#39;].count())
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Below is a sample of our data:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;df_relationships_clean.head()
+&lt;/code&gt;&lt;/pre&gt;
+&lt;div&gt;
+&lt;style scoped&gt;
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+&lt;pre&gt;&lt;code&gt;.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/style&gt;&lt;/p&gt;
+&lt;table border=&#34;1&#34; class=&#34;dataframe&#34;&gt;
+  &lt;thead&gt;
+    &lt;tr style=&#34;text-align: right;&#34;&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;title&lt;/th&gt;
+      &lt;th&gt;selftext&lt;/th&gt;
+      &lt;th&gt;subreddit&lt;/th&gt;
+      &lt;th&gt;author&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th&gt;0&lt;/th&gt;
+      &lt;td&gt;Hi I&#39;m here to find my friends without anybody...&lt;/td&gt;
+      &lt;td&gt;NaN&lt;/td&gt;
+      &lt;td&gt;relationships&lt;/td&gt;
+      &lt;td&gt;0100100001010000&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;1&lt;/th&gt;
+      &lt;td&gt;My (M31) mind might be broken when i thi k abo...&lt;/td&gt;
+      &lt;td&gt;[removed]&lt;/td&gt;
+      &lt;td&gt;relationships&lt;/td&gt;
+      &lt;td&gt;obviousThrowaway274&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;2&lt;/th&gt;
+      &lt;td&gt;How do I (26m) apologize to my ex (25f) in a d...&lt;/td&gt;
+      &lt;td&gt;Long story short, we broke up 4 months ago and...&lt;/td&gt;
+      &lt;td&gt;relationships&lt;/td&gt;
+      &lt;td&gt;Throwitallaway73734&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;3&lt;/th&gt;
+      &lt;td&gt;Do you believe it&#39;s better to solve an argumen...&lt;/td&gt;
+      &lt;td&gt;[removed]&lt;/td&gt;
+      &lt;td&gt;relationships&lt;/td&gt;
+      &lt;td&gt;EvenKealed&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;4&lt;/th&gt;
+      &lt;td&gt;Am i broken?&lt;/td&gt;
+      &lt;td&gt;[removed]&lt;/td&gt;
+      &lt;td&gt;relationships&lt;/td&gt;
+      &lt;td&gt;obviousThrowaway274&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;df_conf_clean.head()
+&lt;/code&gt;&lt;/pre&gt;
+&lt;div&gt;
+&lt;style scoped&gt;
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+&lt;pre&gt;&lt;code&gt;.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/style&gt;&lt;/p&gt;
+&lt;table border=&#34;1&#34; class=&#34;dataframe&#34;&gt;
+  &lt;thead&gt;
+    &lt;tr style=&#34;text-align: right;&#34;&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;title&lt;/th&gt;
+      &lt;th&gt;selftext&lt;/th&gt;
+      &lt;th&gt;subreddit&lt;/th&gt;
+      &lt;th&gt;author&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th&gt;0&lt;/th&gt;
+      &lt;td&gt;Thought a girl was giving me a quarter and the...&lt;/td&gt;
+      &lt;td&gt;So, this was back in 2nd grade. It&#39;s a normal ...&lt;/td&gt;
+      &lt;td&gt;confessions&lt;/td&gt;
+      &lt;td&gt;jessthatrandomperson&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;1&lt;/th&gt;
+      &lt;td&gt;How can I enjoy my last few days?&lt;/td&gt;
+      &lt;td&gt;I am going to die very soon. \n\nI am terrifie...&lt;/td&gt;
+      &lt;td&gt;confessions&lt;/td&gt;
+      &lt;td&gt;throwaway948118&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;2&lt;/th&gt;
+      &lt;td&gt;I am a narcissistic asshole and I know it and ...&lt;/td&gt;
+      &lt;td&gt;I am basically just a manipulative horrible pe...&lt;/td&gt;
+      &lt;td&gt;confessions&lt;/td&gt;
+      &lt;td&gt;royjorbison&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;3&lt;/th&gt;
+      &lt;td&gt;I use Reddit as an audience for my puns&lt;/td&gt;
+      &lt;td&gt;I can&#39;t go ten sentences without thinking of a...&lt;/td&gt;
+      &lt;td&gt;confessions&lt;/td&gt;
+      &lt;td&gt;anikdylan27&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;4&lt;/th&gt;
+      &lt;td&gt;I&#39;m sorry for being an asshole last night&lt;/td&gt;
+      &lt;td&gt;To the guy I met last night, who&#39;s name escape...&lt;/td&gt;
+      &lt;td&gt;confessions&lt;/td&gt;
+      &lt;td&gt;roodeeMental&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;p&gt;Prior to this, we may wish to remove posts that have &amp;lsquo;Moderator&amp;rsquo; as an author to train our model on more &amp;lsquo;authentic&amp;rsquo; posts.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;df_relationships_clean.loc[:,&#39;author&#39;] = df_relationships_clean.author.map(lambda x : x.lower())
+df_conf_clean.loc[:,&#39;author&#39;] = df_conf_clean.author.map(lambda x : x.lower())
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;df_relationships_clean = df_relationships_clean[~df_relationships_clean.author.str.contains(&#39;moderator&#39;)]
+df_conf_clean = df_conf_clean[~df_conf_clean.author.str.contains(&#39;moderator&#39;)]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;df_relationships_clean.isna().sum()
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;title         0
+selftext     16
+subreddit     0
+author        0
+dtype: int64
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;df_conf_clean.isna().sum()
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;title          0
+selftext     739
+subreddit      0
+author         0
+dtype: int64
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We also observe empty selftext in both subreddits. we shall drop rows with empty selftext.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;df_relationships_clean = df_relationships_clean.dropna(axis=0)
+df_conf_clean = df_conf_clean.dropna(axis=0)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Ensure only posts with &lt;code&gt;selftext&lt;/code&gt; more than 10 words are selected.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;df_relationships_clean [&#39;selftext_len&#39;] = df_relationships_clean .selftext.map(lambda x: len(x.split()))
+df_relationships_clean  = df_relationships_clean [df_relationships_clean .selftext_len &amp;gt; 10]
+df_conf_clean[&#39;selftext_len&#39;] = df_conf_clean.selftext.map(lambda x: len(x.split()))
+df_conf_clean = df_conf_clean[df_conf_clean.selftext_len &amp;gt; 10]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Next, we drop our duplicates:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;df_relationships_clean.drop_duplicates(inplace=True)
+df_conf_clean.drop_duplicates(inplace=True)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;displaying-our-class-balances-after-dropping-the-rows&#34;&gt;Displaying our class balances after dropping the rows:&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;display(df_relationships_clean.count())
+display(df_conf_clean.count())
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;For &lt;code&gt;relationships&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;title           2925
+selftext        2925
+subreddit       2925
+author          2925
+selftext_len    2925
+dtype: int64
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;For &lt;code&gt;confessions&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;title           3893
+selftext        3893
+subreddit       3893
+author          3893
+selftext_len    3893
+dtype: int64
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Seeing that a value of 2900 is the limiting number, we randomly select 2900 entries from both sets.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;subset_relationships_clean = df_relationships_clean.sample(n=2900,random_state=666)
+subset_conf_clean = df_conf_clean.sample(n=2900,random_state=666)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;class-balance&#34;&gt;Class Balance&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# combine both subsets into a DF
+df_pre = subset_relationships_clean.append(subset_conf_clean,ignore_index=True)
+df_pre.subreddit.value_counts(normalize=True)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;target-encoding&#34;&gt;Target Encoding&lt;/h2&gt;
+&lt;p&gt;We then perform an encoding of our target : 1 corresponds to posts of type &lt;code&gt;confessions&lt;/code&gt; while 0 corresponds to posts of type &lt;code&gt;relationships&lt;/code&gt;.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# create target class columns 0 = relationships, 1 = confessions - encoding
+
+df_pre[&#39;label&#39;] = df_pre.subreddit.map({&#39;relationships&#39;:0,&#39;confessions&#39;:1}).astype(&#39;int&#39;)
+df_pre.head()
+&lt;/code&gt;&lt;/pre&gt;
+&lt;div&gt;
+&lt;style scoped&gt;
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+&lt;pre&gt;&lt;code&gt;.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/style&gt;&lt;/p&gt;
+&lt;table border=&#34;1&#34; class=&#34;dataframe&#34;&gt;
+  &lt;thead&gt;
+    &lt;tr style=&#34;text-align: right;&#34;&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;title&lt;/th&gt;
+      &lt;th&gt;selftext&lt;/th&gt;
+      &lt;th&gt;subreddit&lt;/th&gt;
+      &lt;th&gt;author&lt;/th&gt;
+      &lt;th&gt;selftext_len&lt;/th&gt;
+      &lt;th&gt;label&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th&gt;0&lt;/th&gt;
+      &lt;td&gt;I (F18) am questioning the intentions of a ran...&lt;/td&gt;
+      &lt;td&gt;My lovely (quite attractive) new boyfriend (M1...&lt;/td&gt;
+      &lt;td&gt;relationships&lt;/td&gt;
+      &lt;td&gt;boterbabbelaartje&lt;/td&gt;
+      &lt;td&gt;334&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;1&lt;/th&gt;
+      &lt;td&gt;Jealousy&lt;/td&gt;
+      &lt;td&gt;My boyfriend(29m) and I(30f) have been togethe...&lt;/td&gt;
+      &lt;td&gt;relationships&lt;/td&gt;
+      &lt;td&gt;taramarie87&lt;/td&gt;
+      &lt;td&gt;103&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;2&lt;/th&gt;
+      &lt;td&gt;I [28F] wants sex all the time. I&#39;ve made this...&lt;/td&gt;
+      &lt;td&gt;Lately, I&#39;ve been wanting more sex. To have se...&lt;/td&gt;
+      &lt;td&gt;relationships&lt;/td&gt;
+      &lt;td&gt;missionblueberry&lt;/td&gt;
+      &lt;td&gt;236&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;3&lt;/th&gt;
+      &lt;td&gt;I [32m] am having issues with jealousy with my...&lt;/td&gt;
+      &lt;td&gt;Hooo boy. Here we go. \n\nMy wife and I have b...&lt;/td&gt;
+      &lt;td&gt;relationships&lt;/td&gt;
+      &lt;td&gt;dcsrm&lt;/td&gt;
+      &lt;td&gt;438&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;4&lt;/th&gt;
+      &lt;td&gt;Is my girlfriend into wedgies?&lt;/td&gt;
+      &lt;td&gt;My girlfriend (F 21yrs old) and I (M 32yrs old...&lt;/td&gt;
+      &lt;td&gt;relationships&lt;/td&gt;
+      &lt;td&gt;davidsardinas36&lt;/td&gt;
+      &lt;td&gt;73&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;h3 id=&#34;cleaning-function&#34;&gt;Cleaning Function&lt;/h3&gt;
+&lt;p&gt;Ensure formatting of text by:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Converting all to lower cases&lt;/li&gt;
+&lt;li&gt;removing groups of words in parentheses&lt;/li&gt;
+&lt;li&gt;remove line breaks&lt;/li&gt;
+&lt;li&gt;removing special characters&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;We encapsulate this cleaning into the function &lt;code&gt;clean_text&lt;/code&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# convert the stop words to a set.
+stops = set(stopwords.words(&#39;english&#39;))
+
+def clean_text(text):
+    #01 convert titles, selftext into lowercase
+    lower_text = text.lower()
+    #02 remove brackets and parenthesis from the title and selftext.
+    no_br_paret_text = re.sub(r&#39;\(.+?\)|\[.+?\]&#39;,&#39; &#39;,str(lower_text))
+    #03 remove special characters
+    removed_special = re.sub(r&#39;[^0-9a-zA-Z ]+&#39;,&#39; &#39;,str(no_br_paret_text))
+    #04 remove xamp200b
+    remove_xamp200b = re.sub(r&#39;ampx200b&#39;,&#39; &#39;,str(removed_special))
+    #05 remove digits
+    result = re.sub(r&#39;\d+&#39;, &#39;&#39;, remove_xamp200b).split()
+    #06 split into individual words
+    meaningful_words = [w for w in result if not w in stops]
+    
+    #07 Join the words back into one string separated by space, 
+    # and return the result.
+    return(&amp;quot; &amp;quot;.join(meaningful_words))
+
+df[[&#39;title&#39;,&#39;selftext&#39;]] = df_pre[[&#39;title&#39;,&#39;selftext&#39;]].applymap(clean_text)
+df.head()
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;A sample of our pre-cleaned data:&lt;/p&gt;
+&lt;div&gt;
+&lt;style scoped&gt;
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+&lt;pre&gt;&lt;code&gt;.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/style&gt;&lt;/p&gt;
+&lt;table border=&#34;1&#34; class=&#34;dataframe&#34;&gt;
+  &lt;thead&gt;
+    &lt;tr style=&#34;text-align: right;&#34;&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;title&lt;/th&gt;
+      &lt;th&gt;selftext&lt;/th&gt;
+      &lt;th&gt;subreddit&lt;/th&gt;
+      &lt;th&gt;author&lt;/th&gt;
+      &lt;th&gt;selftext_len&lt;/th&gt;
+      &lt;th&gt;label&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th&gt;0&lt;/th&gt;
+      &lt;td&gt;questioning intentions random new girl asked b...&lt;/td&gt;
+      &lt;td&gt;lovely new boyfriend told girl cig outside sch...&lt;/td&gt;
+      &lt;td&gt;relationships&lt;/td&gt;
+      &lt;td&gt;boterbabbelaartje&lt;/td&gt;
+      &lt;td&gt;334&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;1&lt;/th&gt;
+      &lt;td&gt;jealousy&lt;/td&gt;
+      &lt;td&gt;boyfriend together almost years two beautiful ...&lt;/td&gt;
+      &lt;td&gt;relationships&lt;/td&gt;
+      &lt;td&gt;taramarie87&lt;/td&gt;
+      &lt;td&gt;103&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;2&lt;/th&gt;
+      &lt;td&gt;wants sex time made known whose&lt;/td&gt;
+      &lt;td&gt;lately wanting sex sex time bit back story rel...&lt;/td&gt;
+      &lt;td&gt;relationships&lt;/td&gt;
+      &lt;td&gt;missionblueberry&lt;/td&gt;
+      &lt;td&gt;236&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;3&lt;/th&gt;
+      &lt;td&gt;issues jealousy wife stage acting&lt;/td&gt;
+      &lt;td&gt;hooo boy go wife married years coming ups down...&lt;/td&gt;
+      &lt;td&gt;relationships&lt;/td&gt;
+      &lt;td&gt;dcsrm&lt;/td&gt;
+      &lt;td&gt;438&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;4&lt;/th&gt;
+      &lt;td&gt;girlfriend wedgies&lt;/td&gt;
+      &lt;td&gt;girlfriend together months used phone look som...&lt;/td&gt;
+      &lt;td&gt;relationships&lt;/td&gt;
+      &lt;td&gt;davidsardinas36&lt;/td&gt;
+      &lt;td&gt;73&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;h2 id=&#34;post-cleaning&#34;&gt;Post Cleaning&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;pd.DataFrame(data=zip(df_pre[&#39;selftext&#39;],df[&#39;selftext&#39;]),columns=[&#39;pre&#39;,&#39;post&#39;]).head(5)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;div&gt;
+&lt;style scoped&gt;
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+&lt;pre&gt;&lt;code&gt;.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/style&gt;&lt;/p&gt;
+&lt;table border=&#34;1&#34; class=&#34;dataframe&#34;&gt;
+  &lt;thead&gt;
+    &lt;tr style=&#34;text-align: right;&#34;&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;pre&lt;/th&gt;
+      &lt;th&gt;post&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th&gt;0&lt;/th&gt;
+      &lt;td&gt;My lovely (quite attractive) new boyfriend (M1...&lt;/td&gt;
+      &lt;td&gt;lovely new boyfriend told girl cig outside sch...&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;1&lt;/th&gt;
+      &lt;td&gt;My boyfriend(29m) and I(30f) have been togethe...&lt;/td&gt;
+      &lt;td&gt;boyfriend together almost years two beautiful ...&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;2&lt;/th&gt;
+      &lt;td&gt;Lately, I&#39;ve been wanting more sex. To have se...&lt;/td&gt;
+      &lt;td&gt;lately wanting sex sex time bit back story rel...&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;3&lt;/th&gt;
+      &lt;td&gt;Hooo boy. Here we go. \n\nMy wife and I have b...&lt;/td&gt;
+      &lt;td&gt;hooo boy go wife married years coming ups down...&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;4&lt;/th&gt;
+      &lt;td&gt;My girlfriend (F 21yrs old) and I (M 32yrs old...&lt;/td&gt;
+      &lt;td&gt;girlfriend together months used phone look som...&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;h2 id=&#34;data-exploration&#34;&gt;Data Exploration&lt;/h2&gt;
+&lt;p&gt;Split title and self text into two classifiers where the output of title_classifier and self_text classifier would provide indication of which subreddit the posts belong to.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;#split titles, and self text into seperate df
+
+df_title = df[[&#39;title&#39;,&#39;label&#39;]]
+df_selftext = df[[&#39;selftext&#39;,&#39;label&#39;]]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def get_freq_words(sparse_counts, columns):
+    # X_all is a sparse matrix, so sum() returns a &#39;matrix&#39; datatype ...
+    #   which we then convert into a 1-D ndarray for sorting
+    word_counts = np.asarray(sparse_counts.sum(axis=0)).reshape(-1)
+
+    # argsort() returns smallest first, so we reverse the result
+    largest_count_indices = word_counts.argsort()[::-1]
+
+    # pretty-print the results! Remember to always ask whether they make sense ...
+    freq_words = pd.Series(word_counts[largest_count_indices], 
+                           index=columns[largest_count_indices])
+
+    return freq_words
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# Let&#39;s use the CountVectorizer to count words for us for each class
+
+# create mask
+
+X_1 = df_selftext[df_selftext[&#39;label&#39;] == 1]
+X_0 = df_selftext[df_selftext[&#39;label&#39;] == 0]
+
+cvt      =  CountVectorizer(ngram_range=(1,1),stop_words=&#39;english&#39;)
+X_1_all    =  cvt.fit_transform(X_1[&#39;selftext&#39;])
+X_0_all    =  cvt.fit_transform(X_0[&#39;selftext&#39;])
+columns_1  =  np.array(cvt.get_feature_names())          # ndarray (for indexing below)
+columns_0  =  np.array(cvt.get_feature_names())    
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;freq_words_1 = get_freq_words(X_1_all, columns_1)
+freq_words_0 = get_freq_words(X_0_all, columns_0)
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;print(&#39;Confessions:&#39;)
+display(freq_words_1[:10])
+print(&amp;quot;\n&amp;quot;)
+print(&#39;Relationships:&#39;)
+display(freq_words_0[:10])
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Here are some key words that appear in the Confessions data set - which would mean that the words &lt;code&gt;landlord&lt;/code&gt;,&lt;code&gt;jeopardise&lt;/code&gt;, etc. would make it more than likely for the post to be of &lt;code&gt;confessions&lt;/code&gt; class.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Confessions:
+
+landlord       3063
+msg            2325
+jeopardise     1979
+teachings      1721
+eyes           1674
+pur            1506
+user           1438
+overworking    1405
+generic        1133
+lacking        1109
+dtype: int64
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Same for &lt;code&gt;relationships&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Relationships:
+
+like            6690
+time            4761
+know            4694
+want            4630
+really          4235
+feel            4000
+relationship    3744
+said            3245
+things          3070
+told            2999
+dtype: int64
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;data-modeling&#34;&gt;Data Modeling&lt;/h2&gt;
+&lt;h3 id=&#34;train-test-split&#34;&gt;Train Test Split&lt;/h3&gt;
+&lt;p&gt;Here, we start with our model development. Before that, we perform a train/test split to ensure that we can validate our model performance.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;X_text = df_selftext[&#39;selftext&#39;]
+y_text = df_selftext[&#39;label&#39;]
+
+X_text_train, X_text_test, y_text_train, y_text_test = train_test_split(X_text,y_text,stratify=y_text) 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;model-playground&#34;&gt;Model Playground&lt;/h3&gt;
+&lt;p&gt;We create the class &lt;code&gt;LemmaTokenizer&lt;/code&gt; to do both lemmatize each word of each entry. I.e. given a list of words, we 
+&lt;a href=&#34;https://nlp.stanford.edu/IR-book/html/htmledition/stemming-and-lemmatization-1.html&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;lemmatize&lt;/a&gt;
+ each word.&lt;/p&gt;
+&lt;p&gt;Firstly, we try the Naive Bayes model - MultinomialNB as there are multiple nominal features in the form of the various tokens.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;classifiers = []
+vectorizers = [(&#39;cvec&#39;, CountVectorizer(stop_words=&#39;english&#39;,tokenizer=LemmaTokenizer())),
+              (&#39;tfvec&#39;, TfidfVectorizer(stop_words=&#39;english&#39;,tokenizer=LemmaTokenizer()))]
+
+for vectorizer in vectorizers:
+    bayes_pipe = Pipeline([
+            (vectorizer),
+            (&#39;mnb&#39;, MultinomialNB())
+        ])
+    scores = cross_val_score(bayes_pipe, X_text_train, y_text_train,cv=5,verbose=1)
+    b = bayes_pipe.fit(X_text_train, y_text_train)
+    y_pred = b.predict(X_text_test)
+    print(classification_report(y_text_test, y_pred, target_names=[&#39;class 0&#39;,&#39;class 1&#39;]))
+    print(&#39;Cross val score for mnb classifier using {} vectorizer is {}&#39;.format(vectorizer[0],scores))
+    print(&#39;Accuracy score for mnb classifier using {} vectorizer is {}&#39;.format(vectorizer[0],bayes_pipe.score(X_text_test, y_text_test)))
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;              precision    recall  f1-score   support
+
+     class 0       0.77      0.95      0.85       725
+     class 1       0.93      0.71      0.81       725
+
+    accuracy                           0.83      1450
+   macro avg       0.85      0.83      0.83      1450
+weighted avg       0.85      0.83      0.83      1450
+
+Cross val score for mnb classifier using cvec vectorizer is [0.80114943 0.80689655 0.86321839 0.81724138 0.79770115]
+Accuracy score for mnb classifier using cvec vectorizer is 0.8289655172413793
+
+
+              precision    recall  f1-score   support
+
+     class 0       0.65      0.99      0.78       725
+     class 1       0.98      0.46      0.63       725
+
+    accuracy                           0.73      1450
+   macro avg       0.82      0.73      0.71      1450
+weighted avg       0.82      0.73      0.71      1450
+
+Cross val score for mnb classifier using tfvec vectorizer is [0.71149425 0.70689655 0.74712644 0.73448276 0.7045977 ]
+Accuracy score for mnb classifier using tfvec vectorizer is 0.7282758620689656
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Thus the recall scores for multinomial NB with countvectorizer seems to provide higher recall when compared to the tfidf vectorizer.&lt;/p&gt;
+&lt;p&gt;In the meantime, we create a function to encapsulate our evaluation process such that it returns only the false positive rate and true positive rate with a &lt;code&gt;sklearn&lt;/code&gt; processing pipeline.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# store predicted_proba scores for later evaluation under ROC curve
+def generate_roc(pipeline):
+
+    b = pipeline.fit(X_text_train, y_text_train)
+    print(f&amp;quot;Train Score:{round(b.score(X_text_train, y_text_train),2)} / Test Score {round(b.score(X_text_test, y_text_test),2)}&amp;quot;)
+    fpr, tpr, _ = roc_curve(y_text_test, b.predict_proba(X_text_test)[:,1],pos_label=1)
+    
+    return [fpr,tpr]
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Rewriting the CountVectorizer Naive Bayes and TF-IDF Naive Bayes into their respective pipelines:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;cv_bayes_pipe = Pipeline([
+            (vectorizers[0]),
+            (&#39;mnb&#39;, MultinomialNB())
+        ])
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;tfidf_bayes_pipe = Pipeline([
+            (vectorizers[1]),
+            (&#39;mnb&#39;, MultinomialNB())
+        ])
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;pipeline-for-logistic-regression-baseline&#34;&gt;Pipeline for Logistic Regression Baseline&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;pipe = Pipeline([
+    (&#39;cvec&#39;, CountVectorizer(stop_words=&#39;english&#39;,tokenizer=LemmaTokenizer())),
+    (&#39;lr&#39;, LogisticRegression(solver=&#39;saga&#39;,max_iter=300))
+])
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4 id=&#34;obtain-hyperparameters-for-our-vectorizer-and-logistic-regressor&#34;&gt;Obtain hyperparameters for our vectorizer and logistic regressor.&lt;/h4&gt;
+&lt;p&gt;We can use a grid search to find the optimal hyperparameters for our pipelines:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;pipe_params = {
+    &#39;cvec__max_features&#39;: [2500, 3000, 3500],
+    &#39;cvec__ngram_range&#39;: [(1,1), (1,2)],
+    &#39;lr__penalty&#39; : [&#39;elasticnet&#39;],
+    &#39;lr__C&#39; : np.arange(0.1,1,0.1),
+    &#39;lr__l1_ratio&#39; : np.arange(0,1.1,0.2)
+}
+
+gs = GridSearchCV(pipe, param_grid=pipe_params, cv=5,verbose=1,n_jobs=-1)
+gs.fit(X_text_train, y_text_train)
+print(gs.best_score_)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;0.9154022988505747
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;gs.best_params_
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;{&#39;cvec__max_features&#39;: 2500,
+ &#39;cvec__ngram_range&#39;: (1, 1),
+ &#39;lr__C&#39;: 0.1,
+ &#39;lr__l1_ratio&#39;: 1.0,
+ &#39;lr__penalty&#39;: &#39;elasticnet&#39;}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The best score for our logistic regression pipeline:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;gs.best_estimator_.score(X_text_test,y_text_test)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;0.9186206896551724
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Using the hyperparameters:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# try model on title
+optimal_pipe = Pipeline([
+            (&#39;cvec&#39;, CountVectorizer(tokenizer=LemmaTokenizer(),max_features=2500,ngram_range=(1,1))),
+            (&#39;lr&#39;, LogisticRegression(solver=&#39;saga&#39;,max_iter=300,C=0.1,l1_ratio=1.0,penalty=&#39;elasticnet&#39;))
+        ])
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;X_title = df_title[&#39;title&#39;]
+y_title = df_title[&#39;label&#39;]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;optimal_pipe.fit(X_text_train, y_text_train)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We try the model on our &lt;code&gt;title&lt;/code&gt; dataset to obtain the accuracy of the model to classify the subreddit from titles alone.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;y_logr_pred = optimal_pipe.predict(X_text_test)
+print(classification_report(y_text_test, y_logr_pred, target_names=[&#39;class 0&#39;,&#39;class 1&#39;]))
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;              precision    recall  f1-score   support
+
+     class 0       0.55      1.00      0.71       725
+     class 1       0.99      0.18      0.31       725
+
+    accuracy                           0.59      1450
+   macro avg       0.77      0.59      0.51      1450
+weighted avg       0.77      0.59      0.51      1450
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Next, we explore the use tfidfvectorizer instead of countvectorizer to account for document similarity&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;tfidf_pipe = Pipeline([
+    (&#39;tfvec&#39;, TfidfVectorizer(stop_words=&#39;english&#39;,tokenizer=LemmaTokenizer())),
+    (&#39;lr&#39;, LogisticRegression(solver=&#39;saga&#39;,max_iter=300))
+])
+
+tfidf_params = {
+    &#39;tfvec__max_features&#39;: [2500, 3000, 3500],
+    &#39;tfvec__ngram_range&#39;: [(1,1), (1,2)],
+    &#39;lr__penalty&#39; : [&#39;elasticnet&#39;],
+    &#39;lr__C&#39; : np.arange(0.1,1,0.1),
+    &#39;lr__l1_ratio&#39; : np.arange(0,1.1,0.2)
+}
+
+gs = GridSearchCV(tfidf_pipe, param_grid=tfidf_params, cv=3,verbose=1,n_jobs=-1)
+gs.fit(X_text_train, y_text_train)
+print(gs.best_score_)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;0.9183908045977012
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;It seems that tfidf vectorizer performs best with the logistic regression model.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;tfidf_best_pipe = Pipeline([
+    (&#39;tfvec&#39;, TfidfVectorizer(max_features=3500,ngram_range=(1,1),stop_words=&#39;english&#39;,tokenizer=LemmaTokenizer())),
+    (&#39;lr&#39;, LogisticRegression(solver=&#39;saga&#39;,max_iter=300,C=0.9,l1_ratio=1.0,penalty=&#39;elasticnet&#39;))
+])
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# test model against test text data and rest of titles
+y_text_tfidf_pred = gs.best_estimator_.predict(X_text_test)
+y_title_tfidf_pred = gs.best_estimator_.predict(X_title)
+print(&amp;quot;Text Report (results based on test data) \n&amp;quot; + 
+      classification_report(y_text_test, y_text_tfidf_pred, target_names=[&#39;class 0&#39;,&#39;class 1&#39;]))
+print(&amp;quot;Titles (all titles) Report \n&amp;quot; + 
+      classification_report(y_title, y_title_tfidf_pred, target_names=[&#39;class 0&#39;,&#39;class 1&#39;]))
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;Text Report (results based on test data) 
+              precision    recall  f1-score   support
+
+     class 0       0.93      0.91      0.92       725
+     class 1       0.91      0.94      0.92       725
+
+    accuracy                           0.92      1450
+   macro avg       0.92      0.92      0.92      1450
+weighted avg       0.92      0.92      0.92      1450
+
+Titles (all titles) Report 
+              precision    recall  f1-score   support
+
+     class 0       0.92      0.17      0.29      2900
+     class 1       0.54      0.98      0.70      2900
+
+    accuracy                           0.58      5800
+   macro avg       0.73      0.58      0.49      5800
+weighted avg       0.73      0.58      0.49      5800
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;While the optimised model with tfidf vectorizer performs remarkably well with high precision and recall, when used with the &lt;code&gt;titles&lt;/code&gt; dataset, we can see that that it is somewhat overfit, unable to classify the titles correctly.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# look at sample predictions
+
+pd.DataFrame(data=zip(X_text_test,y_text_test,y_text_tfidf_pred),columns=[&#39;text&#39;,&#39;actual&#39;,&#39;predicted&#39;]).head(5)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;div&gt;
+&lt;style scoped&gt;
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+&lt;pre&gt;&lt;code&gt;.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/style&gt;&lt;/p&gt;
+&lt;table border=&#34;1&#34; class=&#34;dataframe&#34;&gt;
+  &lt;thead&gt;
+    &lt;tr style=&#34;text-align: right;&#34;&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;text&lt;/th&gt;
+      &lt;th&gt;actual&lt;/th&gt;
+      &lt;th&gt;predicted&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th&gt;0&lt;/th&gt;
+      &lt;td&gt;title says watched porn since got nasty furry ...&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;1&lt;/th&gt;
+      &lt;td&gt;understand bad bad read lemon fanfic main vide...&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;2&lt;/th&gt;
+      &lt;td&gt;lovely quite attractive boyfriend met girl wee...&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;3&lt;/th&gt;
+      &lt;td&gt;dated briefly three months never turned someth...&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;4&lt;/th&gt;
+      &lt;td&gt;background dating almost years good many fight...&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;h2 id=&#34;model-evaluation--summary&#34;&gt;Model Evaluation &amp;amp; Summary&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;cv_log_roc = generate_roc(optimal_pipe)
+tfidf_log_roc = generate_roc(tfidf_best_pipe)
+cv_nb_roc = generate_roc(cv_bayes_pipe)
+tfidf_nb_roc = generate_roc(tfidf_bayes_pipe)
+tfidf_knn_roc = generate_roc(knn_best_pipe)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;Train Score:0.59 / Test Score 0.59
+Train Score:0.93 / Test Score 0.92
+Train Score:0.89 / Test Score 0.83
+Train Score:0.81 / Test Score 0.73
+Train Score:1.0 / Test Score 0.81
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# Evaluation
+
+roc_data ={
+    &#39;cv_nb&#39; : cv_nb_roc,
+    &#39;tfidf_nb_roc&#39; : tfidf_nb_roc,
+    &#39;cv_log_roc&#39; : cv_log_roc,
+    &#39;tfidf_log_roc&#39; : tfidf_log_roc,
+    &#39;tfidf_knn_roc&#39; : tfidf_knn_roc
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;#### Plot figure
+plt.figure(1,figsize=(10,5))
+plt.plot([0, 1], [0, 1], &#39;k--&#39;)
+for key,roc in roc_data.items():
+    plt.plot(roc[0], roc[1], label=key)
+plt.xlabel(&#39;Sensitivity&#39;)
+plt.ylabel(&#39;1 - Specificity&#39;)
+plt.title(&#39;ROC curve&#39;)
+plt.legend(loc=&#39;best&#39;)
+
+plt.savefig(&amp;quot;./img/roc_curve.png&amp;quot;,dpi=300)
+plt.show()
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;output_89_0.png&#34; alt=&#34;png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;crossvectorizer&lt;/code&gt; + &lt;code&gt;logistic regression&lt;/code&gt; model seems to perform similar to the &lt;code&gt;tfidf&lt;/code&gt; vectorizer and &lt;code&gt;logistic regression&lt;/code&gt; model. When looking at the accuracy score of all the models, the tfidf+ logistic regression model performs the best with an accuracy of 92% in terms of predicting if the selftext is either an r/confessions or r/relationships post.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

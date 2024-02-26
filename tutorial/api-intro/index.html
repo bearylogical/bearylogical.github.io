@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="Source Themes Academic 4.7.0">
+
+  
+
+  
+  
+  
+  
+  
+    
+    
+    
+  
+  
+
+  <meta name="author" content="Syamil Maulod">
+
+  
+  
+  
+    
+  
+  <meta name="description" content="Carpark Availability Analysis Problem Statement Every Friday in Singapore, close to 260,000 Male Muslims 1 converge on the 75 mosques to perform their weekly obligatory Friday Prayers much like how Christians have their weekend services.
+The prayers are usually performed during 1-2pm, and in some areas, this can result in congestion as Motorists vie for limited parking spots. This notebook will look at available carpark data of a particular location - Stirling Road - which is situated near the Mujahidin Mosque 2 to understand the congestion timings for preliminary understanding of the congestion.">
+
+  
+  <link rel="alternate" hreflang="en-us" href="/tutorial/api-intro/">
+
+  
+
+
+  
+  
+  
+  <meta name="theme-color" content="#2962ff">
+  
+
+  
+  
+
+  
+  
+  
+  
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css" integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-1/css/all.min.css" integrity="sha256-4w9DunooKSr3MFXHXWyFER38WmPdm361bQS/2KUWZbU=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+    
+    
+    
+      
+    
+    
+      
+      
+        
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/github.min.css" crossorigin="anonymous" title="hl-light">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark" disabled>
+        
+      
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.5.1/leaflet.css" integrity="sha256-SHMGCYmST46SoyGgo4YR/9AlK1vf3ff84Aq9yK4hdqM=" crossorigin="anonymous">
+    
+
+    
+
+    
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.1.2/lazysizes.min.js" integrity="sha256-Md1qLToewPeKjfAHU1zyPwOutccPAm5tahnaw7Osw0A=" crossorigin="anonymous" async></script>
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+        
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7CRoboto:400,400italic,700%7CRoboto+Mono&display=swap">
+  
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="/css/academic.css">
+
+  
+
+
+
+
+  
+
+
+  
+
+  <link rel="manifest" href="/index.webmanifest">
+  <link rel="icon" type="image/png" href="/images/icon_hu914c65fc3408b2ad669c7753418c6144_392_32x32_fill_lanczos_center_2.png">
+  <link rel="apple-touch-icon" type="image/png" href="/images/icon_hu914c65fc3408b2ad669c7753418c6144_392_192x192_fill_lanczos_center_2.png">
+
+  <link rel="canonical" href="/tutorial/api-intro/">
+
+  
+  
+  
+  
+  
+    
+    
+  
+  
+  <meta property="twitter:card" content="summary">
+  
+  <meta property="og:site_name" content="Syamil Maulod">
+  <meta property="og:url" content="/tutorial/api-intro/">
+  <meta property="og:title" content="Using GovTech WebAPIs  | Syamil Maulod">
+  <meta property="og:description" content="Carpark Availability Analysis Problem Statement Every Friday in Singapore, close to 260,000 Male Muslims 1 converge on the 75 mosques to perform their weekly obligatory Friday Prayers much like how Christians have their weekend services.
+The prayers are usually performed during 1-2pm, and in some areas, this can result in congestion as Motorists vie for limited parking spots. This notebook will look at available carpark data of a particular location - Stirling Road - which is situated near the Mujahidin Mosque 2 to understand the congestion timings for preliminary understanding of the congestion."><meta property="og:image" content="img/map[gravatar:%!s(bool=false) shape:circle]">
+  <meta property="twitter:image" content="img/map[gravatar:%!s(bool=false) shape:circle]"><meta property="og:locale" content="en-us">
+  
+    
+      <meta property="article:published_time" content="2019-08-05T00:00:00&#43;00:00">
+    
+    <meta property="article:modified_time" content="2019-08-05T00:00:00&#43;00:00">
+  
+
+  
+
+
+
+  
+
+
+  
+
+
+  
+
+
+
+
+
+  <title>Using GovTech WebAPIs  | Syamil Maulod</title>
+
+</head>
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" >
+
+  <aside class="search-results" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        <input name="q" id="search-query" placeholder="Search..." autocapitalize="off"
+        autocomplete="off" autocorrect="off" spellcheck="false" type="search">
+        
+      </div>
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+  
+
+
+
+
+
+
+
+<nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="d-none d-lg-inline-flex">
+      <a class="navbar-brand" href="/">Syamil Maulod</a>
+    </div>
+    
+
+    
+    <button type="button" class="navbar-toggler" data-toggle="collapse"
+            data-target="#navbar-content" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+    <span><i class="fas fa-bars"></i></span>
+    </button>
+    
+
+    
+    <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
+      <a class="navbar-brand" href="/">Syamil Maulod</a>
+    </div>
+    
+
+    
+    
+    <div class="navbar-collapse main-menu-item collapse justify-content-start" id="navbar-content">
+
+      
+      <ul class="navbar-nav d-md-inline-flex">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#about"><span>Home</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#posts"><span>Posts</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#projects"><span>Projects</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link  active" href="/tutorial/"><span>Tutorials</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#contact"><span>Contact</span></a>
+        </li>
+
+        
+        
+
+      
+
+        
+      </ul>
+    </div>
+
+    <ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2">
+      
+      <li class="nav-item">
+        <a class="nav-link js-search" href="#"><i class="fas fa-search" aria-hidden="true"></i></a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="nav-link js-dark-toggle" href="#"><i class="fas fa-moon" aria-hidden="true"></i></a>
+      </li>
+      
+
+      
+
+    </ul>
+
+  </div>
+</nav>
+
+
+  
+
+<div class="container-fluid docs">
+  <div class="row flex-xl-nowrap">
+    <div class="col-12 col-md-3 col-xl-2 docs-sidebar">
+      
+
+
+
+
+
+  
+    
+  
+
+
+
+
+<form class="docs-search d-flex align-items-center">
+  <button class="btn docs-toggle d-md-none p-0 mr-3" type="button" data-toggle="collapse" data-target="#docs-nav" aria-controls="docs-nav" aria-expanded="false" aria-label="Toggle section navigation">
+    <span><i class="fas fa-bars"></i></span>
+  </button>
+
+  
+  <input name="q" type="search" class="form-control" placeholder="Search..." autocomplete="off">
+  
+</form>
+
+<nav class="collapse docs-links" id="docs-nav">
+  
+
+  
+  
+  
+  
+  <div class="docs-toc-item">
+    <a class="docs-toc-link" href="/tutorial/">Overview</a>
+
+  </div>
+  
+  <div class="docs-toc-item">
+    <a class="docs-toc-link" href="/tutorial/api-intro/">Python</a>
+    <ul class="nav docs-sidenav">
+      
+      <li class="active">
+        <a href="/tutorial/api-intro/">Query Govtech APIs</a>
+      </li>
+      
+      <li >
+        <a href="/tutorial/py-viz/">Visualisations Repository</a>
+      </li>
+      
+    </ul>
+    
+
+  </div>
+  
+  
+</nav>
+
+    </div>
+
+    
+    <div class="d-none d-xl-block col-xl-2 docs-toc">
+      <ul class="nav toc-top">
+        <li><a href="#" id="back_to_top" class="docs-toc-title">Contents</a></li>
+      </ul>
+
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#problem-statement">Problem Statement</a></li>
+    <li><a href="#outline">Outline</a></li>
+    <li><a href="#import-libraries">Import Libraries</a></li>
+    <li><a href="#get-parking-data">Get Parking Data</a></li>
+    <li><a href="#create-function-to-get-data">Create function to get data</a></li>
+    <li><a href="#get-historical-cp-data">Get historical CP Data</a></li>
+    <li><a href="#reading-in-file">Reading in File</a></li>
+    <li><a href="#visualise-data">Visualise Data</a></li>
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+
+      
+    </div>
+    
+
+    <main class="col-12 col-md-9 col-xl-8 py-md-3 pl-md-5 docs-content" role="main">
+
+      <article class="article">
+
+        <div class="docs-article-container">
+          <h1>Using GovTech WebAPIs </h1>
+
+          <div class="article-style">
+            <h1 id="carpark-availability-analysis">Carpark Availability Analysis</h1>
+<h2 id="problem-statement">Problem Statement</h2>
+<p>Every Friday in Singapore, close to 260,000 Male Muslims <sup>1</sup> converge on the 75 mosques to perform their weekly obligatory Friday Prayers much like how Christians have their weekend services.</p>
+<p>The prayers are usually performed during 1-2pm, and in some areas, this can result in congestion as Motorists vie for limited parking spots. This notebook will look at available carpark data of a particular location - Stirling Road - which is situated near the Mujahidin Mosque <sup>2</sup> to understand the congestion timings for preliminary understanding of the congestion.</p>
+<h2 id="outline">Outline</h2>
+<p>In this example, we will look at the following:</p>
+<ol>
+<li>Creating functions in <code>Python</code></li>
+<li>Using the <code>Requests</code> Library to call web APIs</li>
+<li>Reading/Writing data from/to CSVs using <code>Pandas</code></li>
+<li>Plotting timeseries data in <code>Pandas</code></li>
+<li>Visualising timeseries data using <code>Seaborn</code> and <code>Matplotlib</code></li>
+</ol>
+<h2 id="import-libraries">Import Libraries</h2>
+<p>First, we import libraries needed for this analysis. Below is a table that explains why the libraries are required for our mini project.</p>
+<table>
+<thead>
+<tr>
+<th>Library</th>
+<th>Function</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>requests</td>
+<td>Query Data.gov.sg Realtime Carpark API</td>
+</tr>
+<tr>
+<td>datetime</td>
+<td>Create Datetime objects to filter date</td>
+</tr>
+<tr>
+<td>json</td>
+<td>convert request data into json object to apply data transformations</td>
+</tr>
+<tr>
+<td>pandas</td>
+<td>Create DataFrames to store and transform data</td>
+</tr>
+<tr>
+<td>numpy</td>
+<td>required library for Pandas</td>
+</tr>
+<tr>
+<td>matplotlib</td>
+<td>For Data Visualisations</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-python">import requests
+import datetime
+import json
+
+import pandas as pd
+import numpy as np
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+</code></pre>
+<h2 id="get-parking-data">Get Parking Data</h2>
+<p>To get the parking data, we query the carpark availability from the data.gov.sg api as shown below. The api requires a payload where we input in a datetime string to get the data we want.</p>
+<pre><code class="language-python">ROOT = 'https://api.data.gov.sg/v1'
+URI = '/transport/carpark-availability'
+
+now = datetime.datetime.now()
+current_dt = now.isoformat() 
+print(current_dt)
+payload = {'date_time': current_dt}
+r = requests.get(ROOT + URI, params=payload)
+</code></pre>
+<pre><code>2019-08-06T00:00:11.741964
+</code></pre>
+<p>In the examples below, we will be largely looking at two key parking locations. You may want to obtain parking locations from 
+<a href="https://data.gov.sg/dataset/hdb-carpark-information" target="_blank" rel="noopener">here</a>
+ to get the carparks you want.</p>
+<p>Q14 : BLK 49 STIRLING RD <br>
+Q15 : BLK 41/48 STIRLING RD <br>
+Q16 : BLK 45 AND 50 STIRLING RD <br>
+Q17 : BLK 52 STIRLING RD</p>
+<h2 id="create-function-to-get-data">Create function to get data</h2>
+<pre><code class="language-python">template = pd.DataFrame(columns=['total_lots','lot_type','lots_available','carpark_number','update_time','request_time'])
+loaded_df = template
+</code></pre>
+<pre><code class="language-python">def get_cp_data():
+    
+    ## load file
+    loads = pd.read_csv('data.csv')
+    
+    ROOT = 'https://api.data.gov.sg/v1'
+    URI = '/transport/carpark-availability'
+
+    now = datetime.datetime.now()
+    current_dt = now.isoformat()
+    
+    payload = {'date_time': current_dt}
+    r = requests.get(ROOT + URI, params=payload)
+    
+    filter_cp  = ['Q14', 'Q15', 'Q16', 'Q17']
+    
+    data = json.loads(r.text)['items'][0]['carpark_data']
+    
+    filtered_data = [carpark for carpark in data if carpark['carpark_number'] in filter_cp]
+    
+    template_dict = {
+        'total_lots' : 9999,
+        'lot_type' : 'NA',
+        'lots_available' : 9999,
+        'carpark_number' : 'NA',
+        'update_time' : 'NA',
+        'request_time' : 'NA'
+    }
+    
+    for item in filtered_data:
+        for info in item['carpark_info']:
+            template_dict['total_lots'] = info['total_lots']
+            template_dict['lot_type'] = info['lot_type']
+            template_dict['lots_available'] = info['lots_available']
+            template_dict['carpark_number'] = item['carpark_number']
+            template_dict['update_time'] = item['update_datetime']
+            template_dict['request_time'] = current_dt
+            
+            loads = loads.append(template_dict, ignore_index=True)
+    
+    loads.drop_duplicates(['total_lots','lot_type','lots_available','carpark_number','update_time'],inplace=True)
+    loads.to_csv('data.csv',index=False)
+    
+    return loads
+</code></pre>
+<pre><code class="language-python">a = get_cp_data()
+</code></pre>
+<h2 id="get-historical-cp-data">Get historical CP Data</h2>
+<pre><code class="language-python">def get_historical_cp_data(time):
+    
+    ## load file
+    loads = pd.read_csv('parking-data.csv')
+    
+    ROOT = 'https://api.data.gov.sg/v1'
+    URI = '/transport/carpark-availability'
+    
+    payload = {'date_time': time}
+    r = requests.get(ROOT + URI, params=payload)
+    
+    filter_cp  = ['Q14', 'Q15', 'Q16', 'Q17']
+    
+    data = json.loads(r.text)['items'][0]['carpark_data']
+    
+    filtered_data = [carpark for carpark in data if carpark['carpark_number'] in filter_cp]
+    
+    template_dict = {
+        'total_lots' : 9999,
+        'lot_type' : 'NA',
+        'lots_available' : 9999,
+        'carpark_number' : 'NA',
+        'update_time' : 'NA',
+        'request_time' : 'NA'
+    }
+    
+    for item in filtered_data:
+        for info in item['carpark_info']:
+            template_dict['total_lots'] = info['total_lots']
+            template_dict['lot_type'] = info['lot_type']
+            template_dict['lots_available'] = info['lots_available']
+            template_dict['carpark_number'] = item['carpark_number']
+            template_dict['update_time'] = item['update_datetime']
+            template_dict['request_time'] = time
+            
+            loads = loads.append(template_dict, ignore_index=True)
+    
+    loads.drop_duplicates(['total_lots','lot_type','lots_available','carpark_number','update_time'],inplace=True)
+    loads.to_csv('parking-data.csv',index=False)
+    
+    return loads
+</code></pre>
+<p>Using the <code>get_historical_cp_data()</code> function, it takes in a datetime object and saves the data into a csv file <code>parking-data.csv</code>. We next use a for loop with time_steps of 10 minute intervals using Python&rsquo;s in-built <code>range</code> function to generate equally spaced intervals from 0 and 600minutes which is fed into the <code>datetime.timedelta</code> function with <code>minutes</code> argument.</p>
+<pre><code class="language-python">now = datetime.datetime.now()
+idx = 0 
+for time_step in range(0,600,10):
+    req_time_f = datetime.datetime.now() - datetime.timedelta(minutes=time_step)
+    req_time = req_time_f.isoformat() 
+    if idx % 20:
+        print(f&quot;{idx} : Getting data for {req_time}&quot;)
+    get_historical_cp_data(req_time)
+    idx += 1
+</code></pre>
+<pre><code>1 : Getting data for 2019-07-26T19:41:37.599284
+2 : Getting data for 2019-07-26T19:31:38.851572
+3 : Getting data for 2019-07-26T19:21:40.103910
+4 : Getting data for 2019-07-26T19:11:41.326232
+5 : Getting data for 2019-07-26T19:01:42.631916
+6 : Getting data for 2019-07-26T18:51:43.925971
+7 : Getting data for 2019-07-26T18:41:45.144224
+8 : Getting data for 2019-07-26T18:31:46.334172
+9 : Getting data for 2019-07-26T18:21:47.747885
+</code></pre>
+<h2 id="reading-in-file">Reading in File</h2>
+<pre><code class="language-python">hist_data = pd.read_csv('parking-data.csv')
+</code></pre>
+<h2 id="visualise-data">Visualise Data</h2>
+<p>First, we set <code>request_time</code> as the index of our dataframe. Then, we apply a filter such that we are only interested on the data between 9:15 am to 2.30pm.</p>
+<pre><code class="language-python">hist_data.set_index('request_time',inplace=True)
+</code></pre>
+<pre><code class="language-python">hist_data.index = hist_data.index.astype('datetime64[ns]')
+</code></pre>
+<pre><code class="language-python">filter_time = hist_data.between_time('11:15','15:30').sort_values(by='request_time')
+</code></pre>
+<pre><code class="language-python">filter_time.head(2)
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>total_lots</th>
+      <th>lot_type</th>
+      <th>lots_available</th>
+      <th>carpark_number</th>
+      <th>update_time</th>
+    </tr>
+    <tr>
+      <th>request_time</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2019-07-26 11:22:39.907290</th>
+      <td>0</td>
+      <td>H</td>
+      <td>0</td>
+      <td>Q16</td>
+      <td>2019-07-26T08:34:30</td>
+    </tr>
+    <tr>
+      <th>2019-07-26 11:22:39.907290</th>
+      <td>40</td>
+      <td>C</td>
+      <td>25</td>
+      <td>Q17</td>
+      <td>2019-07-26T08:34:35</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>We plot out two plots with two axis as we want to see how closely the update time and request time defers. To recap :</p>
+<ul>
+<li><code>request_time</code> is the input time that we request the API provides.</li>
+<li><code>update_time</code> is the time that the data in the API is recorded in data.gov.sg&rsquo;s database.</li>
+</ul>
+<p>We convert out <code>update_time</code> table which is in <code>str</code> format to the <code>datetime</code> format</p>
+<pre><code class="language-python">filter_time['update_time'] = filter_time['update_time'].astype('datetime64[ns]')
+filter_time['request_time'] = filter_time.index
+</code></pre>
+<p>Display the data:</p>
+<pre><code class="language-python">filter_time.head()
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>total_lots</th>
+      <th>lot_type</th>
+      <th>lots_available</th>
+      <th>carpark_number</th>
+      <th>update_time</th>
+      <th>request_time</th>
+    </tr>
+    <tr>
+      <th>request_time</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2019-07-26 11:22:39.907290</th>
+      <td>0</td>
+      <td>H</td>
+      <td>0</td>
+      <td>Q16</td>
+      <td>2019-07-26 08:34:30</td>
+      <td>2019-07-26 11:22:39.907290</td>
+    </tr>
+    <tr>
+      <th>2019-07-26 11:22:39.907290</th>
+      <td>40</td>
+      <td>C</td>
+      <td>25</td>
+      <td>Q17</td>
+      <td>2019-07-26 08:34:35</td>
+      <td>2019-07-26 11:22:39.907290</td>
+    </tr>
+    <tr>
+      <th>2019-07-26 11:22:39.907290</th>
+      <td>42</td>
+      <td>Y</td>
+      <td>0</td>
+      <td>Q17</td>
+      <td>2019-07-26 08:34:35</td>
+      <td>2019-07-26 11:22:39.907290</td>
+    </tr>
+    <tr>
+      <th>2019-07-26 11:22:39.907290</th>
+      <td>155</td>
+      <td>Y</td>
+      <td>0</td>
+      <td>Q16</td>
+      <td>2019-07-26 08:34:30</td>
+      <td>2019-07-26 11:22:39.907290</td>
+    </tr>
+    <tr>
+      <th>2019-07-26 11:22:39.907290</th>
+      <td>40</td>
+      <td>C</td>
+      <td>15</td>
+      <td>Q16</td>
+      <td>2019-07-26 08:34:30</td>
+      <td>2019-07-26 11:22:39.907290</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<pre><code class="language-python">#Create a subplot with 2 rows and 1 column
+fig, ax = plt.subplots(2,1,figsize=(15, 10))
+
+#Create a mask to select only lot Q16 and type 'C' (car)
+mask = (filter_time['2019-07-26']['carpark_number'] == 'Q16') &amp; (filter_time['2019-07-26']['lot_type'] == 'C')
+
+#Plot the first chart
+ax[0].axvline(x=pd.to_datetime('2019-07-26 12:00'), color='r', linestyle='--',clip_on=False)
+sns.lineplot(x='update_time',y='lots_available',data=filter_time[mask],ax=ax[0],label='lots_available')
+sns.lineplot(x='update_time',y='total_lots',data=filter_time[mask],ax=ax[0],label='total_lots')
+
+#Plot the second chart
+ax[1].axvline(x=pd.to_datetime('2019-07-26 12:00'), color='r', linestyle='--',clip_on=False)
+sns.lineplot(x='request_time',y='lots_available',data=filter_time[mask],ax=ax[1],label='lots_available')
+sns.lineplot(x='request_time',y='total_lots',data=filter_time[mask],ax=ax[1],label='total_lots')
+</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure>
+
+
+  <a data-fancybox="" href="/img/api_chart.png" >
+
+
+  <img src="/img/api_chart.png" alt=""  >
+</a>
+
+
+
+</figure>
+
+<p>From the visualisations, if we look at how the two charts overlay on each other, there is a time lag between the <code>update_time</code> and <code>request_time</code>. This means that we generally have to be mindful that the request time and update time don&rsquo;t give the same results. For example, when I request carpark availability at time 12 noon, i will get the data for approximately 9:30AM (first chart).</p>
+<p>Also, if we look at update time, we see that at approximately 12:30pm, on the first chart, carpark availability drops until after 2pm where it picks up again- which is typically at the end of service and people head back to work.</p>
+<h2 id="summary">Summary</h2>
+<p>In this walk through, we went through a brief yet practical demonstration of why and how to extract data from Data.gov.sg APIs. I hope this will be useful for you! Till next time.</p>
+<h2 id="references">References</h2>
+<ol>
+<li><small>
+<a href="https://www.mendaki.org.sg/qws/slot/u50178/2.%20Publication%20&amp;%20Resources/2.5%20Others/2.5.1%20Info%20Stats/Singapore%20Malay%20Muslim%20Community%20in%20Figures%20Booklet%20%28High%20Res%29.pdf" target="_blank" rel="noopener">Singapore Malay Muslim Community in Figures Booklet 2015, Mendaki Singapore</a>
+</li>
+<li>
+<a href="https://www.muis.gov.sg/mosque/Our-Mosques/Mosque-Directory/Mujahidin" target="_blank" rel="noopener">MUIS Mosque Directory - Mujahidin Mosque</a>
+</small></li>
+</ol>
+
+          </div>
+
+          
+
+
+
+          
+          <div class="article-widget">
+            
+<div class="post-nav">
+  
+  
+  
+  <div class="post-nav-item">
+    <div class="meta-nav">Previous</div>
+    <a href="/tutorial/py-viz/" rel="next">Python Visualisations Repo</a>
+  </div>
+  
+  
+</div>
+
+          </div>
+          
+        </div>
+
+        <div class="body-footer">
+          <p>Last updated on Aug 5, 2019</p>
+
+          
+
+
+
+
+
+  
+  
+
+<p class="edit-page">
+  <a href="https://github.com/gcushen/hugo-academic/edit/master/content/tutorial/api-intro.md">
+    <i class="fas fa-pen pr-2"></i>Edit this page
+  </a>
+</p>
+
+
+
+
+          
+
+        </div>
+
+      </article>
+
+      <footer class="site-footer">
+  
+
+  <p class="powered-by">
+    © Syamil 2024 &middot; 
+
+    Powered by the
+    <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+    <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+    
+  </p>
+</footer>
+
+
+    </main>
+  </div>
+</div>
+
+
+      
+
+    
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js" integrity="sha256-lqvxZrPLtfffUl2G/e7szqSvPBILGbwmsGE1MKlOi0Q=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js" integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+
+      
+
+      
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/highlight.min.js" integrity="sha256-1zu+3BnLYV9LdiY85uXMzii3bdrkelyp37e0ZyTAQh0=" crossorigin="anonymous"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/languages/r.min.js"></script>
+        
+      
+
+    
+
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.5.1/leaflet.js" integrity="sha256-EErZamuLefUnbMBQbsEqu1USa+btR2oIlCpBJbyD4/g=" crossorigin="anonymous"></script>
+    
+
+    
+    
+    <script>const code_highlighting = true;</script>
+    
+
+    
+    
+    
+    
+    
+    
+    <script>
+      const search_config = {"indexURI":"/index.json","minLength":1,"threshold":0.3};
+      const i18n = {"no_results":"No results found","placeholder":"Search...","results":"results found"};
+      const content_type = {
+        'post': "Posts",
+        'project': "Projects",
+        'publication' : "Publications",
+        'talk' : "Talks"
+        };
+    </script>
+    
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.1/anchor.min.js" integrity="sha256-pB/deHc9CGfFpJRjC43imB29Rse8tak+5eXqntO94ck=" crossorigin="anonymous"></script>
+    <script>
+      anchors.add();
+    </script>
+    
+
+    
+    
+    <script id="search-hit-fuse-template" type="text/x-template">
+      <div class="search-hit" id="summary-{{key}}">
+      <div class="search-hit-content">
+        <div class="search-hit-name">
+          <a href="{{relpermalink}}">{{title}}</a>
+          <div class="article-metadata search-hit-type">{{type}}</div>
+          <p class="search-hit-description">{{snippet}}</p>
+        </div>
+      </div>
+      </div>
+    </script>
+    
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.1/fuse.min.js" integrity="sha256-VzgmKYmhsGNNN4Ph1kMW+BjoYJM2jV5i4IlFoeZA9XI=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+    
+
+    
+    
+
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    
+    
+    
+    <script src="/js/academic.min.0630fec5958cb075a5a38f042b3ddde6.js"></script>
+
+    
+
+
+
+
+
+
+  
+  
+
+  
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

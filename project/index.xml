@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Projects | Syamil Maulod</title>
+    <link>/project/</link>
+      <atom:link href="/project/index.xml" rel="self" type="application/rss+xml" />
+    <description>Projects</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© Syamil 2024</copyright><lastBuildDate>Thu, 05 Mar 2020 20:54:21 +0800</lastBuildDate>
+    <image>
+      <url>img/map[gravatar:%!s(bool=false) shape:circle]</url>
+      <title>Projects</title>
+      <link>/project/</link>
+    </image>
+    
+    <item>
+      <title>Sgdi Explore</title>
+      <link>/project/sgdi-explore/</link>
+      <pubDate>Thu, 05 Mar 2020 20:54:21 +0800</pubDate>
+      <guid>/project/sgdi-explore/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>FastParliament</title>
+      <link>/project/capstone/</link>
+      <pubDate>Thu, 25 Jul 2019 20:36:05 +0800</pubDate>
+      <guid>/project/capstone/</guid>
+      <description>&lt;h1 id=&#34;project-page-for-fast-parliament&#34;&gt;Project Page for Fast Parliament&lt;/h1&gt;
+&lt;p&gt;View all related posts that touch on the technical aspects of fastparliament below.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Movement Tracking</title>
+      <link>/project/tracker/</link>
+      <pubDate>Sun, 09 Jun 2019 19:05:52 +0800</pubDate>
+      <guid>/project/tracker/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

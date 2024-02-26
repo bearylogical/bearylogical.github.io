@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>public-data | Syamil Maulod</title>
+    <link>/tags/public-data/</link>
+      <atom:link href="/tags/public-data/index.xml" rel="self" type="application/rss+xml" />
+    <description>public-data</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© Syamil 2024</copyright><lastBuildDate>Sun, 25 Feb 2024 11:57:29 +0100</lastBuildDate>
+    <image>
+      <url>img/map[gravatar:%!s(bool=false) shape:circle]</url>
+      <title>public-data</title>
+      <link>/tags/public-data/</link>
+    </image>
+    
+    <item>
+      <title>Parsing the Singapore Budget 2024 with AWS Textract</title>
+      <link>/post/parsing-budgetsg-with-aws-textract/</link>
+      <pubDate>Sun, 25 Feb 2024 11:57:29 +0100</pubDate>
+      <guid>/post/parsing-budgetsg-with-aws-textract/</guid>
+      <description>
+
+&lt;p&gt;&lt;h2&gt;Table of Contents&lt;/h2&gt;
+&lt;nav id=&#34;TableOfContents&#34;&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#data-for-the-masses-structured-document-parsing-with-textract-on-the-singapore-budget-2024&#34;&gt;Data for the Masses: Structured document parsing with Textract on the Singapore Budget 2024&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#budget-2024-and-its-reach&#34;&gt;Budget 2024 and its reach&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#the-problem&#34;&gt;The Problem&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#looking-at-public-data-what-s-available-on-the-budget&#34;&gt;Looking at Public Data - What&amp;rsquo;s Available on the Budget?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#the-approach&#34;&gt;The Approach&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#the-solution-aws-textract&#34;&gt;The Solution : AWS Textract&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#result&#34;&gt;Result&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#conclusion&#34;&gt;Conclusion&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#post-script&#34;&gt;Post-script&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#disclaimer&#34;&gt;Disclaimer&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#references&#34;&gt;References&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/nav&gt;&lt;/p&gt;
+
+&lt;h1 id=&#34;data-for-the-masses-structured-document-parsing-with-textract-on-the-singapore-budget-2024&#34;&gt;Data for the Masses: Structured document parsing with Textract on the Singapore Budget 2024&lt;/h1&gt;
+
+&lt;h2 id=&#34;budget-2024-and-its-reach&#34;&gt;Budget 2024 and its reach&lt;/h2&gt;
+
+&lt;p&gt;On the 16th of February, Deputy Prime Minister and Minister for Finance Lawrence Wong &lt;a href=&#34;https://www.mof.gov.sg/docs/librariesprovider3/budget2024/download/pdf/fy2024_budget_statement.pdf&#34;&gt;spoke at length&lt;/a&gt; in the Singapore Parliament on the Singapore 2024 Budget. A number of explainers on the budget to detail who gets what and when are readily available&lt;sup&gt; 1, 2&lt;/sup&gt;. At the same time, going into &lt;a href=&#34;https://www.mof.gov.sg/singaporebudget/revenue-and-expenditure&#34;&gt;details&lt;/a&gt; of the budget would be also beneficial for the more inquisitive individuals who are simply looking to get an insight of the fine print. For example, getting information on SimplyGo &lt;a href=&#34;https://www.straitstimes.com/singapore/transport/5-things-you-need-to-know-about-the-simplygo-saga-so-far&#34;&gt;debacle&lt;/a&gt; with respect to contextualising the costs of the overall Fare Collection and Ticketing system.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;budget-2024-LTA.png&#34; alt=&#34;Expenditure  on Fare Collection and Ticketing System&#34; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;the-problem&#34;&gt;The Problem&lt;/h2&gt;
+
+&lt;p&gt;While that specific line item can be interesting to some, having to trawl through the reports can be time consuming, especially when looking across a longer time scale. For example, large CAPEX projects take 5-10 years to come to fruition, and tracking such line items can prove to be daunting if one were to look at the overall government expenditure.&lt;/p&gt;
+
+&lt;p&gt;Due to this perceived limitation, I wanted to understand if there was a way in which one can obtain more detailed information about the budget in a more structured approach.&lt;/p&gt;
+
+&lt;h2 id=&#34;looking-at-public-data-what-s-available-on-the-budget&#34;&gt;Looking at Public Data - What&amp;rsquo;s Available on the Budget?&lt;/h2&gt;
+
+&lt;p&gt;In Singapore, (official) structured &lt;sup&gt; &lt;/sup&gt; public data can be found in a number of key sites. There are two main established sites for data: the first being &lt;a href=&#34;https://beta.data.gov.sg/&#34;&gt;data.gov.sg&lt;/a&gt; which is maintained by Open Government Products Singapore and secondly &lt;a href=&#34;https://www.singstat.gov.sg/&#34;&gt;SingStat&lt;/a&gt; which is run by the Department of Statistics Singapore.&lt;/p&gt;
+
+&lt;p&gt;On the Singapore budget, only top level data is provided - e.g. Overall Expenditure and Revenue. An example of such a dataset is the Government Budget and Fiscal Position, where granularity stops at the Ministerial level and no information of its constitutent expenditure is provided. An example from Data.gov.sg is provided in the screenshot below.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;datagov.png&#34; alt=&#34;Data.gov.sg Dataset&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;While limiting, as mentioned in the introduction, all is not lost. Line item information is at least published by the Ministry of Finance in PDF-formatted reports similar to a financial report statement. In order to quench my curiosity, another way forward is needed.&lt;/p&gt;
+
+&lt;h2 id=&#34;the-approach&#34;&gt;The Approach&lt;/h2&gt;
+
+&lt;p&gt;In the early stages of this thought exercise, 4 ways of extracting information from the expenditure reports were investigated and evaluated based on 4 aspects (not ranked) : 1. Scalability 2. Maintanability 3. Cost 4. Reliability (Trustworthiness)&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Solution&lt;/th&gt;
+&lt;th&gt;What&lt;/th&gt;
+&lt;th&gt;Pros&lt;/th&gt;
+&lt;th&gt;Cons&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Manual Extraction&lt;/td&gt;
+&lt;td&gt;Crowd source or manually extract  information from the reports&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;Subjective. Time Consuming. Does not scale&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Ask ChatGPT&lt;/td&gt;
+&lt;td&gt;Feed the PDF into a Large Language Model (LLM)&lt;/td&gt;
+&lt;td&gt;Conceptually simple&lt;/td&gt;
+&lt;td&gt;Hallucination is possible in the outputs. Can be costly (Cost per token * document length)&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Use Public PDF Parsers&lt;/td&gt;
+&lt;td&gt;Use open source parsers  (tesseract, tabula, pyPDF)&lt;/td&gt;
+&lt;td&gt;Free. Local Development Possible&lt;/td&gt;
+&lt;td&gt;Not out of the box, configuration necessary&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Use a Paid Service&lt;/td&gt;
+&lt;td&gt;Use Document Intelligence Services  from Cloud Providers (AWS, GCP, Azure)&lt;/td&gt;
+&lt;td&gt;Production Grade&lt;/td&gt;
+&lt;td&gt;Can be costly. Need to develop in cloud&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;ChatGPT or more specifically GPT-4 was used in the evaluation and unfortunately did not produce adequately satisfactory results. For example, the JSON output was not easily understandable and there was a risk of model hallucination that would make the data unreliable. While prompt engineering might be useful in ensuring the document is able to be parsed well, it was outside the scope of the investigation. There may be a use case for large scale knowledge management when the LLM can be used to directly query a backend database to produce deeper levels of insight but again, it was out of scope.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;gpt4.png&#34; alt=&#34;Interacting with GPT4&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;For manual extraction and open source PDF parsers, it was briefly investigated but did not produce results that were (1) Scalable and (2) Reliable. To this end, the decision was to use a paid solution to parse the reports. While Google and Azure both have document intelligence expertise that can work with extracting information from PDFs, AWS Textract offered the best out-of-the-box functionality for extracting specifically tabular data in a PDF. This would clearly make it &lt;em&gt;much&lt;/em&gt; easier for downstream ingestion and analysis tasks.&lt;/p&gt;
+
+&lt;h2 id=&#34;the-solution-aws-textract&#34;&gt;The Solution : AWS Textract&lt;/h2&gt;
+
+&lt;p&gt;From the &lt;a href=&#34;https://aws.amazon.com/textract/&#34;&gt;AWS Textract website&lt;/a&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Amazon Textract is a machine learning (ML) service that automatically extracts text, handwriting, layout elements, and data from scanned documents. It goes beyond simple optical character recognition (OCR) to identify, understand, and extract specific data from documents.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;For simple cases, AWS does offer a &lt;a href=&#34;https://docs.aws.amazon.com/textract/latest/dg/getting-started.html&#34;&gt;user interface&lt;/a&gt; to parse documents of less than a few pages (maximum 150 in one batch). However, I needed to process the financial reports across long time horizons and using a web interface would not suit my needs. Thus in my usecase, it was needed to also include other AWS related components such as object storage (S3), a queue service (SQS) and a notification service in order to receive notifications from the Textract service such that I had a scalable document parsing pipeline. To accomplish this, the system architecture as illustrated below was used:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;textract_architecture.png&#34; alt=&#34;Textract Architecture&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;In this approach, the document parsing is done in the following manner:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;The PDF document (i.e. the PDF file containing the expenditure information) is uploaded&lt;/li&gt;
+&lt;li&gt;In doing so, this would place an object in the &amp;ldquo;Processing&amp;rdquo; queue&lt;/li&gt;
+&lt;li&gt;This triggers a lambda function that will call the Textract service&lt;/li&gt;
+&lt;li&gt;The textract service sends a notification to the notification service that contains the status of the service for that particular document&lt;/li&gt;
+&lt;li&gt;The object is then placed in a result queue&lt;/li&gt;
+&lt;li&gt;This triggers another lambda function to turn the results into a JSON&lt;/li&gt;
+&lt;li&gt;The JSON file is then pushed to a seperate output bucket which is then available to the user&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;result&#34;&gt;Result&lt;/h2&gt;
+
+&lt;p&gt;Using this approach,an example is given for the Ministry of Communications and Information (MCI) expenditure estimate. We start of with a basic PDF table:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;mci.png&#34; alt=&#34;MCI Snapshot&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;As you can already see, it has a PDF table that needs some parsing into a structured form. We then use AWS Textract to parse and we obtain a result. We then visualize the output of the textract service using the &lt;code&gt;amazon-textract-textractor&lt;/code&gt; &lt;a href=&#34;https://github.com/aws-samples/amazon-textract-textractor/tree/master&#34;&gt;python library&lt;/a&gt;.&lt;sup&gt;4&lt;/sup&gt; This overlays the result of the extraction service over the document.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-Python&#34;&gt;from textractor.entities.document import Document
+
+document = Document.open(&amp;quot;PATH_TO_YOUR_JSON&amp;quot;)
+# This is only possible because we linked each page of a PDF to the page object in the document
+document.tables[0].visualize()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;And we get:
+&lt;img src=&#34;mci_textract.png&#34; alt=&#34;MCI Textract&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The various colors correspond to the Table title, section headers and sub-headers! This is already very useful to start before converting this information into a more understandable dataset :)&lt;/p&gt;
+
+&lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;This is of course just the first big step in turning the information in the PDFs into a well-structured dataset. Next steps include: Defining a result parser to ensure that the section and subsection headers are well accounted for, ingesting the information into a database and so on.&lt;/p&gt;
+
+&lt;p&gt;The key takeaway from this is that we have a way to deal with unstructured official data and this goes a long way in ensuring that as a whole, availability to less structured forms of data can be made available in the near future to the general public.&lt;/p&gt;
+
+&lt;h3 id=&#34;post-script&#34;&gt;Post-script&lt;/h3&gt;
+
+&lt;ol&gt;
+&lt;li&gt;The total AWS cost for parsing 3 years worth of budget reports is ~30 USD.&lt;/li&gt;
+&lt;li&gt;The final database will eventually be made available to the public free of charge, but don&amp;rsquo;t ask when&amp;hellip;.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&#34;disclaimer&#34;&gt;Disclaimer&lt;/h3&gt;
+
+&lt;p&gt;I do not have affliations to AWS or any entities mentioned in this write-up. All attributions are provided at a best-effort basis and the use of any information from this page is at your own risk.&lt;/p&gt;
+
+&lt;h2 id=&#34;references&#34;&gt;References&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.mof.gov.sg/singaporebudget/resources/budget-infographics&#34;&gt;https://www.mof.gov.sg/singaporebudget/resources/budget-infographics&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.straitstimes.com/singapore/government-revenue-in-fy2023-better-than-expected-small-budget-surplus-of-08b-expected-for-fy2024&#34;&gt;https://www.straitstimes.com/singapore/government-revenue-in-fy2023-better-than-expected-small-budget-surplus-of-08b-expected-for-fy2024&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Structured data is one that can be readily interpreted and reused in other analytical software, this is differentiated from unstructured data which requires additional intervention to make the data usable for downstream analytics and visualization tasks.&lt;/li&gt;
+&lt;li&gt;Note that you &lt;em&gt;do not&lt;/em&gt; have to use the architecture to process 1-2 files. You might want to use the &lt;a href=&#34;https://docs.aws.amazon.com/textract/latest/dg/getting-started.html&#34;&gt;AWS console&lt;/a&gt; for that&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

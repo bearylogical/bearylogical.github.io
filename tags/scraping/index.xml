@@ -1,0 +1,432 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>scraping | Syamil Maulod</title>
+    <link>/tags/scraping/</link>
+      <atom:link href="/tags/scraping/index.xml" rel="self" type="application/rss+xml" />
+    <description>scraping</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© Syamil 2024</copyright><lastBuildDate>Sun, 13 Mar 2022 10:06:08 +0100</lastBuildDate>
+    <image>
+      <url>img/map[gravatar:%!s(bool=false) shape:circle]</url>
+      <title>scraping</title>
+      <link>/tags/scraping/</link>
+    </image>
+    
+    <item>
+      <title>Automated Web Scraper with Airflow and Scrapy</title>
+      <link>/post/sgdi_data/</link>
+      <pubDate>Sun, 13 Mar 2022 10:06:08 +0100</pubDate>
+      <guid>/post/sgdi_data/</guid>
+      <description>&lt;h2&gt;Table of Contents&lt;/h2&gt;
+&lt;nav id=&#34;TableOfContents&#34;&gt;
+  &lt;ul&gt;
+    &lt;li&gt;&lt;a href=&#34;#scheduling-details&#34;&gt;Scheduling details&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/nav&gt;
+&lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;
+&lt;p&gt;While working on my 
+&lt;a href=&#34;/project/sgdi-explore/&#34;&gt;SGDI exploratory project&lt;/a&gt;
+, I wanted something more robust over existing methods implemented by 
+&lt;a href=&#34;https://github.com/spaceraccoon/sgdi-scraper&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;SpaceRacoon&lt;/a&gt;
+ and 
+&lt;a href=&#34;https://github.com/hxchua/datadoubleconfirm/blob/master/notebooks/StatutoryBoardSG.ipynb&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;HXChua&lt;/a&gt;
+.&lt;/p&gt;
+&lt;p&gt;By robustness, I intended my scraper to do the following:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Run prediodically on a schedule&lt;/li&gt;
+&lt;li&gt;Multi-threaded / Concurrency&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;For feature 1, this was necessary to be able to look at the SGDI across time. For example, movement of key senior personnel and reshuffling. While there may be limitations to the method, being able to document some movement would prove to be useful for other reasons not elaborated here.&lt;/p&gt;
+&lt;p&gt;For feature 2, being able to run concurrent scrapers and / or scrape in parallel would be very useful especially when the 
+&lt;a href=&#34;/post/sgdi_intro/&#34;&gt;sitemap of the SGDI&lt;/a&gt;
+would be highly spread out and contain many sub-sites which could take a long duration. Coupled with the first feature, this would allow the scraping framework to be run quicker. A single-threaded scraper can only parse through one ministry at a time, as compared to a multi-threaded scraper which can parse through multiple ministries concurrently.&lt;/p&gt;
+&lt;p&gt;With knowledge of such requirements I narrowed down my choices to two big frameworks. First is the 
+&lt;a href=&#34;https://scrapy.org/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Scrapy&lt;/a&gt;
+ library for web scraping. This was intentionally chosen over 
+&lt;a href=&#34;https://pypi.org/project/beautifulsoup4/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;BeautifulSoup&lt;/a&gt;
+ owing to its ability to support processing pipelines, crawl options and overcome some restrictions used to limit web scraping. More importantly, a scrapy task could be run by multiple workers concurrently. This meant that the concurrency requirement could be fulfilled easily without additional Multi-processing implementations which could be tricky.&lt;/p&gt;
+&lt;p&gt;The ability to schedule and monitor the crawling is a common need. While many libraries already offer integration with Scrapy such as 
+&lt;a href=&#34;https://scrapeops.io/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;ScrapeOps&lt;/a&gt;
+ and 
+&lt;a href=&#34;https://spidermon.readthedocs.io/en/latest/index.html&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;SpiderMon&lt;/a&gt;
+, I wanted to integrate Scrapy with a larger data pipeline to be able to run other scripts/tasks (which may/may not be related to the webscraping) at the same time.&lt;/p&gt;
+&lt;p&gt;For this reason, I turned to 
+&lt;a href=&#34;https://airflow.apache.org/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Apache Airflow&lt;/a&gt;
+ which is a (very) elaborate workflow scheduler. The webscraping task can be viewed as one workflow, out of others and the notion of task dependencies within workflows would be well documented. By task dependencies, I refer to the sequence of tasks that have to occur as part of the workflow. For example, if Task A precedes Task B and runs concurrently with Task C, Airflow can manage all these while providing very versatile options to retry failed tasks and document their failures.&lt;/p&gt;
+&lt;p&gt;One additional point was that both frameworks are written in Python which already has a rich ecosystem of analytics and data munging tools.&lt;/p&gt;
+&lt;h1 id=&#34;implementation&#34;&gt;Implementation&lt;/h1&gt;
+&lt;p&gt;In order to ensure that the solution can be run in most environments, containerization was used. A &lt;code&gt;docker-compose&lt;/code&gt; file was created to specify the services we would be creating and exposing as web interfaces. The Airflow documentation already has a minimum example for such a use case. I simply added my scrapy service in addition to the one provided by the example.&lt;/p&gt;
+&lt;p&gt;For my scrapy service, I wanted it to be a web service that allows me to interact with my defined scrapy &amp;ldquo;spider&amp;rdquo;. A scrapy spider contains all the code needed to crawl a web target and parse data. I used 
+&lt;a href=&#34;https://github.com/scrapy/scrapyd&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Scrapyd&lt;/a&gt;
+ which is a service daemon to run Scrapy spiders. This allows me to interact with my spider via a HTTP API, specifying stuff such as running it at a specified time, monitoring its progress and seeing what spiders are runnning at any given moment.&lt;/p&gt;
+&lt;p&gt;Here is a sample of my &lt;code&gt;docker-compose&lt;/code&gt; file:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-Docker&#34;&gt;services:
+  sgdi-scraper:
+    build: ./govdb_scraper/
+    ports:
+      - 6800:6800
+    healthcheck:
+      test: [&amp;quot;CMD&amp;quot;, &amp;quot;curl&amp;quot;, &amp;quot;--fail&amp;quot;, &amp;quot;http://sgdi-scraper:6800/&amp;quot;]
+      interval: 6000s
+      timeout: 10s
+      retries: 5
+  ## Airflow stuff removed because its available on their website
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now, some of the airflow services can be overkill if this was a simple scheduler. For example, I could have done the whole scraping task as a cron job. However, I wanted to add other workflows to this project in the future, which would make this redundancy &amp;ldquo;rational&amp;rdquo; (or not?).&lt;/p&gt;
+&lt;p&gt;After running &lt;code&gt;docker-compose&lt;/code&gt; and building the containers, my Airflow and scraping service is finally up!&lt;/p&gt;
+&lt;h2 id=&#34;scheduling-details&#34;&gt;Scheduling details&lt;/h2&gt;
+&lt;p&gt;In Airflow, my scraping task is defined as a Directed Acyclic Graph (DAG) which is Airflow&amp;rsquo;s fancy way of saying a workflow. My DAG is represented in the image below:&lt;/p&gt;
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/sgdi_data/sgdi_flow_hubb045419187534bb1eaf879fa9ba281e_25969_2000x2000_fit_lanczos_2.png&#34; &gt;
+
+
+  &lt;img data-src=&#34;/post/sgdi_data/sgdi_flow_hubb045419187534bb1eaf879fa9ba281e_25969_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;936&#34; height=&#34;123&#34;&gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+
+&lt;p&gt;Four tasks are specified:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;scrapy_sgdi_check_health&lt;/code&gt; - Checks whether the Scrapy service is running, as the Scrapy service does abruptly exits sometimes and this check can be used to get the service back up if it is down.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;scrapy_sgdi_start_scrape&lt;/code&gt; - Starts the SGDI spider&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;scrapy_sgdi_check_running&lt;/code&gt; - Polls the ScrapyD endpoint to check if the task is actually running.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;scrapy_sgdi_check_done&lt;/code&gt; - Polls the ScrapyD endpoint to check if the task if completed. (Yes we could do it the other way round too.)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;As part of the DAG definition, we can also define what to do if the task fails, succeeds as well as its frequency.&lt;/p&gt;
+&lt;p&gt;When that&amp;rsquo;s all defined, upon running our DAG, we get all these cool status reports out of the box:&lt;/p&gt;
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/sgdi_data/scrapy_timeline_hue5666dded614cd5fcaab7cfeb9f5d4c4_394430_2000x2000_fit_lanczos_2.png&#34; &gt;
+
+
+  &lt;img data-src=&#34;/post/sgdi_data/scrapy_timeline_hue5666dded614cd5fcaab7cfeb9f5d4c4_394430_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;2306&#34; height=&#34;663&#34;&gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+
+&lt;p&gt;From the image above, we do see that there are times when the task fails and that&amp;rsquo;s clearly visible. It&amp;rsquo;s extremely helpful especially if you intend to do a &amp;ldquo;run and forget&amp;rdquo; approach. You can revisit the logs and check what and why things failed without writing any additional code!&lt;/p&gt;
+&lt;h1 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h1&gt;
+&lt;p&gt;I hope this post is helpful in understanding how to approach the issues around webscraping and offer another take on the problem!&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Exploring the SGDI #1</title>
+      <link>/post/sgdi_intro/</link>
+      <pubDate>Tue, 03 Mar 2020 15:57:29 +0800</pubDate>
+      <guid>/post/sgdi_intro/</guid>
+      <description>
+
+&lt;p&gt;&lt;h2&gt;Table of Contents&lt;/h2&gt;
+&lt;nav id=&#34;TableOfContents&#34;&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#introduction&#34;&gt;Introduction&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#getting-started&#34;&gt;Getting Started&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#the-dataset&#34;&gt;The Dataset&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#some-insights&#34;&gt;Some Insights&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#sgdi-data&#34;&gt;SGDI Data&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#distribution-of-the-names-in-sgdi-dataset-by-ministry&#34;&gt;Distribution of the names in SGDI Dataset by Ministry&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#distribution-of-the-names-in-sgdi-dataset-by-ministry-statboard&#34;&gt;Distribution of the names in SGDI Dataset by Ministry / Statboard&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#comparison-of-sgdi-vs-official-data-gov-data&#34;&gt;Comparison of SGDI vs Official Data.gov Data&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#distribution-of-the-names-in-sgdi-dataset-by-ministry-statboard-1&#34;&gt;Distribution of the names in SGDI Dataset by Ministry / Statboard&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/nav&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
+
+&lt;p&gt;The &lt;a href=&#34;https://sgdi.gov.sg&#34;&gt;Singapore Government DIrectory&lt;/a&gt; is an online directory that facilitates communication between members of the public and the civil service.&lt;/p&gt;
+
+&lt;p&gt;In short, it is a repository containing a truncated list of names containing appointment positions as well as ministerial departments.&lt;/p&gt;
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/sgdi_intro/sgdi-info_hubf9c3711b7259cff516b1ed067e06dd8_31797_2000x2000_fit_lanczos_2.png&#34; data-caption=&#34;Sample screenshot from sgdi with contact information blocked out.&#34;&gt;
+
+
+  &lt;img data-src=&#34;/post/sgdi_intro/sgdi-info_hubf9c3711b7259cff516b1ed067e06dd8_31797_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;673&#34; height=&#34;391&#34;&gt;
+&lt;/a&gt;
+
+
+  
+  
+  &lt;figcaption&gt;
+    &lt;em&gt;Sample screenshot from sgdi with contact information blocked out.&lt;/em&gt;
+  &lt;/figcaption&gt;
+
+
+&lt;/figure&gt;
+
+
+&lt;p&gt;Given that there are approximately 145,000 officers in the Public Service, it would be interesting to visualise the entirety of the Service and the distribution of employees using the SGDI as a proxy.&lt;/p&gt;
+
+&lt;p&gt;Granted, there are plenty of departments that do not have public facing arms (or are hidden under the official secrets act) as well as employees that do not need to be listed. It&amp;rsquo;s still worthwhile to generate conversations on the supposedly massive bureaucracy of the public service.&lt;/p&gt;
+
+&lt;h2 id=&#34;getting-started&#34;&gt;Getting Started&lt;/h2&gt;
+
+&lt;p&gt;First, we start every project by looking at how we can acquire the data.&lt;/p&gt;
+
+&lt;p&gt;As mentioned above, we probably will have to get the data from the &lt;a href=&#34;https://sgdi.gov.sg&#34;&gt;SGDI&lt;/a&gt; itself through some recursive web crawling. As web crawling on this scale is probably not recommended and may be in violation of the &lt;a href=&#34;https://sso.agc.gov.sg/Act/CMA1993&#34;&gt;Computer Misuse Act&lt;/a&gt;, I&amp;rsquo;ll only touch upon the key outcomes and not elaborate on the &lt;em&gt;how&lt;/em&gt;. BUT, an illustration of SGDI, or rather the structure of the government is as follows:&lt;/p&gt;
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/sgdi_intro/sgdi_structure_hudfcf0bcfb55cbee3207f8f5091d1b8d0_28666_2000x2000_fit_lanczos_2.png&#34; data-caption=&#34;The structure of the SGDI&#34;&gt;
+
+
+  &lt;img data-src=&#34;/post/sgdi_intro/sgdi_structure_hudfcf0bcfb55cbee3207f8f5091d1b8d0_28666_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;711&#34; height=&#34;871&#34;&gt;
+&lt;/a&gt;
+
+
+  
+  
+  &lt;figcaption&gt;
+    &lt;em&gt;The structure of the SGDI&lt;/em&gt;
+  &lt;/figcaption&gt;
+
+
+&lt;/figure&gt;
+
+
+&lt;p&gt;While the SGDI may be governed by restrictive policies, the data we will be using to compare against comes from [data.gov](&amp;lsquo;&lt;a href=&#34;https://data.gov.sg&#39;&#34;&gt;https://data.gov.sg&#39;&lt;/a&gt;). We can do a simply &lt;code&gt;requests&lt;/code&gt; loop using &lt;code&gt;Python&lt;/code&gt; to extract the necessary data.&lt;/p&gt;
+
+&lt;p&gt;For completeness, here is a sample code on how to retrieve data from data.gov:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;import requests
+
+uri = &#39;https://data.gov.sg&#39;
+resource_start = &#39;/api/action/datastore_search&#39;
+payload = {
+    &#39;resource_id&#39; : &#39;cbcc128f-081d-4a03-8970-9bac1be13a5d&#39; #lookup this id from data.gov
+}
+
+r = requests.get(uri + resource_start, params=payload).json()
+records = []
+while len(r[&#39;result&#39;][&#39;records&#39;]) != 0:
+    records.extend(r[&#39;result&#39;][&#39;records&#39;])
+    r = requests.get(uri + r[&#39;result&#39;][&#39;_links&#39;][&#39;next&#39;]).json()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Basically, this loop does the pagination needed to extract the data we need.&lt;/p&gt;
+
+&lt;h2 id=&#34;the-dataset&#34;&gt;The Dataset&lt;/h2&gt;
+
+&lt;p&gt;After crawling SGDI, we have a total of &lt;strong&gt;36391&lt;/strong&gt; names across the various stat boards/ministries. We then do some basic data munging to remove the duplicates and clean up the dataset.&lt;/p&gt;
+
+&lt;h2 id=&#34;some-insights&#34;&gt;Some Insights&lt;/h2&gt;
+
+&lt;p&gt;After doing so, we start to produce some visualizations using &lt;code&gt;matplotlib&lt;/code&gt; to look at how our names are distributed.&lt;/p&gt;
+
+&lt;h3 id=&#34;sgdi-data&#34;&gt;SGDI Data&lt;/h3&gt;
+
+&lt;h4 id=&#34;distribution-of-the-names-in-sgdi-dataset-by-ministry&#34;&gt;Distribution of the names in SGDI Dataset by Ministry&lt;/h4&gt;
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/sgdi_intro/overall_distribution_sgdi_hubbc85be10975281ab1472f83b6bb7eab_97280_2000x2000_fit_lanczos_2.png&#34; &gt;
+
+
+  &lt;img data-src=&#34;/post/sgdi_intro/overall_distribution_sgdi_hubbc85be10975281ab1472f83b6bb7eab_97280_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;1457&#34; height=&#34;872&#34;&gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+
+
+&lt;h4 id=&#34;distribution-of-the-names-in-sgdi-dataset-by-ministry-statboard&#34;&gt;Distribution of the names in SGDI Dataset by Ministry / Statboard&lt;/h4&gt;
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/sgdi_intro/overall_distribution_sgdi_breakdown_hu25514a0ecb97fbb9b2b4a01bc4b8c1be_107429_2000x2000_fit_lanczos_2.png&#34; &gt;
+
+
+  &lt;img data-src=&#34;/post/sgdi_intro/overall_distribution_sgdi_breakdown_hu25514a0ecb97fbb9b2b4a01bc4b8c1be_107429_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;1457&#34; height=&#34;872&#34;&gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+
+
+&lt;h3 id=&#34;comparison-of-sgdi-vs-official-data-gov-data&#34;&gt;Comparison of SGDI vs Official Data.gov Data&lt;/h3&gt;
+
+&lt;p&gt;To see how far/near our SGDI dataset is to actual numbers, we compare it against the data.gov 2016 dataset.&lt;/p&gt;
+
+&lt;h4 id=&#34;distribution-of-the-names-in-sgdi-dataset-by-ministry-statboard-1&#34;&gt;Distribution of the names in SGDI Dataset by Ministry / Statboard&lt;/h4&gt;
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure&gt;
+
+
+  &lt;a data-fancybox=&#34;&#34; href=&#34;/post/sgdi_intro/compared_data_gov_distribution_hu00247c27c3c0e2e7f956ff49a84c5273_107481_2000x2000_fit_lanczos_2.png&#34; &gt;
+
+
+  &lt;img data-src=&#34;/post/sgdi_intro/compared_data_gov_distribution_hu00247c27c3c0e2e7f956ff49a84c5273_107481_2000x2000_fit_lanczos_2.png&#34; class=&#34;lazyload&#34; alt=&#34;&#34; width=&#34;1400&#34; height=&#34;872&#34;&gt;
+&lt;/a&gt;
+
+
+
+&lt;/figure&gt;
+
+
+&lt;p&gt;Now, we can see that there are definitely large gaps between the numbers on the SGDI and the ground truth (Data.gov). However, does this mean that the information is useless?&lt;/p&gt;
+
+&lt;p&gt;Not necessarily. The SGDI dataset will typically capture government employees with either a public facing function or in a position of visibility. It can serve as a credentialling tool for employees to verify their identity to literally anyone that requires it.&lt;/p&gt;
+
+&lt;p&gt;As such, operations-based roles such as front-line medical staff, teachers and military/civil personnel aren&amp;rsquo;t really expected to be on it but will contribute to the official headcount numbers.&lt;/p&gt;
+
+&lt;p&gt;Those in sensitive areas such as the Home Affairs and Defence Ministry are also unlikely to be on it for matters of national security.&lt;/p&gt;
+
+&lt;p&gt;In the next series of posts, I will be looking at representing the entire SGDI structure in a graph-based network diagram, trying to sieve out the complexity of our government. Furthermore, as we have the names of our public servants, I will attempt to use machine learning methods to label both the ethnicity and gender of the individuals to better understand how our departments are staffed.&lt;/p&gt;
+
+&lt;p&gt;Stay tuned!&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

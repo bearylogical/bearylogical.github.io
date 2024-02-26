@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>vis | Syamil Maulod</title>
+    <link>/tags/vis/</link>
+      <atom:link href="/tags/vis/index.xml" rel="self" type="application/rss+xml" />
+    <description>vis</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© Syamil 2024</copyright><lastBuildDate>Sun, 09 Jun 2019 19:05:52 +0800</lastBuildDate>
+    <image>
+      <url>img/map[gravatar:%!s(bool=false) shape:circle]</url>
+      <title>vis</title>
+      <link>/tags/vis/</link>
+    </image>
+    
+    <item>
+      <title>Movement Tracking</title>
+      <link>/project/tracker/</link>
+      <pubDate>Sun, 09 Jun 2019 19:05:52 +0800</pubDate>
+      <guid>/project/tracker/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>
